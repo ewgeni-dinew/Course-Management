@@ -1,7 +1,9 @@
 namespace CourseManagement.Api
 {
+    using CourseManagement.Data;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
@@ -24,6 +26,8 @@ namespace CourseManagement.Api
                 .AllowAnyMethod()
                 .AllowAnyHeader();
             }));
+
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddControllers();
         }
