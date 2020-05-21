@@ -14,8 +14,6 @@ export class RegisterComponent implements OnInit {
   }
 
   registerHandler(data: JSON){
-    console.log(data);
-
     this.accountService.registerAccount(data);
   }
 }

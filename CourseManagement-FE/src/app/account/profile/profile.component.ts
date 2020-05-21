@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AccountService } from 'src/app/services/account.service';
+import { IUser } from 'src/app/shared/contracts/user';
 
 @Component({
   selector: 'app-profile',
@@ -7,14 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
 
+  get loggedUser(): IUser {
+    return this.accountService.loggedUser;
+  }
 
-
-  constructor() { }
+  constructor(private accountService: AccountService) { }
 
   ngOnInit(): void {
   }
 
-  updateProfileHandler(data){
-    console.log(data);
+  updateProfileHandler(data) {
+
+  }
+
+  logoutHandler() {
+    this.accountService.logout();
   }
 }

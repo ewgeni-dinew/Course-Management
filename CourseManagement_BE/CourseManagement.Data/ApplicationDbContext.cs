@@ -2,6 +2,7 @@
 {
     using CourseManagement.Data.Models;
     using Microsoft.EntityFrameworkCore;
+    using System;
 
     public class ApplicationDbContext : DbContext
     {
@@ -40,7 +41,18 @@
                 .HasForeignKey(x => x.CourseId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            //SeedData();
+            SeedData(builder);
+        }
+
+        private void SeedData(ModelBuilder builder)
+        {
+            builder.Entity<Role>().HasData(
+                            new Role { Name = "User", Id = 1 },
+                            new Role { Name = "Admin", Id = 2 }
+                            );
+
+            builder.Entity<ApplicationUser>().HasData(
+                new ApplicationUser { Id = 1, Username = "admin@test.com", FirstName = "Admin", LastName = "Adminov", Password = "1234", RoleId = 2 });
         }
     }
 }

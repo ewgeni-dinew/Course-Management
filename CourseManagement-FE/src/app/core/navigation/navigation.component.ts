@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AccountService } from 'src/app/services/account.service';
+import { IUser } from 'src/app/shared/contracts/user';
 
 @Component({
   selector: 'app-navigation',
@@ -7,7 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavigationComponent implements OnInit {
 
-  constructor() { }
+  constructor(private accountService: AccountService) { }
+
+  get loggedUser(): IUser {
+    return this.accountService.loggedUser;
+  }
 
   ngOnInit(): void {
   }

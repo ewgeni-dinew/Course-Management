@@ -56,6 +56,18 @@ namespace CourseManagement.Data.Migrations
                         .HasFilter("[Username] IS NOT NULL");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FirstName = "Admin",
+                            IsBlocked = false,
+                            LastName = "Adminov",
+                            Password = "1234",
+                            RoleId = 2,
+                            Username = "admin@test.com"
+                        });
                 });
 
             modelBuilder.Entity("CourseManagement.Data.Models.Course", b =>
@@ -119,6 +131,18 @@ namespace CourseManagement.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Role");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "User"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("CourseManagement.Data.Models.ApplicationUser", b =>

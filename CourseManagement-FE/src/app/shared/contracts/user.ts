@@ -1,8 +1,9 @@
 export interface IUser {
-    Id: number;
-    Username: String;
-    Password: String;
-    FirstName: String;
-    LastName: String;
-    Token: String;
+    id: number;
+    username: String;
+    password: String;
+    firstName: String;
+    lastName: String;
+    token: String;
+    role: String;
 }

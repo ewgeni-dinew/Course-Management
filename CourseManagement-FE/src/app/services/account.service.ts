@@ -9,7 +9,7 @@ import { IUser } from '../shared/contracts/user';
 export class AccountService {
 
   constructor(private http: HttpClient) {
-
+    this.loggedUser = null;
   }
 
   loggedUser: IUser;
@@ -20,7 +20,9 @@ export class AccountService {
 
   login(data: JSON) {
     this.http.post<IUser>(environment.apiUrl + 'account/login', data)
-      .subscribe(user => this.loggedUser = user);
+      .subscribe(user => {
+        this.loggedUser = user;
+      });
   }
 
   logout() {

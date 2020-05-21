@@ -91,6 +91,21 @@ namespace CourseManagement.Data.Migrations
                         principalColumn: "Id");
                 });
 
+            migrationBuilder.InsertData(
+                table: "Role",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 1, "User" });
+
+            migrationBuilder.InsertData(
+                table: "Role",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 2, "Admin" });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "FirstName", "IsBlocked", "LastName", "Password", "RoleId", "Token", "Username" },
+                values: new object[] { 1, "Admin", false, "Adminov", "1234", 2, null, "admin@test.com" });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Courses_AuthorId",
                 table: "Courses",

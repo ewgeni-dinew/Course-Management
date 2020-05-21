@@ -4,15 +4,15 @@
             <form #registerForm="ngForm" (ngSubmit)="updateProfileHandler(registerForm.value)">
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input type="email" class="form-control " placeholder="user@example.com" disabled>
+                    <input type="email" class="form-control " [placeholder]="loggedUser.username" disabled>
                 </div>
                 <div class="form-group">
                     <label for="firstName">First name</label>
-                    <input type="text" class="form-control colored-background" placeholder="John">
+                    <input type="text" class="form-control colored-background" [placeholder]="loggedUser.firstName">
                 </div>
                 <div class="form-group">
                     <label for="lastName">Last name</label>
-                    <input type="text" class="form-control colored-background" placeholder="Doe">
+                    <input type="text" class="form-control colored-background" [placeholder]="loggedUser.lastName">
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
@@ -24,6 +24,9 @@
                 </div>
                 <button type="submit" class="btn btn-outline-primary">
                     Update Profile
+                </button>
+                <button routerLink="" (click)="logoutHandler()" type="submit" class="btn btn-danger float-right">
+                    Logout
                 </button>
             </form>
     </div>

@@ -58,7 +58,18 @@
 
             await _dbContext.SaveChangesAsync();
 
-            return Ok();
+            var result = new UserDetailsDTO
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Username = user.Username,
+                Password = user.Password,
+                Token = user.Token,
+                Role = user.Role.Name,
+            };
+
+            return Ok(result);
         }
 
         [HttpPost]
