@@ -39,6 +39,8 @@
                 .WithOne(f => f.Course)
                 .HasForeignKey(x => x.CourseId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            //SeedData();
         }
     }
 }

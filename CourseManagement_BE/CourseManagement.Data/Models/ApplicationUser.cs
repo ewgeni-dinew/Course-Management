@@ -25,6 +25,12 @@
 
         public string LastName { get; set; }
 
+        public int RoleId { get; set; }
+
+        public Role Role { get; set; }
+
+        public string Token { get; set; }
+
         public ICollection<Course> Courses { get; set; }
 
         public ICollection<FavoriteCourse> Favorites { get; set; }

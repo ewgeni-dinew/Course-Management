@@ -3,9 +3,16 @@
     using CourseManagement.Data;
     using CourseManagement.Data.Models;
     using CouseManagement.DTO;
+    using CouseManagement.DTO.Account;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Internal;
+    using Microsoft.IdentityModel.Tokens;
+    using System;
+    using System.IdentityModel.Tokens.Jwt;
     using System.Linq;
+    using System.Security.Claims;
+    using System.Text;
     using System.Threading.Tasks;
 
     [Route("api/[controller]/[action]")]
@@ -20,15 +27,44 @@
         }
 
         [HttpPost]
-        public IActionResult Login()
+        public async Task<IActionResult> Login(LoginUserDTO dto)
         {
-            return Ok("This is account login!");
+            var user = await this._dbContext.Users
+                .Include(x => x.Role)
+                .FirstOrDefaultAsync(x => x.Username.Equals(dto.Username) && x.Password.Equals(dto.Password));
+
+            if (user == null)
+            {
+                //throw expection;
+            }
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes("1p4kdl13pr0w[pkda;;kado[po");
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new Claim(ClaimTypes.Email, user.Username.ToString()),
+                    new Claim(ClaimTypes.Role, user.Role.Name.ToString())
+                }),
+                Expires = DateTime.UtcNow.AddDays(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            user.Token = tokenHandler.WriteToken(token);
+
+            await _dbContext.SaveChangesAsync();
+
+            return Ok();
         }
 
         [HttpPost]
         public async Task<IActionResult> Register(RegisterUserDTO dto)
         {
-            if (this._dbContext.Users.Any(x=>x.Username.Equals(dto.Username)))
+            if (this._dbContext.Users.Any(x => x.Username.Equals(dto.Username)))
             {
                 return Ok();
             }
@@ -39,6 +75,7 @@
                 Password = dto.Password,
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
+                RoleId = 1
             };
 
             this._dbContext.Users.Add(user);
@@ -55,9 +92,29 @@
         }
 
         [HttpPost]
-        public IActionResult Update()
+        public async Task<ActionResult> Update(UpdateUserDTO dto)
         {
-            return Ok("This is account login!");
+            var user = await this._dbContext.Users.FirstOrDefaultAsync(x => x.Id.Equals(dto.Id));
+
+            if (user == null)
+            {
+                //throw expection;
+            }
+
+            user.Password = dto.Password;
+            user.FirstName = dto.FirstName;
+            user.LastName = dto.LastName;
+
+            await this._dbContext.SaveChangesAsync();
+
+            var result = new UserDetailsDTO
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Password = user.Password,
+            };
+
+            return Ok(result);
         }
     }
 }

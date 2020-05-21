@@ -13,7 +13,7 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  registerHandler(data){
+  registerHandler(data: JSON){
     console.log(data);
 
     this.accountService.registerAccount(data);

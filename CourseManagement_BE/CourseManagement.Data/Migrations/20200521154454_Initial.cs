@@ -8,6 +8,19 @@ namespace CourseManagement.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Role",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Role", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -17,11 +30,19 @@ namespace CourseManagement.Data.Migrations
                     IsBlocked = table.Column<bool>(nullable: false),
                     Password = table.Column<string>(nullable: true),
                     FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true)
+                    LastName = table.Column<string>(nullable: true),
+                    RoleId = table.Column<int>(nullable: false),
+                    Token = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Users_Role_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Role",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -86,6 +107,11 @@ namespace CourseManagement.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Users_RoleId",
+                table: "Users",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_Username",
                 table: "Users",
                 column: "Username",
@@ -103,6 +129,9 @@ namespace CourseManagement.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Role");
         }
     }
 }

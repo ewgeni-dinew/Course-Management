@@ -38,10 +38,18 @@ namespace CourseManagement.Data.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Token")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
 
                     b.HasIndex("Username")
                         .IsUnique()
@@ -96,6 +104,30 @@ namespace CourseManagement.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("FavoriteCourses");
+                });
+
+            modelBuilder.Entity("CourseManagement.Data.Models.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Role");
+                });
+
+            modelBuilder.Entity("CourseManagement.Data.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("CourseManagement.Data.Models.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CourseManagement.Data.Models.Course", b =>
