@@ -15,6 +15,7 @@ namespace CourseManagement.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Username = table.Column<string>(nullable: true),
                     IsBlocked = table.Column<bool>(nullable: false),
+                    Password = table.Column<string>(nullable: true),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true)
                 },
