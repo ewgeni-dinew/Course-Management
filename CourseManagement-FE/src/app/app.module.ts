@@ -6,6 +6,7 @@ import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AccountModule } from './account/account.module';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { AccountModule } from './account/account.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    CoreModule,
     AccountModule,
     NgbModule
   ],
