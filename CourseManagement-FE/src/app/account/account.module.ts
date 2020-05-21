@@ -13,5 +13,8 @@ import { AccountRoutingModule } from './account-routing.module';
     AccountRoutingModule,
     FormsModule,
   ],
+  exports:[
+    LoginComponent
+  ]
 })
 export class AccountModule { }
