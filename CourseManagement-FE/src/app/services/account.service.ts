@@ -25,6 +25,14 @@ export class AccountService {
       });
   }
 
+  updateAccount(data: JSON) {
+    this.http.post<IUser>(environment.apiUrl + 'account/update', data)
+      .subscribe(user => {
+        this.loggedUser.firstName = user.firstName;
+        this.loggedUser.lastName = user.lastName;
+      });
+  }
+
   logout() {
     this.loggedUser = null;
   }

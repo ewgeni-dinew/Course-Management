@@ -18,8 +18,9 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  updateProfileHandler(data) {
-
+  updateProfileHandler(data: JSON) {
+    data['id']=this.loggedUser.id;
+    this.accountService.updateAccount(data);
   }
 
   logoutHandler() {
