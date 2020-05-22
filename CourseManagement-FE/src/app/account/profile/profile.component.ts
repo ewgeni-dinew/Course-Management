@@ -19,7 +19,7 @@ export class ProfileComponent implements OnInit {
   }
 
   updateProfileHandler(data: JSON) {
-    data['id']=this.loggedUser.id;
+    data['id'] = this.loggedUser.id;
     this.accountService.updateAccount(data);
   }
 

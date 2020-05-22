@@ -1,1 +1,18 @@
-<p>create works!</p>
+<div class="row mt-4">
+    <div class="col-md-6 offset-md-3">
+        <h4 class="align-center">Create Course</h4>
+        <form #createForm="ngForm" (ngSubmit)="createHandler(createForm.value)">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" ngModel name="title" class="form-control" placeholder="Interesting title" required>
+            </div>
+            <div class="form-group">
+                <label for="content">Content</label>
+                <textarea class="form-control" name="content" placeholder="Content..." rows="15" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" [disabled]="!createForm.valid">
+                Create
+            </button>
+        </form>
+    </div>
+</div>

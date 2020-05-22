@@ -6,6 +6,7 @@ import { ListComponent } from './list/list.component';
 import { DetailsComponent } from './details/details.component';
 import { HomeComponent } from './home/home.component';
 import { CourseRoutingModule } from './course-routing.module';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -13,7 +14,8 @@ import { CourseRoutingModule } from './course-routing.module';
   declarations: [CreateComponent, EditComponent, ListComponent, DetailsComponent, HomeComponent],
   imports: [
     CommonModule,
-    CourseRoutingModule
+    CourseRoutingModule,
+    FormsModule
   ]
 })
 export class CourseModule { }
