@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a routerLink="" class="navbar-brand">
-        <img src="../../../assets/icon-cm.png" width="30" height="30" class="d-inline-block align-top" alt="icon">
+        <img src="../../../assets/icon-cm.png" class="app-icon d-inline-block align-top" alt="icon">
         Course Management
     </a>
     <div class="collapse navbar-collapse" id="navbarNav">
@@ -11,9 +11,9 @@
             <li *ngIf="!!loggedUser" ngbDropdown class="nav-item">
                 <a class="nav-link" id="dropdownBasic1" ngbDropdownToggle>Courses</a>
                 <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                    <button ngbDropdownItem>All Courses</button>
-                    <button ngbDropdownItem>Favorites</button>
-                    <button *ngIf="isUserAdmin()" ngbDropdownItem>Add Course</button>
+                    <button routerLink="course/list" ngbDropdownItem>All Courses</button>
+                    <button routerLink="course/favorites" ngbDropdownItem>Favorites</button>
+                    <button routerLink="course/create" *ngIf="isUserAdmin()" ngbDropdownItem>Add Course</button>
                 </div>
             </li>
             <li *ngIf="isUserAdmin()" class="nav-item">

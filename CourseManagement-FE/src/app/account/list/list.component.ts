@@ -3,7 +3,7 @@ import { AccountService } from 'src/app/services/account.service';
 import { IUser } from 'src/app/shared/contracts/user';
 
 @Component({
-  selector: 'app-list',
+  selector: 'app-account-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css']
 })

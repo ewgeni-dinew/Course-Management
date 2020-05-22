@@ -1,18 +1,19 @@
 <div class="row mt-4">
     <div class="col-md-3 offset-md-4">
-            <h4 class="align-center">Login</h4>
-            <form #loginForm="ngForm" (ngSubmit)="loginHandler(loginForm.value)">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="email" ngModel name="username" class="form-control" placeholder="user@example.com" required email>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" ngModel name="password" class="form-control" required>
-                </div>
-                <button  type="submit" class="btn btn-success" [disabled]="!loginForm.valid">
-                    Login
-                </button>
-            </form>
+        <h4 class="align-center">Login</h4>
+        <form #loginForm="ngForm" (ngSubmit)="loginHandler(loginForm.value)">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="email" ngModel name="username" class="form-control" placeholder="user@example.com" required
+                    email>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" ngModel name="password" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-success" [disabled]="!loginForm.valid">
+                Login
+            </button>
+        </form>
     </div>
 </div>

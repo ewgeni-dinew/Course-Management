@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AccountModule } from './account/account.module';
 import { CoreModule } from './core/core.module';
+import { CourseModule } from './course/course.module';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { CoreModule } from './core/core.module';
     AppRoutingModule,
     CoreModule,
     AccountModule,
+    CourseModule,
     NgbModule,    
   ],
   providers: [],
