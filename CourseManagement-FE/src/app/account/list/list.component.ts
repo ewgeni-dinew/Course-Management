@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from 'src/app/services/account.service';
+import { IUser } from 'src/app/shared/contracts/user';
 
 @Component({
   selector: 'app-list',
@@ -8,10 +9,11 @@ import { AccountService } from 'src/app/services/account.service';
 })
 export class ListComponent implements OnInit {
 
+  accounts: IUser[];
+
   constructor(private accountService: AccountService) { }
 
   ngOnInit(): void {
+    this.accounts = this.accountService.getAll(); 
   }
-
-  
 }

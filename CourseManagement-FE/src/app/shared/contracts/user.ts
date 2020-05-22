@@ -4,6 +4,7 @@ export interface IUser {
     password: String;
     firstName: String;
     lastName: String;
-    token: string;
+    token: String;
     role: String;
+    isBlocked: boolean;
 }

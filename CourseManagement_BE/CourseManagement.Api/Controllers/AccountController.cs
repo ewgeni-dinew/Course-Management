@@ -127,5 +127,25 @@
 
             return Ok(result);
         }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> GetAll()
+        {
+            var users = await this._dbContext.Users
+                .Include(x => x.Role)
+                .Where(x => x.Role.Name.Equals("User"))
+                .Select(x => new UserDetailsDTO
+                {
+                    Id = x.Id,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    Username = x.Username,
+                    IsBlocked = x.IsBlocked
+                })
+                .ToListAsync();
+
+            return Ok(users);
+        }
     }
 }

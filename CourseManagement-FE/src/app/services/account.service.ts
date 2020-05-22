@@ -42,4 +42,19 @@ export class AccountService {
   logout() {
     this.loggedUser = null;
   }
+
+  getAll(): IUser[] {
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.loggedUser?.token
+    });
+
+    let users: IUser[] = [];
+
+    this.http.get<IUser[]>(environment.apiUrl + 'account/getall', { headers: headers })
+      .subscribe((res: IUser[]) => {
+        res.forEach(x => users.push(x));
+      });
+
+    return users;
+  }
 }
