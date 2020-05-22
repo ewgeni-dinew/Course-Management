@@ -26,7 +26,6 @@ export class AccountService {
   }
 
   updateAccount(data: JSON) {
-    console.log(this.loggedUser.token);
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',

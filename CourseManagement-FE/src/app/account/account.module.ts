@@ -5,9 +5,10 @@ import { RegisterComponent } from './register/register.component';
 import { ProfileComponent } from './profile/profile.component';
 import { FormsModule} from '@angular/forms';
 import { AccountRoutingModule } from './account-routing.module';
+import { ListComponent } from './list/list.component';
 
 @NgModule({
-  declarations: [LoginComponent, RegisterComponent, ProfileComponent],
+  declarations: [LoginComponent, RegisterComponent, ProfileComponent, ListComponent],
   imports: [
     CommonModule,
     AccountRoutingModule,

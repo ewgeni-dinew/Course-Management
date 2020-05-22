@@ -18,4 +18,7 @@ export class NavigationComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  isUserAdmin(): boolean {
+    return this.loggedUser?.role === "Admin";
+  }
 }

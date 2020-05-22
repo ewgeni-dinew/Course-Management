@@ -8,20 +8,28 @@
             <li class="nav-item active">
                 <a class="nav-link" routerLink="">Home<span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Courses</a>
+            <li *ngIf="!!loggedUser" ngbDropdown class="nav-item">
+                <a class="nav-link" id="dropdownBasic1" ngbDropdownToggle>Courses</a>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <button ngbDropdownItem>All Courses</button>
+                    <button ngbDropdownItem>Favorites</button>
+                    <button *ngIf="isUserAdmin()" ngbDropdownItem>Add Course</button>
+                </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Favorites</a>
+            <li *ngIf="isUserAdmin()" class="nav-item">
+                <a class="nav-link" routerLink="account/list">Manage Users</a>
             </li>
-            
         </ul>
+
     </div>
     <div *ngIf="!loggedUser">
-        <button routerLink="/account/register" class="btn btn-danger mr-sm-2 my-2 my-sm-0" type="submit">Register</button>
+        <button routerLink="/account/register" class="btn btn-danger mr-sm-2 my-2 my-sm-0"
+            type="submit">Register</button>
         <button routerLink="/account/login" class="btn btn-primary my-2 my-sm-0" type="submit">Login</button>
     </div>
     <div *ngIf="loggedUser">
-        <button routerLink="/account/profile" class="btn btn-light mr-sm-2 my-2 my-sm-0" type="submit">{{loggedUser.firstName}} {{loggedUser.lastName}}</button>
-    </div>    
+        <button routerLink="/account/profile" class="btn btn-light mr-sm-2 my-2 my-sm-0"
+            type="submit">{{loggedUser.firstName}} {{loggedUser.lastName}}
+        </button>
+    </div>
 </nav>
