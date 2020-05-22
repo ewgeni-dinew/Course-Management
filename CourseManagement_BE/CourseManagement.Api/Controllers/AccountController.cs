@@ -4,6 +4,7 @@
     using CourseManagement.Data.Models;
     using CouseManagement.DTO;
     using CouseManagement.DTO.Account;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Internal;
@@ -77,7 +78,7 @@
         {
             if (this._dbContext.Users.Any(x => x.Username.Equals(dto.Username)))
             {
-                return Ok();
+                //throw error;
             }
 
             var user = new ApplicationUser
@@ -97,12 +98,7 @@
         }
 
         [HttpPost]
-        public IActionResult Logout()
-        {
-            return Ok("This is account logout!");
-        }
-
-        [HttpPost]
+        [Authorize]
         public async Task<ActionResult> Update(UpdateUserDTO dto)
         {
             var user = await this._dbContext.Users.FirstOrDefaultAsync(x => x.Id.Equals(dto.Id));
@@ -112,7 +108,11 @@
                 //throw expection;
             }
 
-            user.Password = dto.Password;
+            if (dto.Password != "")
+            {
+                user.Password = dto.Password;
+            }
+
             user.FirstName = dto.FirstName;
             user.LastName = dto.LastName;
 

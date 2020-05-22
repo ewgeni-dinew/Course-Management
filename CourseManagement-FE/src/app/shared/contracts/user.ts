@@ -4,6 +4,6 @@ export interface IUser {
     password: String;
     firstName: String;
     lastName: String;
-    token: String;
+    token: string;
     role: String;
 }

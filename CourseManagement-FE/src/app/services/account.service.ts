@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { IUser } from '../shared/contracts/user';
 
@@ -26,7 +26,14 @@ export class AccountService {
   }
 
   updateAccount(data: JSON) {
-    this.http.post<IUser>(environment.apiUrl + 'account/update', data)
+    console.log(this.loggedUser.token);
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.loggedUser?.token
+    });
+
+    this.http.post<IUser>(environment.apiUrl + 'account/update', data, { headers: headers })
       .subscribe(user => {
         this.loggedUser.firstName = user.firstName;
         this.loggedUser.lastName = user.lastName;
