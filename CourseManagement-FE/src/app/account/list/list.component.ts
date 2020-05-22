@@ -14,6 +14,30 @@ export class ListComponent implements OnInit {
   constructor(private accountService: AccountService) { }
 
   ngOnInit(): void {
-    this.accounts = this.accountService.getAll(); 
+    this.accounts = this.accountService.getAll();
+  }
+
+  unblockHandler(accountId: number) {
+    var promise = new Promise((resolve, reject) => {
+      this.accountService.unblockAccount(accountId).then(() => resolve());
+    });
+
+    promise.then(() => { this.accounts = this.accountService.getAll() });
+  }
+
+  blockHandler(accountId: number) {
+    var promise = new Promise((resolve, reject) => {
+      this.accountService.blockAccount(accountId).then(() => resolve());
+    });
+
+    promise.then(() => { this.accounts = this.accountService.getAll() });
+  }
+
+  deleteHandler(accountId: number) {
+    var promise = new Promise((resolve, reject) => {
+      this.accountService.deleteAccount(accountId).then(() => resolve());
+    });
+
+    promise.then(() => { this.accounts = this.accountService.getAll() });
   }
 }

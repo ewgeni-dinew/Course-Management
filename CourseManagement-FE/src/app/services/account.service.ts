@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { IUser } from '../shared/contracts/user';
+import { Observable, Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -26,11 +27,7 @@ export class AccountService {
   }
 
   updateAccount(data: JSON) {
-
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + this.loggedUser?.token
-    });
+    let headers = this.setAuthHeader();
 
     this.http.post<IUser>(environment.apiUrl + 'account/update', data, { headers: headers })
       .subscribe(user => {
@@ -44,9 +41,7 @@ export class AccountService {
   }
 
   getAll(): IUser[] {
-    const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.loggedUser?.token
-    });
+    let headers = this.setAuthHeader();
 
     let users: IUser[] = [];
 
@@ -56,5 +51,38 @@ export class AccountService {
       });
 
     return users;
+  }
+
+  unblockAccount(accountId: number): Promise<Object> {
+    let data = { id: accountId };
+
+    let headers = this.setAuthHeader();
+
+    return this.http.post(environment.apiUrl + 'account/unblock', data, { headers: headers })
+      .toPromise();
+  }
+
+  blockAccount(accountId: number): Promise<Object> {
+    let data = { id: accountId };
+
+    let headers = this.setAuthHeader();
+
+    return this.http.post(environment.apiUrl + 'account/block', data, { headers: headers })
+      .toPromise();
+  }
+
+  deleteAccount(accountId: number): Promise<Object> {
+    let data = { id: accountId };
+
+    let headers = this.setAuthHeader();
+
+    return this.http.post(environment.apiUrl + 'account/delete', data, { headers: headers })
+      .toPromise();
+  }
+
+  private setAuthHeader(): HttpHeaders {
+    return new HttpHeaders({
+      'Authorization': 'Bearer ' + this.loggedUser?.token
+    });
   }
 }

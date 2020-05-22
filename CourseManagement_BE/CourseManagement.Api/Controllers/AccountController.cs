@@ -32,6 +32,7 @@
         {
             var user = await this._dbContext.Users
                 .Include(x => x.Role)
+                .Where(x => !x.IsBlocked)
                 .FirstOrDefaultAsync(x => x.Username.Equals(dto.Username) && x.Password.Equals(dto.Password));
 
             if (user == null)
@@ -146,6 +147,63 @@
                 .ToListAsync();
 
             return Ok(users);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> Block(BaseUserDTO dto)
+        {
+            var user = await this._dbContext.Users
+                .FirstOrDefaultAsync(x => x.Id.Equals(dto.Id));
+
+            if (user == null)
+            {
+                //throw exception;
+            }
+
+            user.IsBlocked = true;
+
+            await this._dbContext.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> Unblock(BaseUserDTO dto)
+        {
+            var user = await this._dbContext.Users
+                .FirstOrDefaultAsync(x => x.Id.Equals(dto.Id));
+
+            if (user == null)
+            {
+                //throw exception;
+            }
+
+            user.IsBlocked = false;
+
+            await this._dbContext.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> Delete(BaseUserDTO dto)
+        {
+            var user = await this._dbContext.Users
+                .FirstOrDefaultAsync(x => x.Id.Equals(dto.Id));
+
+            if (user == null)
+            {
+                //throw exception;
+            }
+
+            this._dbContext.Users.Remove(user);
+
+            await this._dbContext.SaveChangesAsync();
+
+            return Ok();
         }
     }
 }

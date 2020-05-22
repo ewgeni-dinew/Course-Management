@@ -17,11 +17,13 @@
                     <td>{{account.username}}</td>
                     <td>{{account.firstName}} {{account.lastName}}</td>
                     <td>
-                        <button *ngIf="account.isBlocked" class="btn btn-outline-success">Unblock</button>
-                        <button *ngIf="!account.isBlocked" class="btn btn-outline-secondary">Block</button>
+                        <button *ngIf="account.isBlocked" class="btn btn-outline-success"
+                            (click)="unblockHandler(account.id)">Unblock</button>
+                        <button *ngIf="!account.isBlocked" class="btn btn-outline-secondary"
+                            (click)="blockHandler(account.id)">Block</button>
                     </td>
                     <td>
-                        <button class="btn btn-danger">Delete</button>
+                        <button class="btn btn-danger" (click)="deleteHandler(account.id)">Delete</button>
                     </td>
                 </tr>
             </tbody>
