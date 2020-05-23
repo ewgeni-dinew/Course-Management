@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    
+
     public class Course
     {
         public Course()
@@ -14,6 +14,8 @@
 
         public string Title { get; set; }
 
+        public string Summary { get; set; }
+
         public string Content { get; set; }
 
         public DateTime CreatedOn { get; set; }
@@ -22,7 +24,7 @@
 
         public int AuthorId { get; set; }
 
-        //Rating
+        public double Rating { get; set; }
 
         public ICollection<FavoriteCourse> Favorites { get; set; }
     }

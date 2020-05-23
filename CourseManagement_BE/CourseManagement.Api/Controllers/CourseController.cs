@@ -6,6 +6,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
+    using System.Linq;
     using System.Threading.Tasks;
 
     [Route("api/[controller]/[action]")]
@@ -28,6 +29,7 @@
                 Title = dto.Title,
                 Content = dto.Content,
                 AuthorId = dto.AuthorId,
+                Summary = dto.Summary,
             };
 
             this._dbContext.Courses.Add(course);
@@ -75,6 +77,23 @@
             await this._dbContext.SaveChangesAsync();
 
             return Ok();
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetAll()
+        {
+            var courses = await this._dbContext.Courses
+                .Select(x => new BaseCourseDTO
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    Summary = x.Summary
+                    //CreatedOn = x.CreatedOn.ToString("dd/MM/yyyy")
+                })
+                .ToListAsync();
+
+            return Ok(courses);
         }
     }
 }

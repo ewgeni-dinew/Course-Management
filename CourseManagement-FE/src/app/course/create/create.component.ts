@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CourseService } from 'src/app/services/course.service';
 
 @Component({
   selector: 'app-create',
@@ -7,12 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateComponent implements OnInit {
 
-  constructor() { }
+  constructor(private readonly courseService: CourseService) { }
 
   ngOnInit(): void {
   }
 
-  createHandler(data: JSON){
-    
+  createHandler(data: JSON) {
+    this.courseService.createCourse(data);
   }
 }

@@ -4,4 +4,6 @@ export interface ICourse{
     content: String;
     author: String;
     createdOn: String;
+    summary: String;
+    rating: number;
 }

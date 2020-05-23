@@ -2,18 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { IUser } from '../shared/contracts/user';
-import { Observable, Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
 
-  constructor(private http: HttpClient) {
-    this.loggedUser = null;
-  }
+  constructor(private readonly http: HttpClient) { }
 
-  loggedUser: IUser;
+  public get getLoggedUser(): IUser {
+    return JSON.parse(localStorage.getItem('loggedUser'));
+  }
 
   registerAccount(data: JSON) {
     this.http.post(environment.apiUrl + 'account/register', data).subscribe();
@@ -22,22 +21,27 @@ export class AccountService {
   login(data: JSON) {
     this.http.post<IUser>(environment.apiUrl + 'account/login', data)
       .subscribe(user => {
-        this.loggedUser = user;
+        localStorage.setItem('loggedUser', JSON.stringify(user));
       });
+
   }
 
   updateAccount(data: JSON) {
     let headers = this.setAuthHeader();
+    let user: IUser;
 
     this.http.post<IUser>(environment.apiUrl + 'account/update', data, { headers: headers })
-      .subscribe(user => {
-        this.loggedUser.firstName = user.firstName;
-        this.loggedUser.lastName = user.lastName;
+      .subscribe(res => {
+        user = JSON.parse(localStorage.getItem('loggedUser'));
+        user.firstName = res.firstName;
+        user.lastName = res.lastName;
+
+        localStorage.setItem('loggedUser', JSON.stringify(user));
       });
   }
 
   logout() {
-    this.loggedUser = null;
+    localStorage.removeItem('loggedUser');
   }
 
   getAll(): IUser[] {
@@ -82,7 +86,7 @@ export class AccountService {
 
   private setAuthHeader(): HttpHeaders {
     return new HttpHeaders({
-      'Authorization': 'Bearer ' + this.loggedUser?.token
+      'Authorization': 'Bearer ' + this.getLoggedUser?.token
     });
   }
 }

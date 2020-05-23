@@ -12,7 +12,7 @@ export class NavigationComponent implements OnInit {
   constructor(private accountService: AccountService) { }
 
   get loggedUser(): IUser {
-    return this.accountService.loggedUser;
+    return this.accountService.getLoggedUser;
   }
 
   ngOnInit(): void {

@@ -10,7 +10,7 @@ import { IUser } from 'src/app/shared/contracts/user';
 export class ProfileComponent implements OnInit {
 
   get loggedUser(): IUser {
-    return this.accountService.loggedUser;
+    return this.accountService.getLoggedUser;
   }
 
   constructor(private accountService: AccountService) { }

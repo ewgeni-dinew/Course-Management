@@ -7,6 +7,7 @@ import { DetailsComponent } from './details/details.component';
 import { HomeComponent } from './home/home.component';
 import { CourseRoutingModule } from './course-routing.module';
 import { FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -15,7 +16,8 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     CourseRoutingModule,
-    FormsModule
+    FormsModule,
+    NgbModule
   ]
 })
 export class CourseModule { }
