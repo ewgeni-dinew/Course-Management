@@ -5,7 +5,10 @@
                 <p>
                     {{course.summary}}
                 </p>
-                <button class="btn btn-primary">Find out more</button>
+                <button *ngIf="course.id!==selectedCourse?.id" class="btn btn-primary"
+                    (click)="selectCourseHandler(course)">Find out more</button>
+                <button *ngIf="course.id===selectedCourse?.id" class="btn btn-light"
+                    (click)="selectCourseHandler(course)">Hide details</button>
             </ng-template>
         </ngb-panel>
     </ngb-accordion>

@@ -89,9 +89,29 @@
                     Id = x.Id,
                     Title = x.Title,
                     Summary = x.Summary
-                    //CreatedOn = x.CreatedOn.ToString("dd/MM/yyyy")
                 })
                 .ToListAsync();
+
+            return Ok(courses);
+        }
+
+        [HttpGet("{id}")]
+        [Authorize]
+        public async Task<IActionResult> Details(int id)
+        {
+            var courses = await this._dbContext.Courses
+                .Include(x => x.Author)
+                .Select(x => new CourseDetailsDTO
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    Summary = x.Summary,
+                    CreatedOn = x.CreatedOn.ToString("dd/MM/yyyy"),
+                    Content = x.Content,
+                    Rating = x.Rating,
+                    Author = $"{x.Author.FirstName} {x.Author.LastName}"
+                })
+                .FirstOrDefaultAsync(x => x.Id.Equals(id));
 
             return Ok(courses);
         }

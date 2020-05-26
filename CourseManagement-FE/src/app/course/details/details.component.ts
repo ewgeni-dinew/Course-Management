@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ICourse } from 'src/app/shared/contracts/course';
+import { CourseService } from 'src/app/services/course.service';
 
 @Component({
   selector: 'app-course-details',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DetailsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private readonly courseService: CourseService) { }
+
+  @Input()
+  selectedCourse: ICourse;
 
   ngOnInit(): void {
+    
   }
-
 }

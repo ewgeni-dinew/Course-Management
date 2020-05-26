@@ -1,1 +1,6 @@
-<p>details works!</p>
+<div *ngIf="selectedCourse">
+    <h6>{{selectedCourse.title}}</h6>
+    <p>{{selectedCourse.createdOn}}</p>
+    <p>{{selectedCourse.author}}</p>
+    <p>{{selectedCourse.content}}</p>
+</div>

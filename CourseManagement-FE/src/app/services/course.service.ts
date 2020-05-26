@@ -3,6 +3,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IUser } from '../shared/contracts/user';
 import { environment } from 'src/environments/environment';
 import { ICourse } from '../shared/contracts/course';
+import { Observable } from "rxjs";
+import { map, switchMap } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +13,18 @@ import { ICourse } from '../shared/contracts/course';
 export class CourseService {
 
   constructor(private readonly http: HttpClient) { }
+
+  private selectedCourse: ICourse;
+
+  test: ICourse;
+
+  public get getSelectedCourse(): ICourse {
+    return this.selectedCourse;
+  }
+
+  public selectCourse(course: ICourse) {
+    this.selectedCourse = course;
+  }
 
   public get getLoggedUser(): IUser {
     return JSON.parse(localStorage.getItem('loggedUser'));
@@ -51,6 +66,13 @@ export class CourseService {
       });
 
     return courses;
+  }
+
+  getDetails(courseId: number): Promise<ICourse> {
+    let headers = this.setAuthHeader();
+
+    return this.http.get<ICourse>(environment.apiUrl + 'course/details/' + courseId, { headers: headers })
+      .toPromise();
   }
 
   private setAuthHeader(): HttpHeaders {
