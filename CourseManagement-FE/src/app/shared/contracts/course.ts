@@ -6,4 +6,5 @@ export interface ICourse{
     createdOn: String;
     summary: String;
     rating: number;
+    isFavorite: boolean;
 }

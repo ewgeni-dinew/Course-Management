@@ -1,9 +1,9 @@
 <h4 class="align-center">Courses</h4>
 <div class="row mt-4">
     <div class="col-md-4">
-        <app-course-list (selectCourseEvent)="setSelectedEvent($event)"></app-course-list>
+        <app-course-list #courseList (selectCourseEvent)="setSelectedEvent($event)"></app-course-list>
     </div>
     <div class="col-md-8">
-        <app-course-details [selectedCourse]="getSelectedCourse"></app-course-details>
+        <app-course-details [selectedCourse]="getSelectedCourse" (removeCourseEvent)="courseList.removeCourseFromList($event)"></app-course-details>
     </div>
 </div>

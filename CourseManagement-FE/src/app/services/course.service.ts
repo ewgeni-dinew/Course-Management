@@ -72,12 +72,30 @@ export class CourseService {
 
     let courses: ICourse[] = [];
 
-    this.http.get<ICourse[]>(environment.apiUrl + 'course/getfavorites/' + this.getLoggedUser.id, { headers: headers })
+    this.http.get<ICourse[]>(environment.apiUrl + 'course/getfavorites', { headers: headers })
       .subscribe(res => {
         res.forEach(x => courses.push(x));
       });
 
     return courses;
+  }
+
+  async addCourseToFavorites(courseId: number): Promise<void> {
+    let headers = this.setAuthHeader();
+
+    const data = {};
+    data['courseId'] = courseId;
+
+    await this.http.post(environment.apiUrl + 'course/addToFavorites', <JSON>data, { headers: headers }).toPromise();
+  }
+
+  async removeCourseFromFavorites(courseId: number): Promise<void> {
+    let headers = this.setAuthHeader();
+
+    const data = {};
+    data['courseId'] = courseId;
+
+    await this.http.post(environment.apiUrl + 'course/removeFromFavorites', <JSON>data, { headers: headers }).toPromise();    
   }
 
   getDetails(courseId: number): Promise<ICourse> {

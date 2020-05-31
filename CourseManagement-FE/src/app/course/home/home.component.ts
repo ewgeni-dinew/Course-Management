@@ -10,18 +10,29 @@ export class HomeComponent implements OnInit {
 
   constructor() { }
 
+
+  private courseToRemove: ICourse;
+
+  public get getCourseToRemove(): ICourse {
+    return this.courseToRemove;
+  }
+
   private selectedCourse: ICourse;
-  
-  public get getSelectedCourse() : ICourse {
+
+  public get getSelectedCourse(): ICourse {
     return this.selectedCourse;
   }
-  
+
 
   ngOnInit(): void {
   }
 
-  setSelectedEvent(course){
+  setSelectedEvent(course: ICourse) {
 
     this.selectedCourse = course;
+  }
+
+  resetCoursesOnPage(course: ICourse) {
+    this.courseToRemove = course;
   }
 }

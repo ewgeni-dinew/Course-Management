@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { CourseService } from 'src/app/services/course.service';
 import { ICourse } from 'src/app/shared/contracts/course';
 import { Router } from '@angular/router';
@@ -19,11 +19,17 @@ export class ListComponent implements OnInit {
   @Output('selectCourseEvent')
   selectCourseEvent = new EventEmitter<ICourse>();
 
+  removeCourseFromList(course: ICourse) {
+    this.courses.forEach((item, index) => {
+      if (item.id === course.id) this.courses.splice(index, 1);
+    });
+  }
+
   ngOnInit(): void {
     if (this.router.url === "/course/favorites") {
-      this.courses = this.courseService.getFavoriteCourses();    
+      this.courses = this.courseService.getFavoriteCourses();
     }
-    else {      
+    else {
       this.courses = this.courseService.getAll();
     }
   }
@@ -35,7 +41,7 @@ export class ListComponent implements OnInit {
       let promise = new Promise((resolve, reject) => {
         this.courseService.getDetails(inputCourse.id).then((result) => {
           this.selectCourseEvent.emit(result);
-          this.selectedCourse = inputCourse;          
+          this.selectedCourse = inputCourse;
         });
 
         resolve();
