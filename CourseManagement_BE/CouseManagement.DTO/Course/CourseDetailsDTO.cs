@@ -15,5 +15,7 @@
         public double Rating { get; set; }
 
         public string Author { get; set; }
+
+        public bool IsFavorite { get; set; }
     }
 }

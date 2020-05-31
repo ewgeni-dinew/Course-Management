@@ -6,7 +6,9 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
+    using System;
     using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     [Route("api/[controller]/[action]")]
@@ -95,13 +97,15 @@
             return Ok(courses);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
         [Authorize]
-        public async Task<IActionResult> GetFavorites(int id)
+        public async Task<IActionResult> GetFavorites()
         {
+            var userId = GetUserIdFromJWT();
+
             var courses = await this._dbContext.FavoriteCourses
                 .Include(x => x.Course)
-                .Where(x => x.UserId.Equals(id))
+                .Where(x => x.UserId.Equals(userId))
                 .Select(x => new BaseCourseDTO
                 {
                     Id = x.Course.Id,
@@ -117,11 +121,27 @@
         [Authorize]
         public async Task<IActionResult> AddToFavorites(AddToFavoritesDTO dto)
         {
+            var userId = GetUserIdFromJWT();
+
             this._dbContext.FavoriteCourses.Add(new FavoriteCourse
             {
                 CourseId = dto.CourseId,
-                UserId = dto.UserId
+                UserId = userId
             });
+
+            return Ok(await this._dbContext.SaveChangesAsync());
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> RemoveFromFavorites(AddToFavoritesDTO dto)
+        {
+            var userId = GetUserIdFromJWT();
+
+            var favoriteCourse = await this._dbContext.FavoriteCourses
+                .FirstOrDefaultAsync(x => x.CourseId.Equals(dto.CourseId) && x.UserId.Equals(userId));
+
+            this._dbContext.FavoriteCourses.Remove(favoriteCourse);
 
             return Ok(await this._dbContext.SaveChangesAsync());
         }
@@ -130,8 +150,11 @@
         [Authorize]
         public async Task<IActionResult> Details(int id)
         {
-            var courses = await this._dbContext.Courses
+            var userId = GetUserIdFromJWT();
+
+            var course = await this._dbContext.Courses
                 .Include(x => x.Author)
+                .Include(x => x.Favorites)
                 .Select(x => new CourseDetailsDTO
                 {
                     Id = x.Id,
@@ -140,11 +163,24 @@
                     CreatedOn = x.CreatedOn.ToString("dd/MM/yyyy"),
                     Content = x.Content,
                     Rating = x.Rating,
-                    Author = $"{x.Author.FirstName} {x.Author.LastName}"
+                    Author = $"{x.Author.FirstName} {x.Author.LastName}",
+                    IsFavorite = x.Favorites.Any(x => x.UserId.Equals(userId))
                 })
                 .FirstOrDefaultAsync(x => x.Id.Equals(id));
 
-            return Ok(courses);
+            return Ok(course);
+        }
+
+        private bool CheckIfCourseIsFavorite(Course course, int userId)
+        {
+            return course.Favorites.Any(x => x.UserId.Equals(userId));            
+        }
+
+        private int GetUserIdFromJWT()
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+
+            return int.Parse(identity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
         }
     }
 }
