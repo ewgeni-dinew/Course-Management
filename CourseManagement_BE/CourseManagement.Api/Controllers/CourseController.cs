@@ -97,6 +97,37 @@
 
         [HttpGet("{id}")]
         [Authorize]
+        public async Task<IActionResult> GetFavorites(int id)
+        {
+            var courses = await this._dbContext.FavoriteCourses
+                .Include(x => x.Course)
+                .Where(x => x.UserId.Equals(id))
+                .Select(x => new BaseCourseDTO
+                {
+                    Id = x.Course.Id,
+                    Title = x.Course.Title,
+                    Summary = x.Course.Summary
+                })
+                .ToListAsync();
+
+            return Ok(courses);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> AddToFavorites(AddToFavoritesDTO dto)
+        {
+            this._dbContext.FavoriteCourses.Add(new FavoriteCourse
+            {
+                CourseId = dto.CourseId,
+                UserId = dto.UserId
+            });
+
+            return Ok(await this._dbContext.SaveChangesAsync());
+        }
+
+        [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> Details(int id)
         {
             var courses = await this._dbContext.Courses
