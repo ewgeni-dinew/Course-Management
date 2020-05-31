@@ -14,16 +14,13 @@ export class AccountService {
     return JSON.parse(localStorage.getItem('loggedUser'));
   }
 
-  registerAccount(data: JSON) {
-    this.http.post(environment.apiUrl + 'account/register', data).subscribe();
+  async registerAccount(data: JSON): Promise<void> {
+    await this.http.post(environment.apiUrl + 'account/register', data).toPromise();
   }
 
-  login(data: JSON) {
-    this.http.post<IUser>(environment.apiUrl + 'account/login', data)
-      .subscribe(user => {
-        localStorage.setItem('loggedUser', JSON.stringify(user));
-      });
-
+  async login(data: JSON): Promise<void> {
+    const user = await this.http.post<IUser>(environment.apiUrl + 'account/login', data).toPromise();
+    localStorage.setItem('loggedUser', JSON.stringify(user));
   }
 
   updateAccount(data: JSON) {

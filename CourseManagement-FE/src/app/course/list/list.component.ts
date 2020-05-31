@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CourseService } from 'src/app/services/course.service';
 import { ICourse } from 'src/app/shared/contracts/course';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-course-list',
@@ -9,7 +10,7 @@ import { ICourse } from 'src/app/shared/contracts/course';
 })
 export class ListComponent implements OnInit {
 
-  constructor(private courseService: CourseService) { }
+  constructor(private courseService: CourseService, private router: Router) { }
 
   courses: ICourse[];
 
@@ -19,7 +20,12 @@ export class ListComponent implements OnInit {
   selectCourseEvent = new EventEmitter<ICourse>();
 
   ngOnInit(): void {
-    this.courses = this.courseService.getAll();
+    if (this.router.url === "/course/favorites") {
+      this.courses = this.courseService.getFavoriteCourses();    
+    }
+    else {      
+      this.courses = this.courseService.getAll();
+    }
   }
 
   selectCourseHandler(inputCourse: ICourse) {
@@ -29,10 +35,10 @@ export class ListComponent implements OnInit {
       let promise = new Promise((resolve, reject) => {
         this.courseService.getDetails(inputCourse.id).then((result) => {
           this.selectCourseEvent.emit(result);
-          this.selectedCourse = inputCourse;
-
-          resolve();
+          this.selectedCourse = inputCourse;          
         });
+
+        resolve();
       })
 
     } else {

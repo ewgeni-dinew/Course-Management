@@ -30,13 +30,12 @@ export class CourseService {
     return JSON.parse(localStorage.getItem('loggedUser'));
   }
 
-  createCourse(data: JSON) {
+  async createCourse(data: JSON): Promise<void> {
     let headers = this.setAuthHeader();
 
     data['authorId'] = this.getLoggedUser.id;
 
-    this.http.post(environment.apiUrl + 'course/create', data, { headers: headers })
-      .subscribe();
+    await this.http.post(environment.apiUrl + 'course/create', data, { headers: headers }).toPromise();
   }
 
   deleteCourse(data: JSON) {
@@ -61,6 +60,19 @@ export class CourseService {
     let courses: ICourse[] = [];
 
     this.http.get<ICourse[]>(environment.apiUrl + 'course/getall', { headers: headers })
+      .subscribe(res => {
+        res.forEach(x => courses.push(x));
+      });
+
+    return courses;
+  }
+
+  getFavoriteCourses(): ICourse[] {
+    let headers = this.setAuthHeader();
+
+    let courses: ICourse[] = [];
+
+    this.http.get<ICourse[]>(environment.apiUrl + 'course/getfavorites/' + this.getLoggedUser.id, { headers: headers })
       .subscribe(res => {
         res.forEach(x => courses.push(x));
       });

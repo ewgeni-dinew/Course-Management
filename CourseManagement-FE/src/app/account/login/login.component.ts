@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from 'src/app/services/account.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -8,12 +9,19 @@ import { AccountService } from 'src/app/services/account.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private accountService: AccountService) { }
+  constructor(private accountService: AccountService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
   loginHandler(data: JSON) {
-    this.accountService.login(data);
+    let promise = new Promise((resolve, reject) => {
+      this.accountService.login(data).then(() => {
+         this.router.navigate(['/home']) 
+        });
+
+      resolve();
+    });
+
   }
 }

@@ -12,6 +12,10 @@ const routes: Routes = [
                 component: HomeComponent
             },
             {
+                path: 'favorites',
+                component: HomeComponent
+            },
+            {
                 path: 'create',
                 component: CreateComponent
             },
