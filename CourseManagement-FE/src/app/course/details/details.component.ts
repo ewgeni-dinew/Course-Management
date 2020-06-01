@@ -43,4 +43,8 @@ export class DetailsComponent implements OnInit {
       resolve();
     });
   }
+
+  isPageFavorites(): Boolean{
+    return this.router.url === "/course/favorites";
+  }
 }

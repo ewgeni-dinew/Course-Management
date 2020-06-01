@@ -16,6 +16,12 @@ export class ListComponent implements OnInit {
 
   selectedCourse: ICourse;
 
+  
+  public get isUserAdmin() : Boolean {
+    return this.courseService.isUserAdmin;
+  }
+  
+
   @Output('selectCourseEvent')
   selectCourseEvent = new EventEmitter<ICourse>();
 

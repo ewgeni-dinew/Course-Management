@@ -30,6 +30,12 @@ export class CourseService {
     return JSON.parse(localStorage.getItem('loggedUser'));
   }
 
+  
+  public get isUserAdmin() : Boolean {
+    return this.getLoggedUser.role.toLowerCase() === "admin";
+  }
+  
+
   async createCourse(data: JSON): Promise<void> {
     let headers = this.setAuthHeader();
 
@@ -98,10 +104,10 @@ export class CourseService {
     await this.http.post(environment.apiUrl + 'course/removeFromFavorites', <JSON>data, { headers: headers }).toPromise();    
   }
 
-  getDetails(courseId: number): Promise<ICourse> {
+  async getDetails(courseId: number): Promise<ICourse> {
     let headers = this.setAuthHeader();
 
-    return this.http.get<ICourse>(environment.apiUrl + 'course/details/' + courseId, { headers: headers })
+    return await this.http.get<ICourse>(environment.apiUrl + 'course/details/' + courseId, { headers: headers })
       .toPromise();
   }
 

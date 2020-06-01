@@ -171,11 +171,6 @@
             return Ok(course);
         }
 
-        private bool CheckIfCourseIsFavorite(Course course, int userId)
-        {
-            return course.Favorites.Any(x => x.UserId.Equals(userId));            
-        }
-
         private int GetUserIdFromJWT()
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;

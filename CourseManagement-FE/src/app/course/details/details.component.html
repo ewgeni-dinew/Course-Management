@@ -3,6 +3,8 @@
     <p>{{selectedCourse.createdOn}}</p>
     <p>{{selectedCourse.author}}</p>
     <p>{{selectedCourse.content}}</p>
-    <button *ngIf="!selectedCourse.isFavorite" class="btn btn-outline-primary" (click)="addToFavoritesHandler(selectedCourse.id)">Add to favorites</button>
-    <button *ngIf="selectedCourse.isFavorite" class="btn btn-outline-danger" (click)="removeFromFavoritesHandler(selectedCourse)">Remove from favorites</button>
+    <button *ngIf="!selectedCourse.isFavorite" class="btn btn-outline-primary"
+        (click)="addToFavoritesHandler(selectedCourse.id)">Add to favorites</button>
+    <button *ngIf="selectedCourse.isFavorite && this.isPageFavorites()" class="btn btn-outline-danger"
+        (click)="removeFromFavoritesHandler(selectedCourse)">Remove from favorites</button>    
 </div>
