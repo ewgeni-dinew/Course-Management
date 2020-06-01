@@ -1,9 +1,10 @@
 <div class="row">
-    <div class="col-md-3">
-
+    <div class="col-md-6 offset-md-3 block text-center">
+        <h1 class="block-title">Welcome {{this.isUserLoggedIn? this.loggedUser.firstName :""}}</h1>
+        <h4 class="text-muted">This is my Course Management application.</h4>
+        <h5 class="text-muted">Written in Angular and using Microsoft's ASP.Net</h5>
+        <h6 *ngIf="!isUserLoggedIn" class="text-muted">Start by logging in:</h6>
+        <button *ngIf="!this.isUserLoggedIn" routerLink="/account/login" class="btn btn-info mt-1">Login</button>
+        <button *ngIf="this.isUserLoggedIn" routerLink="/course/list" class="btn btn-info mt-1">View Courses</button>
     </div>
-    <div class="col-md-3">
-        <p>Welcome to Home component</p>
-    </div>
-
 </div>

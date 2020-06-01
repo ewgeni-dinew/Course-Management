@@ -34,9 +34,11 @@ export class ListComponent implements OnInit {
   }
 
   deleteHandler(accountId: number) {
-    var promise = new Promise((resolve, reject) => {
-      this.accountService.deleteAccount(accountId).then(() => resolve());
-    });
+    if (confirm("Are you sure you want to delete this user?")) {
+      var promise = new Promise((resolve, reject) => {
+        this.accountService.deleteAccount(accountId).then(() => resolve());
+      });
+    }
 
     promise.then(() => { this.accounts = this.accountService.getAll() });
   }

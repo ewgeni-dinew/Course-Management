@@ -2,13 +2,19 @@ import { RouterModule, Routes } from '@angular/router';
 import { CreateComponent } from './create/create.component';
 import { EditComponent } from './edit/edit.component';
 import { HomeComponent } from './home/home.component';
+import { AuthGuard } from '../guards/auth.guard';
+import { AdminGuard } from '../guards/admin.guard';
 
 const routes: Routes = [
     {
         path: 'course',
-        children:[
+        children: [
             {
                 path: '',
+                component: HomeComponent,
+            },        
+            {
+                path: 'list',
                 component: HomeComponent
             },
             {
@@ -17,17 +23,16 @@ const routes: Routes = [
             },
             {
                 path: 'create',
-                component: CreateComponent
+                component: CreateComponent,
+                canActivate: [AdminGuard]
             },
             {
-                path: 'edit/:id',                
-                component: EditComponent
-            },
-            {
-                path: 'list',
-                component: HomeComponent
+                path: 'edit/:id',
+                component: EditComponent,
+                canActivate: [AdminGuard]
             }
-        ]
+        ],
+        canActivate: [AuthGuard]
     },
 ];
 
