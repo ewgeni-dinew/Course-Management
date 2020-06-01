@@ -55,6 +55,7 @@
 
             course.Title = dto.Title;
             course.Content = dto.Content;
+            course.Summary = dto.Summary;
 
             await this._dbContext.SaveChangesAsync();
 
