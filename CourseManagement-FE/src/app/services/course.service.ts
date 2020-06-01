@@ -30,11 +30,11 @@ export class CourseService {
     return JSON.parse(localStorage.getItem('loggedUser'));
   }
 
-  
-  public get isUserAdmin() : Boolean {
+
+  public get isUserAdmin(): Boolean {
     return this.getLoggedUser.role.toLowerCase() === "admin";
   }
-  
+
 
   async createCourse(data: JSON): Promise<void> {
     let headers = this.setAuthHeader();
@@ -44,20 +44,20 @@ export class CourseService {
     await this.http.post(environment.apiUrl + 'course/create', data, { headers: headers }).toPromise();
   }
 
-  deleteCourse(data: JSON) {
+  async deleteCourse(courseId: number): Promise<void> {
     let headers = this.setAuthHeader();
 
-    this.http.post(environment.apiUrl + 'course/delete', data, { headers: headers })
-      .subscribe();
+    const data = {};
+    data['id'] = courseId;
+
+    await this.http.post(environment.apiUrl + 'course/delete', <JSON>data, { headers: headers }).toPromise();
   }
 
-  editCourse(data: JSON) {
+  async editCourse(data: JSON): Promise<void> {
     let headers = this.setAuthHeader();
 
-    this.http.post(environment.apiUrl + 'course/edit', data, { headers: headers })
-      .subscribe();
-
-    //TODO to call course/details endpoint
+    await this.http.post(environment.apiUrl + 'course/edit', data, { headers: headers })
+      .toPromise();
   }
 
   getAll(): ICourse[] {
@@ -101,7 +101,7 @@ export class CourseService {
     const data = {};
     data['courseId'] = courseId;
 
-    await this.http.post(environment.apiUrl + 'course/removeFromFavorites', <JSON>data, { headers: headers }).toPromise();    
+    await this.http.post(environment.apiUrl + 'course/removeFromFavorites', <JSON>data, { headers: headers }).toPromise();
   }
 
   async getDetails(courseId: number): Promise<ICourse> {

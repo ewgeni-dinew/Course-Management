@@ -1,7 +1,7 @@
 <div class="row mt-4">
     <div class="col-md-6 offset-md-3">
         <h4 class="align-center">Edit Course</h4>
-        <form #editForm="ngForm" (ngSubmit)="editHandler(editForm.value)">
+        <form #editForm="ngForm" (ngSubmit)="editCourseHandler(editForm.value)">
             <div class="form-group">
                 <label for="title">Title</label>
                 <input type="text" ngModel name="title" class="form-control colored-background"
@@ -9,13 +9,14 @@
             </div>
             <div class="form-group">
                 <label for="content">Summary</label>
-                <textarea class="form-control colored-background" name="summary" [placeholder]="this.course?.summary" rows="5" required></textarea>
+                <textarea class="form-control colored-background" ngModel name="summary" [placeholder]="this.course?.summary" rows="5" required></textarea>
             </div>
             <div class="form-group">
                 <label for="content">Content</label>
-                <textarea class="form-control colored-background" name="content" [placeholder]="this.course?.content" rows="15" required></textarea>
+                <textarea class="form-control colored-background" ngModel name="content" [placeholder]="this.course?.content" rows="15" required></textarea>
             </div>
-            <button type="submit" class="btn btn-outline-primary" [disabled]="!editForm.valid">Update</button>
+            <button type="submit" class="btn btn-outline-primary" [disabled]="!editForm.valid">Update Course</button>
+            <button class="btn btn-danger float-right" (click)="deleteCourseHandler(this.course?.id)">Delete Course</button>
         </form>
     </div>
 </div>
