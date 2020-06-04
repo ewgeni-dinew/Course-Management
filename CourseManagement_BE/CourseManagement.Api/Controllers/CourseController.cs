@@ -195,7 +195,10 @@
 
             await this._dbContext.SaveChangesAsync();
 
-            return Ok();
+            return Ok(new CourseDetailsDTO
+            {
+                Rating = course.Rating
+            });
         }
 
         private int GetUserIdFromJWT()
