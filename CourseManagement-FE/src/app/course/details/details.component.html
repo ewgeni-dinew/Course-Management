@@ -1,11 +1,11 @@
 <div *ngIf="!!selectedCourse">
     <div class="row">
-        <pre class="col-md-2">Course Rating: <b>{{inputRating}}</b></pre>
-        <ngb-rating [(rate)]="selectedCourse.rating" class="col-md-2"></ngb-rating>
+        <pre class="col-md-3">Course Rating: <b>{{inputRating}}</b></pre>
+        <ngb-rating [(rate)]="selectedCourse.rating" class="col-md-3"></ngb-rating>
     </div>
     <div *ngIf="selectedCourse.rating !== inputRating" class="row mt-2 mb-2">
-        <pre class="col-md-2 text-red">Your Rating: <b>{{selectedCourse.rating}}</b></pre>
-        <div class="col-md-2">
+        <pre class="col-md-3 text-red">Your Rating: <b>{{selectedCourse.rating}}</b></pre>
+        <div class="col-md-3">
             <button class="btn btn-warning" (click)="rateCourseHandler()">Rate</button>
         </div>
     </div>

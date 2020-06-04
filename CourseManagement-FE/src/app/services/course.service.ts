@@ -111,6 +111,17 @@ export class CourseService {
       .toPromise();
   }
 
+  async rateCourse(rating: number, courseId: number): Promise<ICourse> {
+    let headers = this.setAuthHeader();
+
+    const data = {};
+    data['courseId'] = courseId;
+    data['rating'] = rating;
+
+    return await this.http.post<ICourse>(environment.apiUrl + 'course/rate', <JSON>data, { headers: headers })
+      .toPromise();
+  }
+
   private setAuthHeader(): HttpHeaders {
     return new HttpHeaders({
       'Authorization': 'Bearer ' + this.getLoggedUser?.token

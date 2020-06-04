@@ -20,7 +20,7 @@ export class DetailsComponent implements OnInit {
 
   @Input()
   inputRating: number;
-  
+
   ngOnInit(): void {
   }
 
@@ -46,11 +46,13 @@ export class DetailsComponent implements OnInit {
   }
 
   rateCourseHandler() {
-    console.log(this.selectedCourse.rating);
-    
-    //call BE
-
-    //this.selectedCourse = BE response;
+    let promise = new Promise((resolve, reject) => {
+      this.courseService.rateCourse(this.selectedCourse.rating, this.selectedCourse.id).then((res) => {
+        this.selectedCourse.rating = res.rating;
+        this.inputRating = res.rating;
+        resolve();
+      });
+    });
   }
 
   isPageFavorites(): Boolean {
