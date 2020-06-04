@@ -12,23 +12,27 @@ export class HomeComponent implements OnInit {
 
 
   private courseToRemove: ICourse;
+  private selectedCourse: ICourse;
+  private courseRating: number;
 
   public get getCourseToRemove(): ICourse {
     return this.courseToRemove;
   }
 
-  private selectedCourse: ICourse;
-
   public get getSelectedCourse(): ICourse {
     return this.selectedCourse;
   }
 
+  public get getCourseRating(): number {
+    return this.courseRating;
+  }
 
   ngOnInit(): void {
   }
 
   setSelectedEvent(course: ICourse) {
 
+    this.courseRating = course.rating;
     this.selectedCourse = course;
   }
 

@@ -18,9 +18,10 @@ export class DetailsComponent implements OnInit {
   @Output()
   removeCourseEvent = new EventEmitter<ICourse>();
 
-
+  @Input()
+  inputRating: number;
+  
   ngOnInit(): void {
-
   }
 
   addToFavoritesHandler(courseId: number) {
@@ -44,7 +45,15 @@ export class DetailsComponent implements OnInit {
     });
   }
 
-  isPageFavorites(): Boolean{
+  rateCourseHandler() {
+    console.log(this.selectedCourse.rating);
+    
+    //call BE
+
+    //this.selectedCourse = BE response;
+  }
+
+  isPageFavorites(): Boolean {
     return this.router.url === "/course/favorites";
   }
 }

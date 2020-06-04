@@ -4,6 +4,6 @@
         <app-course-list #courseList (selectCourseEvent)="setSelectedEvent($event)"></app-course-list>
     </div>
     <div class="col-md-8">
-        <app-course-details [selectedCourse]="getSelectedCourse" (removeCourseEvent)="courseList.removeCourseFromList($event)"></app-course-details>
+        <app-course-details [selectedCourse]="getSelectedCourse" [inputRating]="getCourseRating" (removeCourseEvent)="courseList.removeCourseFromList($event)"></app-course-details>
     </div>
 </div>

@@ -1,10 +1,29 @@
 <div *ngIf="!!selectedCourse">
-    <h6>{{selectedCourse.title}}</h6>
-    <p>{{selectedCourse.createdOn}}</p>
-    <p>{{selectedCourse.author}}</p>
-    <p>{{selectedCourse.content}}</p>
-    <button *ngIf="!selectedCourse.isFavorite" class="btn btn-outline-primary"
-        (click)="addToFavoritesHandler(selectedCourse.id)">Add to favorites</button>
-    <button *ngIf="selectedCourse.isFavorite && this.isPageFavorites()" class="btn btn-outline-danger"
-        (click)="removeFromFavoritesHandler(selectedCourse)">Remove from favorites</button>    
+    <div class="row">
+        <pre class="col-md-2">Course Rating: <b>{{inputRating}}</b></pre>
+        <ngb-rating [(rate)]="selectedCourse.rating" class="col-md-2"></ngb-rating>
+    </div>
+    <div *ngIf="selectedCourse.rating !== inputRating" class="row mt-2 mb-2">
+        <pre class="col-md-2 text-red">Your Rating: <b>{{selectedCourse.rating}}</b></pre>
+        <div class="col-md-2">
+            <button class="btn btn-warning" (click)="rateCourseHandler()">Rate</button>
+        </div>
+    </div>
+    <hr>
+    <h4 class="align-center">{{selectedCourse.title}}</h4>
+    <div class="row">
+        <p class="col-md-2">{{selectedCourse.author}}</p>
+        <p class="col-md-2">{{selectedCourse.createdOn}}</p>
+    </div>
+    <div class="row">
+        <p class="col">{{selectedCourse.content}}</p>
+    </div>
+    <div class="row">
+        <p class="col">
+            <button *ngIf="!selectedCourse.isFavorite" class="btn btn-outline-primary"
+                (click)="addToFavoritesHandler(selectedCourse.id)">Add to favorites</button>
+            <button *ngIf="selectedCourse.isFavorite && this.isPageFavorites()" class="btn btn-outline-danger"
+                (click)="removeFromFavoritesHandler(selectedCourse)">Remove from favorites</button>
+        </p>
+    </div>
 </div>
