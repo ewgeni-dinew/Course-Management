@@ -172,6 +172,32 @@
             return Ok(course);
         }
 
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Rate(RateCourseDTO dto)
+        {
+            var course = await this._dbContext.Courses
+                .FirstOrDefaultAsync(x => x.Id.Equals(dto.CourseId));
+
+            if (course == null)
+            {
+                //throw exception
+            };
+
+            if (course.Rating.Equals(0)) //course has not been rated so far
+            {
+                course.Rating = dto.Rating;
+            }
+            else
+            {
+                course.Rating = Math.Round((course.Rating + dto.Rating) / 2, 2);
+            }
+
+            await this._dbContext.SaveChangesAsync();
+
+            return Ok();
+        }
+
         private int GetUserIdFromJWT()
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
