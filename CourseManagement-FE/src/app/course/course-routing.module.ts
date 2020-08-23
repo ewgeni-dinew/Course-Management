@@ -2,8 +2,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { CreateComponent } from './create/create.component';
 import { EditComponent } from './edit/edit.component';
 import { HomeComponent } from './home/home.component';
-import { AuthGuard } from '../guards/auth.guard';
-import { AdminGuard } from '../guards/admin.guard';
+import { AuthGuard } from '../utilities/guards/auth.guard';
+import { AdminGuard } from '../utilities/guards/admin.guard';
 
 const routes: Routes = [
     {

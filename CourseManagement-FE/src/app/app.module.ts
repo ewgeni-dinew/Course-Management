@@ -9,6 +9,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AccountModule } from './account/account.module';
 import { CoreModule } from './core/core.module';
 import { CourseModule } from './course/course.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './utilities/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -22,9 +24,15 @@ import { CourseModule } from './course/course.module';
     CoreModule,
     AccountModule,
     CourseModule,
-    NgbModule,    
+    NgbModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
