@@ -6,18 +6,25 @@ import {
   HttpInterceptor
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor() { }
+  constructor(private readonly authService: AuthService) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 
-    const modified = request.clone({
-      setHeaders: { 'Auth': 'Test' }
-    });
+    let jwt = this.authService.getLoggedUser?.token;
 
-    return next.handle(modified);
+    if (jwt) {
+      const modified = request.clone({
+        setHeaders: { 'Authorization': 'Bearer ' + this.authService.getLoggedUser?.token }
+      });
+
+      return next.handle(modified);
+    }
+
+    return next.handle(request);
   }
 }

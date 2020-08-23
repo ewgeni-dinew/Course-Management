@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from 'src/app/services/account.service';
 import { IUser } from 'src/app/shared/contracts/user';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -10,10 +11,10 @@ import { IUser } from 'src/app/shared/contracts/user';
 export class ProfileComponent implements OnInit {
 
   get loggedUser(): IUser {
-    return this.accountService.getLoggedUser;
+    return this.authService.getLoggedUser;
   }
 
-  constructor(private accountService: AccountService) { }
+  constructor(private accountService: AccountService, private readonly authService: AuthService) { }
 
   ngOnInit(): void {
   }

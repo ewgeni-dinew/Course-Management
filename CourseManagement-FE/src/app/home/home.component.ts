@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AccountService } from '../services/account.service';
 import { IUser } from '../shared/contracts/user';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +9,7 @@ import { IUser } from '../shared/contracts/user';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private accountService: AccountService) { }
+  constructor(private authService: AuthService) { }
 
   
   public get isUserLoggedIn() : Boolean {
@@ -18,11 +18,10 @@ export class HomeComponent implements OnInit {
   
   
   public get loggedUser() : IUser {
-    return this.accountService.getLoggedUser;
+    return this.authService.getLoggedUser;
   }
   
   ngOnInit(): void {
-    console.log(this.isUserLoggedIn);
   }
 
 }

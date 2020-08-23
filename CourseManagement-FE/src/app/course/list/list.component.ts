@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { CourseService } from 'src/app/services/course.service';
 import { ICourse } from 'src/app/shared/contracts/course';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-course-list',
@@ -10,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class ListComponent implements OnInit {
 
-  constructor(private courseService: CourseService, private router: Router) { }
+  constructor(private courseService: CourseService, private router: Router, private readonly authService: AuthService) { }
 
   courses: ICourse[];
 
@@ -18,7 +19,7 @@ export class ListComponent implements OnInit {
 
   
   public get isUserAdmin() : Boolean {
-    return this.courseService.isUserAdmin;
+    return this.authService.isUserAdmin;
   }
   
 

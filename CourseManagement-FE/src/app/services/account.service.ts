@@ -10,10 +10,6 @@ export class AccountService {
 
   constructor(private readonly http: HttpClient) { }
 
-  public get getLoggedUser(): IUser {
-    return JSON.parse(localStorage.getItem('loggedUser'));
-  }
-
   async registerAccount(data: JSON): Promise<void> {
     await this.http.post(environment.apiUrl + 'account/register', data).toPromise();
   }
@@ -24,10 +20,9 @@ export class AccountService {
   }
 
   updateAccount(data: JSON) {
-    let headers = this.setAuthHeader();
     let user: IUser;
 
-    this.http.post<IUser>(environment.apiUrl + 'account/update', data, { headers: headers })
+    this.http.post<IUser>(environment.apiUrl + 'account/update', data)
       .subscribe(res => {
         user = JSON.parse(localStorage.getItem('loggedUser'));
         user.firstName = res.firstName;
@@ -42,11 +37,9 @@ export class AccountService {
   }
 
   getAll(): IUser[] {
-    let headers = this.setAuthHeader();
-
     let users: IUser[] = [];
 
-    this.http.get<IUser[]>(environment.apiUrl + 'account/getall', { headers: headers })
+    this.http.get<IUser[]>(environment.apiUrl + 'account/getall')
       .subscribe((res: IUser[]) => {
         res.forEach(x => users.push(x));
       });
@@ -57,33 +50,21 @@ export class AccountService {
   unblockAccount(accountId: number): Promise<Object> {
     let data = { id: accountId };
 
-    let headers = this.setAuthHeader();
-
-    return this.http.post(environment.apiUrl + 'account/unblock', data, { headers: headers })
+    return this.http.post(environment.apiUrl + 'account/unblock', data)
       .toPromise();
   }
 
   blockAccount(accountId: number): Promise<Object> {
     let data = { id: accountId };
 
-    let headers = this.setAuthHeader();
-
-    return this.http.post(environment.apiUrl + 'account/block', data, { headers: headers })
+    return this.http.post(environment.apiUrl + 'account/block', data)
       .toPromise();
   }
 
   deleteAccount(accountId: number): Promise<Object> {
     let data = { id: accountId };
 
-    let headers = this.setAuthHeader();
-
-    return this.http.post(environment.apiUrl + 'account/delete', data, { headers: headers })
+    return this.http.post(environment.apiUrl + 'account/delete', data)
       .toPromise();
-  }
-
-  private setAuthHeader(): HttpHeaders {
-    return new HttpHeaders({
-      'Authorization': 'Bearer ' + this.getLoggedUser?.token
-    });
   }
 }
