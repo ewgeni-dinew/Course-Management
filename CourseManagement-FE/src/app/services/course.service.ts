@@ -14,8 +14,6 @@ export class CourseService {
 
   private selectedCourse: ICourse;
 
-  test: ICourse;
-
   public get getSelectedCourse(): ICourse {
     return this.selectedCourse;
   }
