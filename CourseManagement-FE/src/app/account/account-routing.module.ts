@@ -5,6 +5,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { ListComponent } from './list/list.component';
 import { AuthGuard } from '../utilities/guards/auth.guard';
 import { AdminGuard } from '../utilities/guards/admin.guard';
+import { NegateAuthGuard } from '../utilities/guards/negate-auth.guard';
 
 const routes: Routes = [
     {
@@ -13,11 +14,12 @@ const routes: Routes = [
             {
                 path: 'login',
                 component: LoginComponent,
-                canActivate: [AuthGuard]
+                canActivate: [NegateAuthGuard]
             },
             {
                 path: 'register',
-                component: RegisterComponent
+                component: RegisterComponent,
+                canActivate: [NegateAuthGuard]
             },
             {
                 path: 'profile',
