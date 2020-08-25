@@ -32,7 +32,10 @@ export class HomeComponent implements OnInit {
 
   setSelectedEvent(course: ICourse) {
 
-    this.courseRating = course.rating;
+    if (course) {
+      this.courseRating = course.rating;
+    }
+
     this.selectedCourse = course;
   }
 

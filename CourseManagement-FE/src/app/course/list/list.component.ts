@@ -17,11 +17,11 @@ export class ListComponent implements OnInit {
 
   selectedCourse: ICourse;
 
-  
-  public get isUserAdmin() : Boolean {
+
+  public get isUserAdmin(): Boolean {
     return this.authService.isUserAdmin;
   }
-  
+
 
   @Output('selectCourseEvent')
   selectCourseEvent = new EventEmitter<ICourse>();
@@ -43,7 +43,7 @@ export class ListComponent implements OnInit {
 
   selectCourseHandler(inputCourse: ICourse) {
 
-    if (inputCourse.id !== this.selectedCourse?.id) {
+    if (inputCourse.id !== this.selectedCourse?.id) { //case 'Find out more' button
 
       let promise = new Promise((resolve, reject) => {
         this.courseService.getDetails(inputCourse.id).then((result) => {
@@ -54,7 +54,7 @@ export class ListComponent implements OnInit {
         resolve();
       })
 
-    } else {
+    } else { //case 'Hide details' button
       this.selectedCourse = null;
       this.selectCourseEvent.emit(this.selectedCourse); //hides the details
     }
