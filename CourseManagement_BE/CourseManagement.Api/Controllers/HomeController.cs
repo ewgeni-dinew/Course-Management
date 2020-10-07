@@ -18,8 +18,6 @@ namespace CourseManagement.Api.Controllers
 
         public IActionResult Index()
         {
-            var users = this._dbContext.Users.ToList();
-
             return Ok("This is home!");
         }
     }

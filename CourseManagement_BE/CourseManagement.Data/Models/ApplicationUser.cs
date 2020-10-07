@@ -4,35 +4,51 @@
 
     public class ApplicationUser
     {
-        public ApplicationUser()
+        internal ApplicationUser()
         {
             this.IsBlocked = false;
-            
+
             this.Courses = new List<Course>();
 
             this.Favorites = new List<FavoriteCourse>();
         }
 
-        public int Id { get; set; }
+        internal ApplicationUser(string username, string password, string firstName, string lastName, int roleId)
+            : this()
+        {
+            this.Username = username;
+            this.Password = password;
+            this.FirstName = firstName;
+            this.LastName = lastName;
+            this.RoleId = roleId;
+        }
 
-        public string Username { get; set; }
+        internal ApplicationUser(int id, string username, string password, string firstName, string lastName, int roleId)
+            : this(username, password, firstName, lastName, roleId)
+        {
+            this.Id = id;
+        }
 
-        public bool IsBlocked { get; set; }
+        public int Id { get; private set; }
 
-        public string Password { get; set; }
+        public string Username { get; private set; }
 
-        public string FirstName { get; set; }
+        public bool IsBlocked { get; private set; }
 
-        public string LastName { get; set; }
+        public string Password { get; private set; }
 
-        public int RoleId { get; set; }
+        public string FirstName { get; private set; }
 
-        public Role Role { get; set; }
+        public string LastName { get; private set; }
 
-        public string Token { get; set; }
+        public int RoleId { get; private set; }
 
-        public ICollection<Course> Courses { get; set; }
+        public Role Role { get; private set; }
 
-        public ICollection<FavoriteCourse> Favorites { get; set; }
+        public string Token { get; private set; }
+
+        public ICollection<Course> Courses { get; private set; }
+
+        public ICollection<FavoriteCourse> Favorites { get; private set; }
     }
 }

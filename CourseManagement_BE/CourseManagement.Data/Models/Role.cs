@@ -2,8 +2,19 @@
 {
     public class Role
     {
-        public int Id { get; set; }
+        internal Role(string name)
+        {
+            this.Name = name;
+        }
 
-        public string Name { get; set; }
+        internal Role(string name, int id)
+            : this(name)
+        {
+            this.Id = id;
+        }
+
+        public int Id { get; private set; }
+
+        public string Name { get; private set; }
     }
 }

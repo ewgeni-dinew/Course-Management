@@ -37,7 +37,7 @@
 
             if (user == null)
             {
-                //throw expection;
+                throw new ArgumentException("Invalid User!");
             }
 
             var tokenHandler = new JwtSecurityTokenHandler();

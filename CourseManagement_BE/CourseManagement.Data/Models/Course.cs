@@ -5,27 +5,36 @@
 
     public class Course
     {
-        public Course()
+        internal Course()
         {
             this.CreatedOn = DateTime.UtcNow;
         }
 
-        public int Id { get; set; }
+        internal Course(string title, string summary, string content, int authorId)
+            : this()
+        {
+            this.Title = title;
+            this.Summary = summary;
+            this.Content = content;
+            this.AuthorId = authorId;
+        }
 
-        public string Title { get; set; }
+        public int Id { get; private set; }
 
-        public string Summary { get; set; }
+        public string Title { get; private set; }
 
-        public string Content { get; set; }
+        public string Summary { get; private set; }
 
-        public DateTime CreatedOn { get; set; }
+        public string Content { get; private set; }
 
-        public ApplicationUser Author { get; set; }
+        public DateTime CreatedOn { get; private set; }
 
-        public int AuthorId { get; set; }
+        public ApplicationUser Author { get; private set; }
 
-        public double Rating { get; set; }
+        public int AuthorId { get; private set; }
 
-        public ICollection<FavoriteCourse> Favorites { get; set; }
+        public double Rating { get; private set; }
+
+        public ICollection<FavoriteCourse> Favorites { get; private set; }
     }
 }

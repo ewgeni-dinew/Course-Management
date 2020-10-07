@@ -47,12 +47,12 @@
         private void SeedData(ModelBuilder builder)
         {
             builder.Entity<Role>().HasData(
-                            new Role { Name = "User", Id = 1 },
-                            new Role { Name = "Admin", Id = 2 }
+                            new Role("User", 1),
+                            new Role("Admin", 2)
                             );
 
             builder.Entity<ApplicationUser>().HasData(
-                new ApplicationUser { Id = 1, Username = "admin@test.com", FirstName = "Admin", LastName = "Adminov", Password = "1234", RoleId = 2 });
+                new ApplicationUser(1, "admin@test.com", "1234", "Admin", "Adminov", 2));
         }
     }
 }

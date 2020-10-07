@@ -2,14 +2,19 @@
 {
     public class FavoriteCourse
     {
-        public int Id { get; set; }
+        internal FavoriteCourse()
+        {
 
-        public ApplicationUser User { get; set; }
+        }
 
-        public int UserId { get; set; }
+        public int Id { get; private set; }
 
-        public Course Course { get; set; }
+        public ApplicationUser User { get; private set; }
 
-        public int CourseId { get; set; }
+        public int UserId { get; private set; }
+
+        public Course Course { get; private set; }
+
+        public int CourseId { get; private set; }
     }
 }
