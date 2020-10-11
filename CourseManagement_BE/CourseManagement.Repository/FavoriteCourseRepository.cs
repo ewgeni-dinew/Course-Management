@@ -7,14 +7,11 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class FavoriteCourseRepository : IRepository<FavoriteCourse>
+    public class FavoriteCourseRepository : Repository, IRepository<FavoriteCourse>
     {
-        internal ApplicationDbContext DbContext { get; }
-
         public FavoriteCourseRepository(ApplicationDbContext dbContext)
-        {
-            this.DbContext = dbContext;
-        }
+            : base(dbContext)
+        { }
 
         public void Create(FavoriteCourse entity)
         {

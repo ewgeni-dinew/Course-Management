@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CourseManagement.Data\CourseManagement.Data.csproj" />
+    <ProjectReference Include="..\CourseManagement.Repository\CourseManagement.Repository.csproj" />
+    <ProjectReference Include="..\CouseManagement.DTO\CouseManagement.DTO.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -2,7 +2,7 @@
 {
     using System.Threading.Tasks;
  
-    internal interface ISaveble
+    public interface ISaveble
     {
         public Task<int> SaveAsync();
 

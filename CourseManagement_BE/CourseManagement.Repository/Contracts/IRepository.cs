@@ -3,7 +3,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    internal interface IRepository<Entity>
+    public interface IRepository<Entity> : ISaveble
     {
         public IQueryable<Entity> GetAll();
 

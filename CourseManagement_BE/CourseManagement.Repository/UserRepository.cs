@@ -7,14 +7,11 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class UserRepository : IRepository<ApplicationUser>, ISaveble
+    public class UserRepository : Repository, IRepository<ApplicationUser>
     {
-        internal ApplicationDbContext DbContext { get; }
-
         public UserRepository(ApplicationDbContext dbContext)
-        {
-            this.DbContext = dbContext;
-        }
+            : base(dbContext)
+        { }
 
         public void Create(ApplicationUser entity)
         {
@@ -39,16 +36,6 @@
         public async Task<ApplicationUser> GetById(int id)
         {
             return await this.DbContext.Users.FirstOrDefaultAsync(x => x.Id.Equals(id));
-        }
-
-        public int Save()
-        {
-            return this.DbContext.SaveChanges();
-        }
-
-        public async Task<int> SaveAsync()
-        {
-            return await this.DbContext.SaveChangesAsync();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace CouseManagement.DTO
+﻿namespace CouseManagement.DTO.Account
 {
     public class RegisterUserDTO
     {

@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CouseManagement.DTO", "Cous
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseManagement.Repository", "CourseManagement.Repository\CourseManagement.Repository.csproj", "{1A27F7C8-18D1-411D-A1A6-7E3D3714B338}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseManagement.Services", "CourseManagement.Services\CourseManagement.Services.csproj", "{59FD9803-9DA7-4CBE-A6B4-0F139822E092}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{1A27F7C8-18D1-411D-A1A6-7E3D3714B338}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A27F7C8-18D1-411D-A1A6-7E3D3714B338}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A27F7C8-18D1-411D-A1A6-7E3D3714B338}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59FD9803-9DA7-4CBE-A6B4-0F139822E092}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59FD9803-9DA7-4CBE-A6B4-0F139822E092}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59FD9803-9DA7-4CBE-A6B4-0F139822E092}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59FD9803-9DA7-4CBE-A6B4-0F139822E092}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

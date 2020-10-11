@@ -7,14 +7,11 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class CourseRepository : IRepository<Course>, ISaveble
+    public class CourseRepository : Repository, IRepository<Course>
     {
-        internal ApplicationDbContext DbContext { get; }
-
         public CourseRepository(ApplicationDbContext dbContext)
-        {
-            this.DbContext = dbContext;
-        }
+            : base(dbContext)
+        { }
 
         public void Create(Course entity)
         {
@@ -39,16 +36,6 @@
         public async Task<Course> GetById(int id)
         {
             return await this.DbContext.Courses.FirstOrDefaultAsync(x => x.Id.Equals(id));
-        }
-
-        public int Save()
-        {
-            return this.DbContext.SaveChanges();
-        }
-
-        public async Task<int> SaveAsync()
-        {
-            return await this.DbContext.SaveChangesAsync();
         }
     }
 }
