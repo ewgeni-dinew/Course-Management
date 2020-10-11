@@ -50,5 +50,12 @@
         public ICollection<Course> Courses { get; private set; }
 
         public ICollection<FavoriteCourse> Favorites { get; private set; }
+
+        //METHODS
+
+        public void UpdateToken(string token)
+        {
+            this.Token = token;
+        }
     }
 }

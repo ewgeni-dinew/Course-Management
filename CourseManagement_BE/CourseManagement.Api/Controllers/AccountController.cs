@@ -1,77 +1,32 @@
 ﻿namespace CourseManagement.Api.Controllers
 {
-    using CourseManagement.Data;
-    using CourseManagement.Data.Models;
-    using CouseManagement.DTO;
+    using CourseManagement.Services.Contracts;
     using CouseManagement.DTO.Account;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Internal;
-    using Microsoft.IdentityModel.Tokens;
     using System;
-    using System.IdentityModel.Tokens.Jwt;
     using System.Linq;
-    using System.Security.Claims;
-    using System.Text;
     using System.Threading.Tasks;
 
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly ApplicationDbContext _dbContext;
+        private readonly IUserService _userService;
 
-        public AccountController(ApplicationDbContext dbContext)
+        public AccountController(IUserService userService)
         {
-            this._dbContext = dbContext;
+            this._userService = userService;
         }
 
         [HttpPost]
         public async Task<IActionResult> Login(LoginUserDTO dto)
         {
-            var user = await this._dbContext.Users
-                .Include(x => x.Role)
-                .Where(x => !x.IsBlocked)
-                .FirstOrDefaultAsync(x => x.Username.Equals(dto.Username) && x.Password.Equals(dto.Password));
+            var res = await this._userService.LoginUser(dto);
 
-            if (user == null)
-            {
-                throw new ArgumentException("Invalid User!");
-            }
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes("1p4kdl13pr0w[pkda;;kado[po");
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                    new Claim(ClaimTypes.Email, user.Username.ToString()),
-                    new Claim(ClaimTypes.Role, user.Role.Name.ToString())
-                }),
-                Expires = DateTime.UtcNow.AddDays(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-
-            user.Token = tokenHandler.WriteToken(token);
-
-            await _dbContext.SaveChangesAsync();
-
-            var result = new UserDetailsDTO
-            {
-                Id = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Username = user.Username,
-                Password = user.Password,
-                Token = user.Token,
-                Role = user.Role.Name,
-            };
-
-            return Ok(result);
+            return Ok(res);
         }
 
         [HttpPost]
@@ -133,20 +88,9 @@
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> GetAll()
         {
-            var users = await this._dbContext.Users
-                .Include(x => x.Role)
-                .Where(x => x.Role.Name.Equals("User"))
-                .Select(x => new UserDetailsDTO
-                {
-                    Id = x.Id,
-                    FirstName = x.FirstName,
-                    LastName = x.LastName,
-                    Username = x.Username,
-                    IsBlocked = x.IsBlocked
-                })
-                .ToListAsync();
+            var res = await this._userService.GetAllUsers();
 
-            return Ok(users);
+            return Ok(res);
         }
 
         [HttpPost]
@@ -191,17 +135,7 @@
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Delete(BaseUserDTO dto)
         {
-            var user = await this._dbContext.Users
-                .FirstOrDefaultAsync(x => x.Id.Equals(dto.Id));
-
-            if (user == null)
-            {
-                //throw exception;
-            }
-
-            this._dbContext.Users.Remove(user);
-
-            await this._dbContext.SaveChangesAsync();
+            await this._userService.DeleteUser(dto);
 
             return Ok();
         }

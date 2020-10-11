@@ -5,7 +5,15 @@
     using CourseManagement.Repository.Contracts;
     using CourseManagement.Services.Contracts;
     using CouseManagement.DTO.Account;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.IdentityModel.Tokens;
+    using System;
     using System.Collections.Generic;
+    using System.IdentityModel.Tokens.Jwt;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Text;
+    using System.Threading.Tasks;
 
     public class UserService : IUserService
     {
@@ -18,9 +26,50 @@
             this.userRepository = userRepository;
         }
 
-        public UserDetailsDTO LoginUser(LoginUserDTO dto)
+        public async Task<UserDetailsDTO> LoginUser(LoginUserDTO dto)
         {
-            throw new System.NotImplementedException();
+            var user = await this.userRepository.GetAll()?
+                .Include(x => x.Role)
+                .Where(x => !x.IsBlocked)
+                .FirstOrDefaultAsync(x => x.Username.Equals(dto.Username) && x.Password.Equals(dto.Password));
+
+            if (user == null)
+            {
+                throw new ArgumentException("Invalid User!");
+            }
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes("1p4kdl13pr0w[pkda;;kado[po");
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new Claim(ClaimTypes.Email, user.Username.ToString()),
+                    new Claim(ClaimTypes.Role, user.Role.Name.ToString())
+                }),
+                Expires = DateTime.UtcNow.AddMinutes(60),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            user.UpdateToken(tokenHandler.WriteToken(token));
+
+            await userRepository.SaveAsync();
+
+            var result = new UserDetailsDTO
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Username = user.Username,
+                Password = user.Password,
+                Token = user.Token,
+                Role = user.Role.Name,
+            };
+
+            return result;
         }
 
         public void RegisterUser(RegisterUserDTO dto)
@@ -33,14 +82,36 @@
             throw new System.NotImplementedException();
         }
 
-        public void DeleteUser(BaseUserDTO dto)
+        public async Task DeleteUser(BaseUserDTO dto)
         {
-            throw new System.NotImplementedException();
+            var user = await this.userRepository.GetById(dto.Id);
+
+            if (user == null)
+            {
+                //throw exception;
+            }
+
+            this.userRepository.Delete(user);
+
+            await this.userRepository.SaveAsync();
         }
-                
-        public ICollection<UserDetailsDTO> GetAllUsers(UpdateUserDTO dto)
+
+        public async Task<ICollection<UserDetailsDTO>> GetAllUsers()
         {
-            throw new System.NotImplementedException();
+            var users = await this.userRepository.GetAll()
+                .Include(x => x.Role)
+                .Where(x => x.Role.Name.Equals("User"))
+                .Select(x => new UserDetailsDTO
+                {
+                    Id = x.Id,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    Username = x.Username,
+                    IsBlocked = x.IsBlocked
+                })
+                .ToListAsync();
+
+            return users;
         }
 
         public void BlockUser(BaseUserDTO dto)
@@ -51,6 +122,6 @@
         public void UnblockUser(BaseUserDTO dto)
         {
             throw new System.NotImplementedException();
-        }       
+        }
     }
 }
