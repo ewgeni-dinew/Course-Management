@@ -2,7 +2,6 @@
 {
     using CourseManagement.Data.Models;
     using Microsoft.EntityFrameworkCore;
-    using System;
 
     public class ApplicationDbContext : DbContext
     {
