@@ -4,10 +4,6 @@
     using CouseManagement.DTO.Account;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Internal;
-    using System;
-    using System.Linq;
     using System.Threading.Tasks;
 
     [Route("api/[controller]/[action]")]
@@ -32,23 +28,7 @@
         [HttpPost]
         public async Task<IActionResult> Register(RegisterUserDTO dto)
         {
-            if (this._dbContext.Users.Any(x => x.Username.Equals(dto.Username)))
-            {
-                //throw error;
-            }
-
-            var user = new ApplicationUser
-            {
-                Username = dto.Username,
-                Password = dto.Password,
-                FirstName = dto.FirstName,
-                LastName = dto.LastName,
-                RoleId = 1
-            };
-
-            this._dbContext.Users.Add(user);
-
-            await this._dbContext.SaveChangesAsync();
+            await this._userService.RegisterUser(dto);
 
             return Ok();
         }
@@ -57,31 +37,9 @@
         [Authorize]
         public async Task<ActionResult> Update(UpdateUserDTO dto)
         {
-            var user = await this._dbContext.Users.FirstOrDefaultAsync(x => x.Id.Equals(dto.Id));
+            var res = await this._userService.UpdateUser(dto);
 
-            if (user == null)
-            {
-                //throw expection;
-            }
-
-            if (dto.Password != "")
-            {
-                user.Password = dto.Password;
-            }
-
-            user.FirstName = dto.FirstName;
-            user.LastName = dto.LastName;
-
-            await this._dbContext.SaveChangesAsync();
-
-            var result = new UserDetailsDTO
-            {
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Password = user.Password,
-            };
-
-            return Ok(result);
+            return Ok(res);
         }
 
         [HttpGet]
@@ -97,17 +55,7 @@
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Block(BaseUserDTO dto)
         {
-            var user = await this._dbContext.Users
-                .FirstOrDefaultAsync(x => x.Id.Equals(dto.Id));
-
-            if (user == null)
-            {
-                //throw exception;
-            }
-
-            user.IsBlocked = true;
-
-            await this._dbContext.SaveChangesAsync();
+            await this._userService.BlockUser(dto);
 
             return Ok();
         }
@@ -116,17 +64,7 @@
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Unblock(BaseUserDTO dto)
         {
-            var user = await this._dbContext.Users
-                .FirstOrDefaultAsync(x => x.Id.Equals(dto.Id));
-
-            if (user == null)
-            {
-                //throw exception;
-            }
-
-            user.IsBlocked = false;
-
-            await this._dbContext.SaveChangesAsync();
+            await this._userService.UnblockUser(dto);
 
             return Ok();
         }

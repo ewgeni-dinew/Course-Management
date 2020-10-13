@@ -1,5 +1,6 @@
 ﻿namespace CourseManagement.Data.Models
 {
+    using System;
     using System.Collections.Generic;
 
     public class ApplicationUser
@@ -56,6 +57,39 @@
         public void UpdateToken(string token)
         {
             this.Token = token;
+        }
+
+        public void UpdatePassword(string password)
+        {
+            this.UpdateStringField(this.Password, password);            
+        }        
+
+        public void UpdateFirstName(string firstName)
+        {
+            this.UpdateStringField(this.FirstName, firstName);
+        }
+
+        public void UpdateLastName(string lastName)
+        {
+            this.UpdateStringField(this.LastName, lastName);
+        }
+
+        public void Block()
+        {
+            this.IsBlocked = true;
+        }
+
+        public void Unblock()
+        {
+            this.IsBlocked = false;
+        }
+
+        private void UpdateStringField(string initial_field, string updated_field)
+        {
+            if (initial_field != updated_field)
+            {
+                initial_field = updated_field;
+            }
         }
     }
 }

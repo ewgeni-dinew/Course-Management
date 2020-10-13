@@ -72,14 +72,55 @@
             return result;
         }
 
-        public void RegisterUser(RegisterUserDTO dto)
+        public async Task RegisterUser(RegisterUserDTO dto)
         {
-            throw new System.NotImplementedException();
+            if (this.userRepository.GetAll().Any(x => x.Username.Equals(dto.Username)))
+            {
+                //throw error;
+            }
+
+            var user = this.userFactory
+                .WithFirstName(dto.FirstName)
+                .WithLastName(dto.LastName)
+                .WithUsername(dto.Username)
+                .WithPassword(dto.Password)
+                .WithRoleId(1) //should probably be changed
+                .Build();
+
+            this.userRepository.Create(user);
+
+            await this.userRepository.SaveAsync();
         }
 
-        public UserDetailsDTO UpdateUser(UpdateUserDTO dto)
+        public async Task<UserDetailsDTO> UpdateUser(UpdateUserDTO dto)
         {
-            throw new System.NotImplementedException();
+            var user = await this.userRepository.GetById(dto.Id);
+
+            if (user == null)
+            {
+                //throw expection;
+            }
+
+            if (dto.Password != "")
+            {
+                user.UpdatePassword(dto.Password);
+            }
+
+            user.UpdateFirstName(dto.FirstName);
+            user.UpdateLastName(dto.LastName);
+
+            userRepository.Update(user);
+
+            await this.userRepository.SaveAsync();
+
+            var result = new UserDetailsDTO
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Password = user.Password,
+            };
+
+            return result;
         }
 
         public async Task DeleteUser(BaseUserDTO dto)
@@ -114,14 +155,36 @@
             return users;
         }
 
-        public void BlockUser(BaseUserDTO dto)
+        public async Task BlockUser(BaseUserDTO dto)
         {
-            throw new System.NotImplementedException();
+            var user = await this.userRepository.GetById(dto.Id);
+
+            if (user == null)
+            {
+                //throw exception;
+            }
+
+            user.Block();
+
+            userRepository.Update(user);
+
+            await this.userRepository.SaveAsync();
         }
 
-        public void UnblockUser(BaseUserDTO dto)
+        public async Task UnblockUser(BaseUserDTO dto)
         {
-            throw new System.NotImplementedException();
+            var user = await this.userRepository.GetById(dto.Id);
+
+            if (user == null)
+            {
+                //throw exception;
+            }
+
+            user.Unblock();
+
+            userRepository.Update(user);
+
+            await this.userRepository.SaveAsync();
         }
     }
 }
