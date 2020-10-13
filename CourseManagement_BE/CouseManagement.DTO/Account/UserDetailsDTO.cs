@@ -1,4 +1,4 @@
-﻿namespace CouseManagement.DTO.Account
+﻿namespace CourseManagement.DTO.Account
 {
     public class UserDetailsDTO
     {
