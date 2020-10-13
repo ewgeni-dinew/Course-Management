@@ -1,6 +1,6 @@
 ﻿namespace CourseManagement.Services.Contracts
 {
-    using CouseManagement.DTO.Account;
+    using CourseManagement.DTO.Account;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 

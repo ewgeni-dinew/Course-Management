@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CourseManagement.Services\CourseManagement.Services.csproj" />
-    <ProjectReference Include="..\CouseManagement.DTO\CouseManagement.DTO.csproj" />
+    <ProjectReference Include="..\CouseManagement.DTO\CourseManagement.DTO.csproj" />
   </ItemGroup>
 
 

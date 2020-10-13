@@ -2,7 +2,7 @@
 {
     using CourseManagement.Data;
     using CourseManagement.Data.Models;
-    using CouseManagement.DTO.Course;
+    using CourseManagement.DTO.Course;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;

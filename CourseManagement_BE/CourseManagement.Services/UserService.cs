@@ -4,7 +4,7 @@
     using CourseManagement.Data.Models;
     using CourseManagement.Repository.Contracts;
     using CourseManagement.Services.Contracts;
-    using CouseManagement.DTO.Account;
+    using CourseManagement.DTO.Account;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.IdentityModel.Tokens;
     using System;

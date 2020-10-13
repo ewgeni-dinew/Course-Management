@@ -1,7 +1,7 @@
 ﻿namespace CourseManagement.Api.Controllers
 {
     using CourseManagement.Services.Contracts;
-    using CouseManagement.DTO.Account;
+    using CourseManagement.DTO.Account;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
