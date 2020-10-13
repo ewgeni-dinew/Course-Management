@@ -36,5 +36,31 @@
         public double Rating { get; private set; }
 
         public ICollection<FavoriteCourse> Favorites { get; private set; }
+
+        //METHODS
+
+        public void UpdateTitle(string title)
+        {
+            this.UpdateStringField(this.Title, title);
+        }
+
+        public void UpdateSummary(string summary)
+        {
+            this.UpdateStringField(this.Summary, summary);
+
+        }
+
+        public void UpdateContent(string content)
+        {
+            this.UpdateStringField(this.Content, content);
+        }
+
+        private void UpdateStringField(string initial_field, string updated_field)
+        {
+            if (initial_field != updated_field)
+            {
+                initial_field = updated_field;
+            }
+        }
     }
 }

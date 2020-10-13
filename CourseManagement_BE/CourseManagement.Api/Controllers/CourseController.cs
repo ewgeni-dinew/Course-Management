@@ -1,8 +1,8 @@
 ﻿namespace CourseManagement.Api.Controllers
 {
-    using CourseManagement.Data;
     using CourseManagement.Data.Models;
     using CourseManagement.DTO.Course;
+    using CourseManagement.Services.Contracts;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
@@ -15,28 +15,18 @@
     [ApiController]
     public class CourseController : ControllerBase
     {
-        private readonly ApplicationDbContext _dbContext;
+        private readonly ICourseService _courseService;
 
-        public CourseController(ApplicationDbContext dbContext)
+        public CourseController(ICourseService courseService)
         {
-            this._dbContext = dbContext;
+            this._courseService = courseService;
         }
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(CreateCourseDTO dto)
         {
-            var course = new Course
-            {
-                Title = dto.Title,
-                Content = dto.Content,
-                AuthorId = dto.AuthorId,
-                Summary = dto.Summary,
-            };
-
-            this._dbContext.Courses.Add(course);
-
-            await this._dbContext.SaveChangesAsync();
+            await this._courseService.CreateCourse(dto);
 
             return Ok();
         }
@@ -45,19 +35,7 @@
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(EditCourseDTO dto)
         {
-            var course = await this._dbContext.Courses
-                .FirstOrDefaultAsync(x => x.Id.Equals(dto.Id));
-
-            if (course == null)
-            {
-                //throw exception
-            }
-
-            course.Title = dto.Title;
-            course.Content = dto.Content;
-            course.Summary = dto.Summary;
-
-            await this._dbContext.SaveChangesAsync();
+            await this._courseService.EditCourse(dto);
 
             return Ok();
         }
@@ -67,17 +45,7 @@
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(DeleteCourseDTO dto)
         {
-            var course = await this._dbContext.Courses
-                .FirstOrDefaultAsync(x => x.Id.Equals(dto.Id));
-
-            if (course == null)
-            {
-                //throw exception
-            }
-
-            this._dbContext.Courses.Remove(course);
-
-            await this._dbContext.SaveChangesAsync();
+            await this._courseService.DeleteCourse(dto);
 
             return Ok();
         }
@@ -86,16 +54,9 @@
         [Authorize]
         public async Task<IActionResult> GetAll()
         {
-            var courses = await this._dbContext.Courses
-                .Select(x => new BaseCourseDTO
-                {
-                    Id = x.Id,
-                    Title = x.Title,
-                    Summary = x.Summary
-                })
-                .ToListAsync();
+            var res = await this._courseService.GetAllCourses();
 
-            return Ok(courses);
+            return Ok(res);
         }
 
         [HttpGet]

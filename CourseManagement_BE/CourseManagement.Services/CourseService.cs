@@ -5,7 +5,9 @@
     using CourseManagement.DTO.Course;
     using CourseManagement.Repository.Contracts;
     using CourseManagement.Services.Contracts;
+    using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class CourseService : ICourseService
@@ -17,9 +19,9 @@
         private readonly IRepository<FavoriteCourse> _favCourseRepository;
 
         public CourseService(
-            ICourseFactory courseFactory, 
-            IFavoriteCourseFactory favoriteCourseFactory, 
-            IRepository<Course> courseRepository, 
+            ICourseFactory courseFactory,
+            IFavoriteCourseFactory favoriteCourseFactory,
+            IRepository<Course> courseRepository,
             IRepository<FavoriteCourse> favCourseRepository
             )
         {
@@ -29,34 +31,69 @@
             _favoriteCourseFactory = favoriteCourseFactory;
         }
 
-        public Task AddToFavorites(AddToFavoritesDTO dto)
+        public async Task CreateCourse(CreateCourseDTO dto)
         {
-            throw new System.NotImplementedException();
+            var course = this._courseFactory
+                .WithTitle(dto.Title)
+                .WithSummary(dto.Summary)
+                .WithContent(dto.Content)
+                .WithAuthorId(dto.AuthorId)
+                .Build();
+
+            this._courseRepository.Create(course);
+
+            await this._courseRepository.SaveAsync();
         }
 
-        public void CreateCourse(CreateCourseDTO dto)
+        public async Task EditCourse(EditCourseDTO dto)
         {
-            throw new System.NotImplementedException();
+            var course = await this._courseRepository.GetById(dto.Id);
+
+            if (course == null)
+            {
+                //throw exception
+            }
+
+            course.UpdateTitle(dto.Title);
+            course.UpdateContent(dto.Content);
+            course.UpdateSummary(dto.Summary);
+
+            this._courseRepository.Update(course);
+
+            await this._courseRepository.SaveAsync();
         }
 
-        public Task DeleteCourse(DeleteCourseDTO dto)
+        public async Task DeleteCourse(DeleteCourseDTO dto)
         {
-            throw new System.NotImplementedException();
-        }
+            var course = await this._courseRepository.GetById(dto.Id);
 
-        public void EditCourse(EditCourseDTO dto)
-        {
-            throw new System.NotImplementedException();
-        }
+            if (course == null)
+            {
+                //throw exception
+            }
 
-        public Task<ICollection<BaseCourseDTO>> GetAllCourses()
-        {
-            throw new System.NotImplementedException();
+            this._courseRepository.Delete(course);
+
+            await this._courseRepository.SaveAsync();
         }
 
         public Task GetCourseDetails(int id)
         {
             throw new System.NotImplementedException();
+        }
+
+        public async Task<ICollection<BaseCourseDTO>> GetAllCourses()
+        {
+            var courses = await this._courseRepository.GetAll()
+                .Select(x => new BaseCourseDTO
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    Summary = x.Summary
+                })
+                .ToListAsync();
+
+            return courses;
         }
 
         public Task<ICollection<BaseCourseDTO>> GetFavoriteCourses()
@@ -70,6 +107,11 @@
         }
 
         public Task RemoveFromFavorites(AddToFavoritesDTO dto)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task AddToFavorites(AddToFavoritesDTO dto)
         {
             throw new System.NotImplementedException();
         }

@@ -6,9 +6,9 @@
 
     public interface ICourseService
     {
-        public void CreateCourse(CreateCourseDTO dto);
+        public Task CreateCourse(CreateCourseDTO dto);
 
-        public void EditCourse(EditCourseDTO dto);
+        public Task EditCourse(EditCourseDTO dto);
 
         public Task DeleteCourse(DeleteCourseDTO dto);
 
