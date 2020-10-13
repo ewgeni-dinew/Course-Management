@@ -2,9 +2,10 @@
 {
     public class FavoriteCourse
     {
-        internal FavoriteCourse()
+        internal FavoriteCourse(int userId, int courseId)
         {
-
+            this.CourseId = courseId;
+            this.UserId = userId;
         }
 
         public int Id { get; private set; }
