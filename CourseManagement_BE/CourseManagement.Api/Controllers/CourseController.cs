@@ -65,18 +65,9 @@
         {
             var userId = GetUserIdFromJWT();
 
-            var courses = await this._dbContext.FavoriteCourses
-                .Include(x => x.Course)
-                .Where(x => x.UserId.Equals(userId))
-                .Select(x => new BaseCourseDTO
-                {
-                    Id = x.Course.Id,
-                    Title = x.Course.Title,
-                    Summary = x.Course.Summary
-                })
-                .ToListAsync();
+            var res = await this._courseService.GetFavoriteCourses(userId);
 
-            return Ok(courses);
+            return Ok(res);
         }
 
         [HttpPost]
@@ -85,13 +76,9 @@
         {
             var userId = GetUserIdFromJWT();
 
-            this._dbContext.FavoriteCourses.Add(new FavoriteCourse
-            {
-                CourseId = dto.CourseId,
-                UserId = userId
-            });
+            var res = await this._courseService.AddToFavorites(dto, userId);
 
-            return Ok(await this._dbContext.SaveChangesAsync());
+            return Ok(res);
         }
 
         [HttpPost]
@@ -100,12 +87,9 @@
         {
             var userId = GetUserIdFromJWT();
 
-            var favoriteCourse = await this._dbContext.FavoriteCourses
-                .FirstOrDefaultAsync(x => x.CourseId.Equals(dto.CourseId) && x.UserId.Equals(userId));
+            var res = await this._courseService.RemoveFromFavorites(dto, userId);
 
-            this._dbContext.FavoriteCourses.Remove(favoriteCourse);
-
-            return Ok(await this._dbContext.SaveChangesAsync());
+            return Ok(res);
         }
 
         [HttpGet("{id}")]
@@ -114,52 +98,18 @@
         {
             var userId = GetUserIdFromJWT();
 
-            var course = await this._dbContext.Courses
-                .Include(x => x.Author)
-                .Include(x => x.Favorites)
-                .Select(x => new CourseDetailsDTO
-                {
-                    Id = x.Id,
-                    Title = x.Title,
-                    Summary = x.Summary,
-                    CreatedOn = x.CreatedOn.ToString("dd/MM/yyyy"),
-                    Content = x.Content,
-                    Rating = x.Rating,
-                    Author = $"{x.Author.FirstName} {x.Author.LastName}",
-                    IsFavorite = x.Favorites.Any(x => x.UserId.Equals(userId))
-                })
-                .FirstOrDefaultAsync(x => x.Id.Equals(id));
+            var res = await this._courseService.GetCourseDetails(id, userId);
 
-            return Ok(course);
+            return Ok(res);
         }
 
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Rate(RateCourseDTO dto)
         {
-            var course = await this._dbContext.Courses
-                .FirstOrDefaultAsync(x => x.Id.Equals(dto.CourseId));
+            var res = await this._courseService.RateCourse(dto);
 
-            if (course == null)
-            {
-                //throw exception
-            };
-
-            if (course.Rating.Equals(0)) //course has not been rated so far
-            {
-                course.Rating = dto.Rating;
-            }
-            else
-            {
-                course.Rating = Math.Round((course.Rating + dto.Rating) / 2, 2);
-            }
-
-            await this._dbContext.SaveChangesAsync();
-
-            return Ok(new CourseDetailsDTO
-            {
-                Rating = course.Rating
-            });
+            return Ok(res);
         }
 
         private int GetUserIdFromJWT()

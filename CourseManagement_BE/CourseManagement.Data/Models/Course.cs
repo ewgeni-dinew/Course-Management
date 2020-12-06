@@ -39,6 +39,11 @@
 
         //METHODS
 
+        public void UpdateRating(double rating)
+        {
+            this.Rating = rating;
+        }
+
         public void UpdateTitle(string title)
         {
             this.UpdateStringField(this.Title, title);
@@ -47,7 +52,6 @@
         public void UpdateSummary(string summary)
         {
             this.UpdateStringField(this.Summary, summary);
-
         }
 
         public void UpdateContent(string content)

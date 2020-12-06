@@ -6,6 +6,7 @@
     using CourseManagement.Repository.Contracts;
     using CourseManagement.Services.Contracts;
     using Microsoft.EntityFrameworkCore;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -77,9 +78,26 @@
             await this._courseRepository.SaveAsync();
         }
 
-        public Task GetCourseDetails(int id)
+        public async Task<CourseDetailsDTO> GetCourseDetails(int id, int userId)
         {
-            throw new System.NotImplementedException();
+            var course = await this._courseRepository.GetAll()
+                .Include(x => x.Author)
+                .Include(x => x.Favorites)
+                .Select(x => new CourseDetailsDTO
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    Summary = x.Summary,
+                    CreatedOn = x.CreatedOn.ToString("dd/MM/yyyy"),
+                    Content = x.Content,
+                    Rating = x.Rating,
+                    Author = $"{x.Author.FirstName} {x.Author.LastName}",
+                    IsFavorite = x.Favorites.Any(x => x.UserId.Equals(userId))
+                })
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id.Equals(id));
+
+            return course;
         }
 
         public async Task<ICollection<BaseCourseDTO>> GetAllCourses()
@@ -96,24 +114,68 @@
             return courses;
         }
 
-        public Task<ICollection<BaseCourseDTO>> GetFavoriteCourses()
+        public async Task<ICollection<BaseCourseDTO>> GetFavoriteCourses(int userId)
         {
-            throw new System.NotImplementedException();
+            var courses = await this._favCourseRepository.GetAll()
+                .Include(x => x.Course)
+                .Where(x => x.UserId.Equals(userId))
+                .Select(x => new BaseCourseDTO
+                {
+                    Id = x.Course.Id,
+                    Title = x.Course.Title,
+                    Summary = x.Course.Summary
+                })
+                .ToListAsync();
+
+            return courses;
         }
 
-        public Task RateCourse(RateCourseDTO dto)
+        public async Task<CourseRatingDTO> RateCourse(RateCourseDTO dto)
         {
-            throw new System.NotImplementedException();
+            var course = await this._courseRepository.GetById(dto.CourseId);
+
+            if (course == null)
+            {
+                //throw exception
+            }
+            else if (course.Rating.Equals(0)) //course has not been rated so far
+            {
+                course.UpdateRating(dto.Rating); //set initial rating
+            }
+            else
+            {
+                course.UpdateRating(Math.Round((course.Rating + dto.Rating) / 2, 2)); //calculate the average rating
+            }
+
+            await this._courseRepository.SaveAsync();
+
+            return new CourseRatingDTO
+            {
+                CourseId = dto.CourseId,
+                Rating = course.Rating
+            };
         }
 
-        public Task RemoveFromFavorites(AddToFavoritesDTO dto)
+        public async Task<int> RemoveFromFavorites(AddToFavoritesDTO dto, int userId)
         {
-            throw new System.NotImplementedException();
+            var favoriteCourse = await this._favCourseRepository.GetAll()
+                .FirstOrDefaultAsync(x => x.CourseId.Equals(dto.CourseId) && x.UserId.Equals(userId));
+
+            this._favCourseRepository.Delete(favoriteCourse);
+
+            return await this._favCourseRepository.SaveAsync();
         }
 
-        public Task AddToFavorites(AddToFavoritesDTO dto)
+        public async Task<int> AddToFavorites(AddToFavoritesDTO dto, int userId)
         {
-            throw new System.NotImplementedException();
+            var favCourse = this._favoriteCourseFactory
+                .WithCourseId(dto.CourseId)
+                .WithUserId(userId)
+                .Build();
+
+            this._favCourseRepository.Create(favCourse);
+
+            return await this._favCourseRepository.SaveAsync();
         }
     }
 }

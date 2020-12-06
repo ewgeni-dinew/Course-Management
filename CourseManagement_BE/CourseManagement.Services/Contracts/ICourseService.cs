@@ -12,16 +12,16 @@
 
         public Task DeleteCourse(DeleteCourseDTO dto);
 
-        public Task GetCourseDetails(int id);
+        public Task<CourseDetailsDTO> GetCourseDetails(int id, int userId);
 
         public Task<ICollection<BaseCourseDTO>> GetAllCourses();
 
-        public Task<ICollection<BaseCourseDTO>> GetFavoriteCourses();
+        public Task<ICollection<BaseCourseDTO>> GetFavoriteCourses(int userId);
 
-        public Task AddToFavorites(AddToFavoritesDTO dto);
+        public Task<int> AddToFavorites(AddToFavoritesDTO dto, int userId);
 
-        public Task RemoveFromFavorites(AddToFavoritesDTO dto);
+        public Task<int> RemoveFromFavorites(AddToFavoritesDTO dto, int userId);
 
-        public Task RateCourse(RateCourseDTO dto);
+        public Task<CourseRatingDTO> RateCourse(RateCourseDTO dto);
     }
 }
