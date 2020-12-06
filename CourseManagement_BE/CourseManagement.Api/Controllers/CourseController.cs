@@ -1,12 +1,9 @@
 ﻿namespace CourseManagement.Api.Controllers
 {
-    using CourseManagement.Data.Models;
     using CourseManagement.DTO.Course;
     using CourseManagement.Services.Contracts;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
-    using System;
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
