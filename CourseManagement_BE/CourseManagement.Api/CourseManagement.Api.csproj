@@ -13,9 +13,5 @@
     <ProjectReference Include="..\CouseManagement.DTO\CourseManagement.DTO.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Configuration\" />
-  </ItemGroup>
-
 
 </Project>

@@ -1,14 +1,8 @@
 namespace CourseManagement.Api
 {
+    using CourseManagement.Api.Configuration;
     using CourseManagement.Api.Helpers;
     using CourseManagement.Data;
-    using CourseManagement.Data.Factories;
-    using CourseManagement.Data.Factories.Contracts;
-    using CourseManagement.Data.Models;
-    using CourseManagement.Repository;
-    using CourseManagement.Repository.Contracts;
-    using CourseManagement.Services;
-    using CourseManagement.Services.Contracts;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -67,17 +61,8 @@ namespace CourseManagement.Api
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddScoped<ICourseService, CourseService>();
-            services.AddScoped<IUserService, UserService>();
-
-            services.AddScoped<ICourseFactory, CourseFactory>();
-            services.AddScoped<IUserFactory, UserFactory>();
-            services.AddScoped<IFavoriteCourseFactory, FavoriteCourseFactory>();
-            services.AddScoped<IRoleFactory, RoleFactory>();
-
-            services.AddScoped<IRepository<ApplicationUser>, UserRepository>();
-            services.AddScoped<IRepository<Course>, CourseRepository>();
-            services.AddScoped<IRepository<FavoriteCourse>, FavoriteCourseRepository>();
+            //Register service providers to the service collection
+            services.RegisterInterfaces();                        
 
             services.AddControllers();
         }
