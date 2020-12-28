@@ -5,16 +5,17 @@
 
     public class ApplicationDbContext : DbContext
     {
-        public DbSet<ApplicationUser> Users { get; set; }
+        public virtual DbSet<ApplicationUser> Users { get; set; }
 
-        public DbSet<Course> Courses { get; set; }
+        public virtual DbSet<Course> Courses { get; set; }
 
-        public DbSet<FavoriteCourse> FavoriteCourses { get; set; }
+        public virtual DbSet<FavoriteCourse> FavoriteCourses { get; set; }
+
+        public ApplicationDbContext() { } //for unit testing purposes only
 
         public ApplicationDbContext(
            DbContextOptions<ApplicationDbContext> options) : base(options)
-        {
-        }
+        { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

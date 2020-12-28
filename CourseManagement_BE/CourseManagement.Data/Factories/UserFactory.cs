@@ -5,11 +5,18 @@
 
     public class UserFactory : IUserFactory
     {
+        private int id;
         private string username;
         private string password;
         private string firstName;
         private string lastName;
         private int roleId;
+
+        public IUserFactory WithId(int id)
+        {
+            this.id = id;
+            return this;
+        }
 
         public IUserFactory WithFirstName(string firstName)
         {
@@ -43,7 +50,7 @@
 
         public ApplicationUser Build()
         {
-            return new ApplicationUser(this.username, this.password, this.firstName, this.lastName, this.roleId);
+            return new ApplicationUser(this.id, this.username, this.password, this.firstName, this.lastName, this.roleId);
         }
     }
 }

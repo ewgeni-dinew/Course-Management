@@ -35,7 +35,7 @@
 
         public async Task<ApplicationUser> GetById(int id)
         {
-            return await this.DbContext.Users.FirstOrDefaultAsync(x => x.Id.Equals(id));
+            return await Task.Run(() => this.DbContext.Users.FirstOrDefault(x => x.Id.Equals(id)));
         }
     }
 }

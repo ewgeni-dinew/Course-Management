@@ -4,6 +4,8 @@
 
     public interface IUserFactory: IFactory<ApplicationUser>
     {
+        IUserFactory WithId(int id);
+     
         IUserFactory WithUsername(string username);
 
         IUserFactory WithPassword(string password);
