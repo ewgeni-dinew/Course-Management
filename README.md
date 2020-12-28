@@ -9,9 +9,11 @@ with both sides having different rights and access. Basic functionality for such
 This is mainly connected to profile updates, user management and Course CRUD operations.
 
 ## My approach
+<hr/>
 From the start I decided to complicate my solution and approached a simple BE to FE means of communication.
 
 ## Short Tech Stack description
+<hr/>
 The Backend consisted of an ASP.NET Web API which provides endpoint that are accessable throughout the Internet.
 The Frontend is an Angular application which implementents the functionality and design of the client facing application.
 In addition I went with Microsoft's SQL Server for the Database storage and processing.
@@ -19,7 +21,8 @@ In addition I went with Microsoft's SQL Server for the Database storage and proc
 The BE uses EntityFrameworkCore as ORM.
 JWT is the technology of choice for managing user access.
 
->>> My plans
+<hr/>
+>>>
 I have big plant for this project. I want to build it up to showcase everything I have learned so far in my (short) career.
 My idea is to include as many appropriate technologies as possible, by providing an easy to read and understand logic.
 The solution should be error free *or come as close as possible*
