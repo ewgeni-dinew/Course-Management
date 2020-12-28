@@ -1,5 +1,7 @@
 # Course-Management Application
+
 <hr/>
+
 ## Short Introduction of the Project
 This started as a simple application for a university project. The topic was 'Course Management App'.
 The software had to be written only using Angular (only FE) and had to provide a basic DB approach (preferably Firebase).
@@ -21,8 +23,7 @@ In addition I went with Microsoft's SQL Server for the Database storage and proc
 The BE uses EntityFrameworkCore as ORM.
 JWT is the technology of choice for managing user access.
 
-<hr/>
->>>
+>>> 
 I have big plant for this project. I want to build it up to showcase everything I have learned so far in my (short) career.
 My idea is to include as many appropriate technologies as possible, by providing an easy to read and understand logic.
 The solution should be error free *or come as close as possible*
