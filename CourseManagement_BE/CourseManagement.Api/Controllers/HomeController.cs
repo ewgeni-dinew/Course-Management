@@ -1,6 +1,11 @@
 ﻿namespace CourseManagement.Api.Controllers
 {
+    using System;
+    using System.Text.Json;
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Cors;
+    using Microsoft.AspNetCore.Http;
 
     [Route("api/[controller]/[action]")]
     [ApiController]
@@ -11,21 +16,27 @@
             return Ok("The application is listening on port :5000!");
         }
 
-        //[HttpGet]
-        //public async Task SSE()
-        //{
-        //    var response = HttpContext.Response;
+        [EnableCors]
+        [HttpGet]
+        public async Task SSE()
+        {
+            var response = HttpContext.Response;
 
-        //    response.Headers.Add("Content-Type", "text/event-stream");
+            response.Headers.Add("Content-Type", "text/event-stream");
 
-        //    while (true)
-        //    {
-        //        await response.WriteAsync($"data: at {DateTime.UtcNow} \n\n");
+            while (true)
+            {
+                var dto = new
+                {
+                    data = DateTime.UtcNow.ToString()
+                };
 
-        //        await response.Body.FlushAsync();
+                await response.WriteAsync($"data: {JsonSerializer.Serialize(dto)} \n\n");
 
-        //        await Task.Delay(2000);
-        //    }
-        //}
+                await response.Body.FlushAsync();
+
+                await Task.Delay(1000);
+            }
+        }
     }
 }

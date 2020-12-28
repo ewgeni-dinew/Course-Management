@@ -8,16 +8,16 @@
     {
         public Task<UserDetailsDTO> LoginUser(LoginUserDTO dto);
 
-        public Task RegisterUser(RegisterUserDTO dto);
+        public Task<UserDetailsDTO> RegisterUser(RegisterUserDTO dto);
 
         public Task<UserDetailsDTO> UpdateUser(UpdateUserDTO dto);
 
-        public Task DeleteUser(BaseUserDTO dto);
+        public Task<int> DeleteUser(BaseUserDTO dto);
 
         public Task<ICollection<UserDetailsDTO>> GetAllUsers();
         
-        public Task BlockUser(BaseUserDTO dto);
+        public Task<UserDetailsDTO> BlockUser(BaseUserDTO dto);
         
-        public Task UnblockUser(BaseUserDTO dto);
+        public Task<UserDetailsDTO> UnblockUser(BaseUserDTO dto);
     }
 }

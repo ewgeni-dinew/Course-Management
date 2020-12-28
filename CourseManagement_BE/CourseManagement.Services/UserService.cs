@@ -72,7 +72,7 @@
             return result;
         }
 
-        public async Task RegisterUser(RegisterUserDTO dto)
+        public async Task<UserDetailsDTO> RegisterUser(RegisterUserDTO dto)
         {
             if (this.userRepository.GetAll().Any(x => x.Username.Equals(dto.Username)))
             {
@@ -90,6 +90,14 @@
             this.userRepository.Create(user);
 
             await this.userRepository.SaveAsync();
+
+            var result = new UserDetailsDTO
+            {
+                Id = user.Id,
+                Username = user.Username
+            };
+
+            return result;
         }
 
         public async Task<UserDetailsDTO> UpdateUser(UpdateUserDTO dto)
@@ -123,7 +131,7 @@
             return result;
         }
 
-        public async Task DeleteUser(BaseUserDTO dto)
+        public async Task<int> DeleteUser(BaseUserDTO dto)
         {
             var user = await this.userRepository.GetById(dto.Id);
 
@@ -134,7 +142,7 @@
 
             this.userRepository.Delete(user);
 
-            await this.userRepository.SaveAsync();
+            return await this.userRepository.SaveAsync();
         }
 
         public async Task<ICollection<UserDetailsDTO>> GetAllUsers()
@@ -142,6 +150,7 @@
             var users = await this.userRepository.GetAll()
                 .Include(x => x.Role)
                 .Where(x => x.Role.Name.Equals("User"))
+                .AsNoTracking()
                 .Select(x => new UserDetailsDTO
                 {
                     Id = x.Id,
@@ -155,7 +164,7 @@
             return users;
         }
 
-        public async Task BlockUser(BaseUserDTO dto)
+        public async Task<UserDetailsDTO> BlockUser(BaseUserDTO dto)
         {
             var user = await this.userRepository.GetById(dto.Id);
 
@@ -169,9 +178,17 @@
             userRepository.Update(user);
 
             await this.userRepository.SaveAsync();
+
+            var result = new UserDetailsDTO
+            {
+                Id = user.Id,
+                IsBlocked = user.IsBlocked
+            };
+
+            return result;
         }
 
-        public async Task UnblockUser(BaseUserDTO dto)
+        public async Task<UserDetailsDTO> UnblockUser(BaseUserDTO dto)
         {
             var user = await this.userRepository.GetById(dto.Id);
 
@@ -185,6 +202,14 @@
             userRepository.Update(user);
 
             await this.userRepository.SaveAsync();
+
+            var result = new UserDetailsDTO
+            {
+                Id = user.Id,
+                IsBlocked = user.IsBlocked
+            };
+
+            return result;
         }
     }
 }
