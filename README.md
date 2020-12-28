@@ -23,8 +23,9 @@ In addition I went with Microsoft's SQL Server for the Database storage and proc
 The BE uses EntityFrameworkCore as ORM.
 JWT is the technology of choice for managing user access.
 
->>> 
-I have big plant for this project. I want to build it up to showcase everything I have learned so far in my (short) career.
+<hr/>
+
+>>>--- I have big plant for this project. I want to build it up to showcase everything I have learned so far in my (short) career.
 My idea is to include as many appropriate technologies as possible, by providing an easy to read and understand logic.
 The solution should be error free *or come as close as possible*
 I am working on this project in my free time, whenever I feel like sparing some time away from university, work or training.
