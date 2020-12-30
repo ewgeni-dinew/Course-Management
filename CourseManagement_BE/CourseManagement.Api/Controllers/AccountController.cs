@@ -34,7 +34,7 @@
         }
 
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult> Update(UpdateUserDTO dto)
         {
             var res = await this._userService.UpdateUser(dto);
@@ -43,7 +43,7 @@
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult> GetAll()
         {
             var res = await this._userService.GetAllUsers();
@@ -70,7 +70,7 @@
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult> Delete(BaseUserDTO dto)
         {
             await this._userService.DeleteUser(dto);

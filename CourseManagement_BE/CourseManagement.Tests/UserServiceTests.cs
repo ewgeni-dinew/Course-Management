@@ -69,6 +69,30 @@
         //register user with already taken username
         //register user with invalid input
 
+        [Fact]
+        public void GetAllUsers_WithValidInput()
+        {
+            var res = this.userService.GetAllUsers().Result;
+
+            Assert.NotEqual(0, res.Count);
+        }
+
+        [Fact]
+        public void UpdateUser_WithValidInput()
+        {
+            var dto = new UpdateUserDTO
+            {
+                Id = 2,
+                FirstName = "Updated_FirstName",
+                LastName = "Updated_LastName",
+                Password = "password"
+            };
+
+            var res = this.userService.UpdateUser(dto).Result;
+
+            Assert.Equal(dto.FirstName, res.FirstName);
+            Assert.Equal(dto.LastName, res.LastName);
+        }
 
         [Fact]
         public void BlockUser_ValidInput()
@@ -94,6 +118,19 @@
             var res = this.userService.UnblockUser(dto).Result;
 
             Assert.Equal(false.ToString(), res.IsBlocked.ToString());
+        }
+
+        [Fact]
+        public void DeleteUser_WithValidInput()
+        {
+            var dto = new BaseUserDTO
+            {
+                Id = 3
+            };
+
+            var res = this.userService.DeleteUser(dto).Result;
+
+            Assert.NotEqual(0, res);
         }
 
         //SETUP METHODS >>>
@@ -131,9 +168,9 @@
         {
             return new List<ApplicationUser>
             {
-                this.BuildSingleUser(1, "Firstname", "Lastname", "username@test.com", "password", 1),
-                this.BuildSingleUser(2, "Firstname", "Lastname", "username_2@test.com", "password", 1),
-                this.BuildSingleUser(3, "Firstname", "Lastname", "username_3@test.com", "password", 1),
+                this.BuildSingleUser(1, "Firstname", "Lastname", "username@test.com", "password", 1), //used for LoginUser & Block/Unblock test
+                this.BuildSingleUser(2, "Firstname", "Lastname", "username_2@test.com", "password", 1), //used for UpdateUser test
+                this.BuildSingleUser(3, "Firstname", "Lastname", "username_3@test.com", "password", 1), //used for DeleteUser test
             };
         }
 

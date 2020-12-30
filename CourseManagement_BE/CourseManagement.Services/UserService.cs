@@ -106,7 +106,7 @@
 
             if (user == null)
             {
-                //throw expection;
+                new ArgumentException("Invalid user!");
             }
 
             if (dto.Password != "")
@@ -125,7 +125,6 @@
             {
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Password = user.Password,
             };
 
             return result;
