@@ -50,6 +50,11 @@
 
         public ApplicationUser Build()
         {
+            if (!this.id.Equals(0))
+            {
+                return new ApplicationUser(this.username, this.password, this.firstName, this.lastName, this.roleId);
+            }
+
             return new ApplicationUser(this.id, this.username, this.password, this.firstName, this.lastName, this.roleId);
         }
     }

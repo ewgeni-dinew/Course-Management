@@ -27,6 +27,8 @@
         internal ApplicationUser(int id, string username, string password, string firstName, string lastName, int roleId)
             : this(username, password, firstName, lastName, roleId)
         {
+            //Validate_If_Id_IsNull(id);
+
             this.Id = id;
         }
 
@@ -44,13 +46,13 @@
 
         public int RoleId { get; private set; }
 
-        public Role Role { get; private set; }
+        public virtual Role Role { get; private set; }
 
         public string Token { get; private set; }
 
-        public ICollection<Course> Courses { get; private set; }
+        public virtual ICollection<Course> Courses { get; private set; }
 
-        public ICollection<FavoriteCourse> Favorites { get; private set; }
+        public virtual ICollection<FavoriteCourse> Favorites { get; private set; }
 
         //METHODS
 
@@ -61,8 +63,8 @@
 
         public void UpdatePassword(string password)
         {
-            this.UpdateStringField(this.Password, password);            
-        }        
+            this.UpdateStringField(this.Password, password);
+        }
 
         public void UpdateFirstName(string firstName)
         {

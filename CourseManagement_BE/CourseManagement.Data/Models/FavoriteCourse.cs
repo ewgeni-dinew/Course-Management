@@ -10,11 +10,11 @@
 
         public int Id { get; private set; }
 
-        public ApplicationUser User { get; private set; }
+        public virtual ApplicationUser User { get; private set; }
 
         public int UserId { get; private set; }
 
-        public Course Course { get; private set; }
+        public virtual Course Course { get; private set; }
 
         public int CourseId { get; private set; }
     }

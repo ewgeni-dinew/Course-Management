@@ -28,10 +28,11 @@
 
         public async Task<UserDetailsDTO> LoginUser(LoginUserDTO dto)
         {
-            var user = await this.userRepository.GetAll()?
+            var user = await Task.Run(() => this.userRepository.GetAll()?
                 .Include(x => x.Role)
                 .Where(x => !x.IsBlocked)
-                .FirstOrDefaultAsync(x => x.Username.Equals(dto.Username) && x.Password.Equals(dto.Password));
+                .FirstOrDefault(x => x.Username.Equals(dto.Username) && x.Password.Equals(dto.Password))
+            );
 
             if (user == null)
             {
@@ -64,7 +65,6 @@
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Username = user.Username,
-                Password = user.Password,
                 Token = user.Token,
                 Role = user.Role.Name,
             };

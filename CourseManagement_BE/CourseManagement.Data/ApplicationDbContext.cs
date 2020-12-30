@@ -11,6 +11,8 @@
 
         public virtual DbSet<FavoriteCourse> FavoriteCourses { get; set; }
 
+        public virtual DbSet<Role> Roles { get; set; }
+
         public ApplicationDbContext() { } //for unit testing purposes only
 
         public ApplicationDbContext(
@@ -47,8 +49,8 @@
         private void SeedData(ModelBuilder builder)
         {
             builder.Entity<Role>().HasData(
-                            new Role("User", 1),
-                            new Role("Admin", 2)
+                            new Role(1, "User"),
+                            new Role(2, "Admin")
                             );
 
             builder.Entity<ApplicationUser>().HasData(

@@ -5,7 +5,14 @@
 
     public class RoleFactory : IRoleFactory
     {
+        private int id;
         private string name;
+
+        public IRoleFactory WithId(int id)
+        {
+            this.id = id;
+            return this;
+        }
 
         public IRoleFactory WithName(string name)
         {
@@ -16,7 +23,7 @@
 
         public Role Build()
         {
-            return new Role(this.name);
+            return new Role(this.id, this.name);
         }
     }
 }

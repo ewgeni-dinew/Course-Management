@@ -7,7 +7,7 @@
             this.Name = name;
         }
 
-        internal Role(string name, int id)
+        internal Role(int id, string name)
             : this(name)
         {
             this.Id = id;

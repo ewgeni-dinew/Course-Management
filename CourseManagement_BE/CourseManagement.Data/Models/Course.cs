@@ -29,7 +29,7 @@
 
         public DateTime CreatedOn { get; private set; }
 
-        public ApplicationUser Author { get; private set; }
+        public virtual ApplicationUser Author { get; private set; }
 
         public int AuthorId { get; private set; }
 
