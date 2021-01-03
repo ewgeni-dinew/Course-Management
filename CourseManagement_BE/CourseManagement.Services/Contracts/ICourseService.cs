@@ -6,11 +6,11 @@
 
     public interface ICourseService
     {
-        public Task CreateCourse(CreateCourseDTO dto);
+        public Task<CourseDetailsDTO> CreateCourse(CreateCourseDTO dto);
 
-        public Task EditCourse(EditCourseDTO dto);
+        public Task<CourseDetailsDTO> EditCourse(EditCourseDTO dto);
 
-        public Task DeleteCourse(DeleteCourseDTO dto);
+        public Task<int> DeleteCourse(DeleteCourseDTO dto);
 
         public Task<CourseDetailsDTO> GetCourseDetails(int id, int userId);
 

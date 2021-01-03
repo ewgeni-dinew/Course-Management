@@ -48,7 +48,7 @@
         }
 
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             var res = await this._courseService.GetAllCourses();

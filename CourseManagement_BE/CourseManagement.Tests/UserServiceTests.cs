@@ -16,22 +16,22 @@
 
     public class UserServiceTests
     {
-        private readonly IUserFactory userFactory;
-        private readonly IRoleFactory roleFactory;
-        private readonly IRepository<ApplicationUser> userRepository;
-        private readonly IUserService userService;
+        private readonly IUserFactory _userFactory;
+        private readonly IRoleFactory _roleFactory;
+        private readonly IRepository<ApplicationUser> _userRepository;
+        private readonly IUserService _userService;
 
         public UserServiceTests()
         {
-            this.userFactory = new UserFactory();
+            this._userFactory = new UserFactory();
 
-            this.roleFactory = new RoleFactory();
+            this._roleFactory = new RoleFactory();
 
             var dbContext = SetupMockDatabaseWithSeedData();
 
-            this.userRepository = new UserRepository(dbContext);
+            this._userRepository = new UserRepository(dbContext);
 
-            this.userService = new UserService(this.userRepository, this.userFactory);
+            this._userService = new UserService(this._userRepository, this._userFactory);
         }
 
         [Fact]
@@ -43,7 +43,7 @@
                 Password = "password"
             };
 
-            var res = this.userService.LoginUser(dto).Result;
+            var res = this._userService.LoginUser(dto).Result;
 
             Assert.NotEqual("", res.Token);
             Assert.Equal(1, res.Id);
@@ -61,7 +61,7 @@
                 LastName = "Lastname",
             };
 
-            var res = this.userService.RegisterUser(dto).Result;
+            var res = this._userService.RegisterUser(dto).Result;
 
             Assert.Equal(dto.Username, res.Username);
         }
@@ -72,7 +72,7 @@
         [Fact]
         public void GetAllUsers_WithValidInput()
         {
-            var res = this.userService.GetAllUsers().Result;
+            var res = this._userService.GetAllUsers().Result;
 
             Assert.NotEqual(0, res.Count);
         }
@@ -88,7 +88,7 @@
                 Password = "password"
             };
 
-            var res = this.userService.UpdateUser(dto).Result;
+            var res = this._userService.UpdateUser(dto).Result;
 
             Assert.Equal(dto.FirstName, res.FirstName);
             Assert.Equal(dto.LastName, res.LastName);
@@ -102,7 +102,7 @@
                 Id = 1,
             };
 
-            var res = this.userService.BlockUser(dto).Result;
+            var res = this._userService.BlockUser(dto).Result;
 
             Assert.Equal(true.ToString(), res.IsBlocked.ToString());
         }
@@ -115,7 +115,7 @@
                 Id = 1,
             };
 
-            var res = this.userService.UnblockUser(dto).Result;
+            var res = this._userService.UnblockUser(dto).Result;
 
             Assert.Equal(false.ToString(), res.IsBlocked.ToString());
         }
@@ -128,7 +128,7 @@
                 Id = 3
             };
 
-            var res = this.userService.DeleteUser(dto).Result;
+            var res = this._userService.DeleteUser(dto).Result;
 
             Assert.NotEqual(0, res);
         }
@@ -176,7 +176,7 @@
 
         private Role BuildSingleUserRole(int id, string name)
         {
-            var role = this.roleFactory
+            var role = this._roleFactory
                 .WithId(id)
                 .WithName(name)
                 .Build();
@@ -186,7 +186,7 @@
 
         private ApplicationUser BuildSingleUser(int id, string firstName, string lastName, string username, string password, int roleId)
         {
-            var user = this.userFactory
+            var user = this._userFactory
                .WithId(id)
                .WithFirstName(firstName)
                .WithLastName(lastName)

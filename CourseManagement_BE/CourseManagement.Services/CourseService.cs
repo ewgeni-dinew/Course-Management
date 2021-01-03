@@ -23,8 +23,7 @@
             ICourseFactory courseFactory,
             IFavoriteCourseFactory favoriteCourseFactory,
             IRepository<Course> courseRepository,
-            IRepository<FavoriteCourse> favCourseRepository
-            )
+            IRepository<FavoriteCourse> favCourseRepository)
         {
             _courseFactory = courseFactory;
             _courseRepository = courseRepository;
@@ -32,7 +31,7 @@
             _favoriteCourseFactory = favoriteCourseFactory;
         }
 
-        public async Task CreateCourse(CreateCourseDTO dto)
+        public async Task<CourseDetailsDTO> CreateCourse(CreateCourseDTO dto)
         {
             var course = this._courseFactory
                 .WithTitle(dto.Title)
@@ -44,9 +43,19 @@
             this._courseRepository.Create(course);
 
             await this._courseRepository.SaveAsync();
+
+            var result = new CourseDetailsDTO
+            {
+                Id = course.Id,
+                Title = course.Title,
+                Summary = course.Summary,
+                Content = course.Content
+            };
+
+            return result;
         }
 
-        public async Task EditCourse(EditCourseDTO dto)
+        public async Task<CourseDetailsDTO> EditCourse(EditCourseDTO dto)
         {
             var course = await this._courseRepository.GetById(dto.Id);
 
@@ -62,9 +71,19 @@
             this._courseRepository.Update(course);
 
             await this._courseRepository.SaveAsync();
+
+            var result = new CourseDetailsDTO
+            {
+                Id = course.Id,
+                Title = course.Title,
+                Summary = course.Summary,
+                Content = course.Content
+            };
+
+            return result;
         }
 
-        public async Task DeleteCourse(DeleteCourseDTO dto)
+        public async Task<int> DeleteCourse(DeleteCourseDTO dto)
         {
             var course = await this._courseRepository.GetById(dto.Id);
 
@@ -75,7 +94,7 @@
 
             this._courseRepository.Delete(course);
 
-            await this._courseRepository.SaveAsync();
+            return await this._courseRepository.SaveAsync();
         }
 
         public async Task<CourseDetailsDTO> GetCourseDetails(int id, int userId)
