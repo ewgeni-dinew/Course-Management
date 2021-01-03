@@ -64,6 +64,8 @@
             var res = this._userService.RegisterUser(dto).Result;
 
             Assert.Equal(dto.Username, res.Username);
+            Assert.Equal(dto.FirstName, res.FirstName);
+            Assert.Equal(dto.LastName, res.LastName);
         }
 
         //register user with already taken username

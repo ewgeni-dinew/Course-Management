@@ -51,7 +51,11 @@
                 AuthorId = 1
             };
 
-            this._courseService.CreateCourse(dto);
+            var res = this._courseService.CreateCourse(dto).Result;
+
+            Assert.Equal(dto.Title, res.Title);
+            Assert.Equal(dto.Summary, res.Summary);
+            Assert.Equal(dto.Content, res.Content);
         }
 
         [Fact]
@@ -63,7 +67,14 @@
         [Fact]
         public void DeleteCourse_WithValidInput()
         {
+            var dto = new DeleteCourseDTO
+            {
+                Id = 3
+            };
 
+            var res = this._courseService.DeleteCourse(dto).Result;
+
+            Assert.NotEqual(0, res);
         }
 
         [Fact]
@@ -112,13 +123,36 @@
 
             var dbContext = new ApplicationDbContext(options);
 
-            //var users = this.BuildUsersCollection();
+            var courses = this.BuildCoursesCollection();
 
-            //dbContext.Roles.AddRange(roles);
+            dbContext.Courses.AddRange(courses);
 
-            //dbContext.SaveChanges();
+            dbContext.SaveChanges();
 
             return dbContext;
+        }
+
+        private ICollection<Course> BuildCoursesCollection()
+        {
+            return new List<Course>
+            {
+                this.BuildSingleCourse(1, "Title_1", "Summary_1", "Content_1", 1), //used for LoginUser & Block/Unblock test
+                this.BuildSingleCourse(2, "Title_2", "Summary_2", "Content_2", 1), //used for UpdateUser test
+                this.BuildSingleCourse(3, "Title_3", "Summary_3", "Content_3", 1), //used for DeleteUser test
+            };
+        }
+
+        private Course BuildSingleCourse(int id, string title, string summary, string content, int authorId)
+        {
+            var course = this._courseFactory
+                .WithId(id)
+                .WithTitle(title)
+                .WithSummary(summary)
+                .WithContent(content)
+                .WithAuthorId(authorId)
+                .Build();
+
+            return course;
         }
     }
 }

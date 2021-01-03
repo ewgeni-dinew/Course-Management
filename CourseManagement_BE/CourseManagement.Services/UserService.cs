@@ -94,7 +94,9 @@
             var result = new UserDetailsDTO
             {
                 Id = user.Id,
-                Username = user.Username
+                Username = user.Username,
+                FirstName = user.FirstName,
+                LastName = user.LastName
             };
 
             return result;

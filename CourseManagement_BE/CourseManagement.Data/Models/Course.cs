@@ -19,6 +19,12 @@
             this.AuthorId = authorId;
         }
 
+        internal Course(int id, string title, string summary, string content, int authorId)
+            : this(title, summary, content, authorId)
+        {
+            this.Id = id;
+        }
+
         public int Id { get; private set; }
 
         public string Title { get; private set; }

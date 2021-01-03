@@ -5,10 +5,17 @@
 
     public class CourseFactory : ICourseFactory
     {
+        private int id;
         private string title;
         private string summary;
         private string content;
         private int authorId;
+
+        public ICourseFactory WithId(int id)
+        {
+            this.id = id;
+            return this;
+        }
 
         public ICourseFactory WithTitle(string title)
         {
@@ -36,7 +43,12 @@
 
         public Course Build()
         {
-            return new Course(this.title, this.summary, this.content, this.authorId);
+            if (!this.id.Equals(0))
+            {
+                return new Course(this.title, this.summary, this.content, this.authorId);
+            }
+
+            return new Course(this.id, this.title, this.summary, this.content, this.authorId);
         }
     }
 }
