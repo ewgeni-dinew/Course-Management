@@ -18,6 +18,7 @@
     {
         private readonly ICourseFactory _courseFactory;
         private readonly IFavoriteCourseFactory _favoriteCourseFactory;
+        private readonly IUserFactory _userFactory;
 
         private readonly IRepository<Course> _courseRepository;
         private readonly IRepository<FavoriteCourse> _favCourseRepository;
@@ -27,8 +28,8 @@
         public CourseServiceTests()
         {
             this._courseFactory = new CourseFactory();
-
             this._favoriteCourseFactory = new FavoriteCourseFactory();
+            this._userFactory = new UserFactory();
 
             var dbContext = SetupMockDatabaseWithSeedData();
 
@@ -80,13 +81,20 @@
         [Fact]
         public void GetCourseDetails_WithValidInput()
         {
+            var userId = 1;
+            var courseId = 1;
 
+            var res = this._courseService.GetCourseDetails(courseId, userId).Result;
+
+            Assert.NotNull(res);
         }
 
         [Fact]
         public void GetAllCourses_WithValidInput()
         {
+            var res = this._courseService.GetAllCourses().Result;
 
+            Assert.NotEqual(0, res.Count);
         }
 
         [Fact]
@@ -123,14 +131,16 @@
 
             var dbContext = new ApplicationDbContext(options);
 
+            var user = this.BuildSingleUser(1, "username@test.com", 1);
             var courses = this.BuildCoursesCollection();
 
+            dbContext.Users.Add(user);
             dbContext.Courses.AddRange(courses);
 
             dbContext.SaveChanges();
 
             return dbContext;
-        }
+        }        
 
         private ICollection<Course> BuildCoursesCollection()
         {
@@ -138,7 +148,7 @@
             {
                 this.BuildSingleCourse(1, "Title_1", "Summary_1", "Content_1", 1), //used for LoginUser & Block/Unblock test
                 this.BuildSingleCourse(2, "Title_2", "Summary_2", "Content_2", 1), //used for UpdateUser test
-                this.BuildSingleCourse(3, "Title_3", "Summary_3", "Content_3", 1), //used for DeleteUser test
+                this.BuildSingleCourse(3, "Title_3", "Summary_3", "Content_3", 1), //used for DeleteCourse test
             };
         }
 
@@ -153,6 +163,17 @@
                 .Build();
 
             return course;
+        }
+
+        private ApplicationUser BuildSingleUser(int id, string username, int roleId)
+        {
+            var user = this._userFactory
+               .WithId(id)
+               .WithUsername(username)
+               .WithRoleId(roleId)
+               .Build();
+
+            return user;
         }
     }
 }
