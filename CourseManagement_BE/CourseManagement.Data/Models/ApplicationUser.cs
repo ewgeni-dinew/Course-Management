@@ -63,17 +63,17 @@
 
         public void UpdatePassword(string password)
         {
-            this.UpdateStringField(this.Password, password);
+            this.Password = password;
         }
 
         public void UpdateFirstName(string firstName)
         {
-            this.UpdateStringField(this.FirstName, firstName);
+            this.FirstName = firstName;
         }
 
         public void UpdateLastName(string lastName)
         {
-            this.UpdateStringField(this.LastName, lastName);
+            this.LastName = lastName;
         }
 
         public void Block()
@@ -84,14 +84,6 @@
         public void Unblock()
         {
             this.IsBlocked = false;
-        }
-
-        private void UpdateStringField(string initial_field, string updated_field)
-        {
-            if (initial_field != updated_field)
-            {
-                initial_field = updated_field;
-            }
         }
     }
 }

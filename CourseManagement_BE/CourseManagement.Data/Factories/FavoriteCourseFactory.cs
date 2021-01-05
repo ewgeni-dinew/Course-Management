@@ -5,8 +5,16 @@
 
     public class FavoriteCourseFactory : IFavoriteCourseFactory
     {
+        private int id;
         private int courseId;
         private int userId;
+
+        public IFavoriteCourseFactory WithId(int id)
+        {
+            this.id = id;
+
+            return this;
+        }
 
         public IFavoriteCourseFactory WithCourseId(int courseId)
         {
@@ -24,7 +32,12 @@
 
         public FavoriteCourse Build()
         {
-            return new FavoriteCourse(this.userId, this.courseId);
+            if (!this.id.Equals(0))
+            {
+                return new FavoriteCourse(this.userId, this.courseId);
+            }
+
+            return new FavoriteCourse(this.id, this.userId, this.courseId);
         }
     }
 }

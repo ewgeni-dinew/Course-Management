@@ -52,25 +52,17 @@
 
         public void UpdateTitle(string title)
         {
-            this.UpdateStringField(this.Title, title);
+            this.Title = title;
         }
 
         public void UpdateSummary(string summary)
         {
-            this.UpdateStringField(this.Summary, summary);
+            this.Summary = summary;
         }
 
         public void UpdateContent(string content)
         {
-            this.UpdateStringField(this.Content, content);
-        }
-
-        private void UpdateStringField(string initial_field, string updated_field)
-        {
-            if (initial_field != updated_field)
-            {
-                initial_field = updated_field;
-            }
+            this.Content = content;
         }
     }
 }
