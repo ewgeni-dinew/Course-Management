@@ -6,19 +6,19 @@
     [AttributeUsage(AttributeTargets.Property)]
     public class NumberRangeAttribute : ValidationAttribute
     {
-        private readonly int min;
-        private readonly int max;
+        private readonly int minValue;
+        private readonly int maxValue;
 
         public NumberRangeAttribute(int min)
         {
-            this.min = min;
-            this.max = int.MaxValue;
+            this.minValue = min;
+            this.maxValue = int.MaxValue;
         }
 
         public NumberRangeAttribute(int min, int max)
             : this(min)
         {
-            this.max = max;
+            this.maxValue = max;
         }
 
         public override bool IsValid(object value)
@@ -27,7 +27,7 @@
             {
                 return false;
             }
-            else if (result < this.min || result > this.max) //number is out of predefined range
+            else if (result < this.minValue || result > this.maxValue) //number is out of predefined range
             {
                 return false;
             }
