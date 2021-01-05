@@ -112,13 +112,37 @@
         [Fact]
         public void AddCourseToFavorites_WithValidInput()
         {
+            var userId = 1;
 
+            var dto = new AddToFavoritesDTO
+            {
+                CourseId = 5
+            };
+
+            this._courseService.AddToFavorites(dto, userId).Wait();
+
+            var favCourses = this._courseService.GetFavoriteCourses(userId).Result;
+
+            Assert.Equal(3, favCourses.Count);
         }
 
         [Fact]
         public void RemoveCourseFromFavorites_WithValidInput()
         {
+            var userId = 1;
 
+            var dto = new AddToFavoritesDTO
+            {
+                CourseId = 1
+            };
+
+            this._courseService.AddToFavorites(dto, userId).Wait();
+
+            this._courseService.RemoveFromFavorites(dto, userId).Wait();
+
+            var favCourses = this._courseService.GetFavoriteCourses(userId).Result;
+
+            Assert.Equal(2, favCourses.Count);
         }
 
         [Fact]
@@ -149,9 +173,11 @@
 
             var user = this.BuildSingleUser(1, "username@test.com", 1);
             var courses = this.BuildCoursesCollection();
+            var favCourses = this.BuildFavoriteCoursesCollection();
 
             dbContext.Users.Add(user);
             dbContext.Courses.AddRange(courses);
+            dbContext.FavoriteCourses.AddRange(favCourses);
 
             dbContext.SaveChanges();
 
@@ -162,10 +188,10 @@
         {
             return new List<Course>
             {
-                this.BuildSingleCourse(1, "Title_1", "Summary_1", "Content_1", 1), //used for EditCourse test
+                this.BuildSingleCourse(1, "Title_1", "Summary_1", "Content_1", 1), //used for EditCourse test & RemoveCourseFromFavorites
                 this.BuildSingleCourse(2, "Title_2", "Summary_2", "Content_2", 1), //used for DeleteCourse test
-                this.BuildSingleCourse(3, "Title_3", "Summary_3", "Content_3", 1), //used for Add & Remove CourseFromFavorites test
-                this.BuildSingleCourse(4, "Title_4", "Summary_4", "Content_4", 1), //used for Add & Remove CourseFromFavorites test
+                this.BuildSingleCourse(3, "Title_3", "Summary_3", "Content_3", 1), //used for GetCourseFavorites test
+                this.BuildSingleCourse(4, "Title_4", "Summary_4", "Content_4", 1), //used for GetCourseFavorites test
                 this.BuildSingleCourse(5, "Title_5", "Summary_5", "Content_5", 1), //used for Add & Remove CourseFromFavorites test
             };
         }
@@ -176,7 +202,6 @@
             {
                 this.BuildSingleFavoriteCourse(1, 1, 3), //Course (Id = 3) is added to favorites for User (Id = 1)
                 this.BuildSingleFavoriteCourse(2, 1, 4), //Course (Id = 4) is added to favorites for User (Id = 1)
-                this.BuildSingleFavoriteCourse(3, 1, 5), //Course (Id = 5) is added to favorites for User (Id = 1)
             };
         }
 
