@@ -114,6 +114,8 @@
         {
             var userId = 1;
 
+            var initialFavCourseCount  = this._courseService.GetFavoriteCourses(userId).Result.Count;
+
             var dto = new AddToFavoritesDTO
             {
                 CourseId = 5
@@ -123,13 +125,15 @@
 
             var favCourses = this._courseService.GetFavoriteCourses(userId).Result;
 
-            Assert.Equal(3, favCourses.Count);
+            Assert.Equal(initialFavCourseCount + 1, favCourses.Count);
         }
 
         [Fact]
         public void RemoveCourseFromFavorites_WithValidInput()
         {
             var userId = 1;
+
+            var initialFavCourseCount = this._courseService.GetFavoriteCourses(userId).Result.Count;
 
             var dto = new AddToFavoritesDTO
             {
@@ -140,9 +144,9 @@
 
             this._courseService.RemoveFromFavorites(dto, userId).Wait();
 
-            var favCourses = this._courseService.GetFavoriteCourses(userId).Result;
+            var favCoursesCount = this._courseService.GetFavoriteCourses(userId).Result.Count;
 
-            Assert.Equal(2, favCourses.Count);
+            Assert.Equal(initialFavCourseCount, favCoursesCount);
         }
 
         [Fact]
@@ -158,7 +162,24 @@
         [Fact]
         public void RateCourse_WithValidInput()
         {
+            short initialRating = 7;
+            short secondRating = 3;
+            var calcMedianRating = Math.Round((initialRating + secondRating) / 2.0, 2);
 
+            var dto = new RateCourseDTO
+            {
+                CourseId = 1,
+                Rating = initialRating
+            };
+
+            var res = this._courseService.RateCourse(dto).Result;
+
+            Assert.Equal(initialRating, res.Rating); //assert initial rating is set to the first rating number
+
+            dto.Rating = secondRating;
+            res = this._courseService.RateCourse(dto).Result;
+
+            Assert.Equal(calcMedianRating, res.Rating); //assert rating is calculated properly thereafter
         }
 
         //SETUP METHODS 
