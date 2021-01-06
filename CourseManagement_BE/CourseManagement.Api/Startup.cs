@@ -1,7 +1,7 @@
 namespace CourseManagement.Api
 {
     using CourseManagement.Api.Configuration;
-    using CourseManagement.Api.Filters;
+    using CourseManagement.Api.Middlewares;
     using CourseManagement.Api.Helpers;
     using CourseManagement.Data;
     using Microsoft.AspNetCore.Authentication.JwtBearer;

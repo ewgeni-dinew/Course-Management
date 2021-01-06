@@ -2,9 +2,9 @@
 {
     public class CustomErrorObject
     {
-        public int ErrorCode { get; set; }
+        public int ErrorCode { get; private set; }
 
-        public string ErrorMessage { get; set; }
+        public string ErrorMessage { get; private set; }
 
         public CustomErrorObject(int errorCode, string errorMessage)
         {
