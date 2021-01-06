@@ -1,6 +1,7 @@
 namespace CourseManagement.Api
 {
     using CourseManagement.Api.Configuration;
+    using CourseManagement.Api.Filters;
     using CourseManagement.Api.Helpers;
     using CourseManagement.Data;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -91,6 +92,8 @@ namespace CourseManagement.Api
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseMiddleware<ErrorHandlerMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
