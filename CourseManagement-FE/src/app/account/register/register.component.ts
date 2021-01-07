@@ -15,7 +15,7 @@ export class RegisterComponent implements OnInit {
   }
 
   registerHandler(data: JSON) {
-    let promise = new Promise((resolve, reject) => {
+    let promise = new Promise<void>((resolve, reject) => {
       this.accountService.registerAccount(data).then(() => {
         this.router.navigate(['account/login']);
       });

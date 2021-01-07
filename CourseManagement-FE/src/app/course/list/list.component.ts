@@ -45,7 +45,7 @@ export class ListComponent implements OnInit {
 
     if (inputCourse.id !== this.selectedCourse?.id) { //case 'Find out more' button
 
-      let promise = new Promise((resolve, reject) => {
+      let promise = new Promise<void>((resolve, reject) => {
         this.courseService.getDetails(inputCourse.id).then((result) => {
           this.selectCourseEvent.emit(result);
           this.selectedCourse = inputCourse;

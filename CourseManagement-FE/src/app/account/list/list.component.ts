@@ -18,7 +18,7 @@ export class ListComponent implements OnInit {
   }
 
   unblockHandler(accountId: number) {
-    var promise = new Promise((resolve, reject) => {
+    var promise = new Promise<void>((resolve, reject) => {
       this.accountService.unblockAccount(accountId).then(() => resolve());
     });
 
@@ -26,7 +26,7 @@ export class ListComponent implements OnInit {
   }
 
   blockHandler(accountId: number) {
-    var promise = new Promise((resolve, reject) => {
+    var promise = new Promise<void>((resolve, reject) => {
       this.accountService.blockAccount(accountId).then(() => resolve());
     });
 
@@ -35,7 +35,7 @@ export class ListComponent implements OnInit {
 
   deleteHandler(accountId: number) {
     if (confirm("Are you sure you want to delete this user?")) {
-      var promise = new Promise((resolve, reject) => {
+      var promise = new Promise<void>((resolve, reject) => {
         this.accountService.deleteAccount(accountId).then(() => resolve());
       });
     }

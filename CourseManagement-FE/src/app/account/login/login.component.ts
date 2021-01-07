@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   }
 
   loginHandler(data: JSON) {
-    let promise = new Promise((resolve, reject) => {
+    let promise = new Promise<void>((resolve, reject) => {
       this.accountService.login(data).then(() => {
          this.router.navigate(['/home']) 
         });

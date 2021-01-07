@@ -11,6 +11,7 @@ import { CoreModule } from './core/core.module';
 import { CourseModule } from './course/course.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './utilities/interceptors/auth.interceptor';
+import { HttpErrorInterceptor } from './utilities/interceptors/http-error.interceptor';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,11 @@ import { AuthInterceptor } from './utilities/interceptors/auth.interceptor';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
       multi: true
     }
   ],
