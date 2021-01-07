@@ -4,7 +4,7 @@
 
     public class ErrorMessageAttribute : Attribute
     {
-        public string Message { get; set; }
+        public string Message { get; private set; }
 
         public ErrorMessageAttribute(string message)
         {

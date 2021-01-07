@@ -9,5 +9,8 @@
 
         [ErrorMessage("Testing the second error message")]
         TEST_ERROR = 2,
+
+        [ErrorMessage("Block user error message")]
+        BLOCK_USER_ERROR = 3,
     }
 }

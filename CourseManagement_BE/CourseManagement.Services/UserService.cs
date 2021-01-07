@@ -14,6 +14,7 @@
     using System.Security.Claims;
     using System.Text;
     using System.Threading.Tasks;
+    using CourseManagement.Utilities.Errors;
 
     public class UserService : IUserService
     {
