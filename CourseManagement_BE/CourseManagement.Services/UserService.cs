@@ -1,36 +1,39 @@
 ﻿namespace CourseManagement.Services
 {
+    using System;
+    using System.Text;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using System.Collections.Generic;
+    using System.IdentityModel.Tokens.Jwt;
+    using System.Security.Claims;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.IdentityModel.Tokens;
+    using CourseManagement.DTO.Account;
     using CourseManagement.Data.Factories.Contracts;
     using CourseManagement.Data.Models;
     using CourseManagement.Repository.Contracts;
     using CourseManagement.Services.Contracts;
-    using CourseManagement.DTO.Account;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.IdentityModel.Tokens;
-    using System;
-    using System.Collections.Generic;
-    using System.IdentityModel.Tokens.Jwt;
-    using System.Linq;
-    using System.Security.Claims;
-    using System.Text;
-    using System.Threading.Tasks;
     using CourseManagement.Utilities.Errors;
     using CourseManagement.Utilities.Constants;
 
+    /// <summary>
+    /// The class is part of the application Service layer. It handles all the Business Logic connected to the ApplicationUser logical space.
+    /// </summary>
     public class UserService : IUserService
     {
-        private readonly IUserFactory userFactory;
-        private readonly IRepository<ApplicationUser> userRepository;
+        private readonly IUserFactory _userFactory;
+        private readonly IRepository<ApplicationUser> _userRepository;
 
         public UserService(IRepository<ApplicationUser> userRepository, IUserFactory userFactory)
         {
-            this.userFactory = userFactory;
-            this.userRepository = userRepository;
+            this._userFactory = userFactory;
+            this._userRepository = userRepository;
         }
 
         public async Task<UserDetailsDTO> LoginUser(LoginUserDTO dto)
         {
-            var user = await Task.Run(() => this.userRepository.GetAll()?
+            var user = await Task.Run(() => this._userRepository.GetAll()?
                 .Include(x => x.Role)
                 .Where(x => !x.IsBlocked)
                 .FirstOrDefault(x => x.Username.Equals(dto.Username) && x.Password.Equals(dto.Password))
@@ -59,7 +62,7 @@
 
             user.UpdateToken(tokenHandler.WriteToken(token));
 
-            await userRepository.SaveAsync();
+            await _userRepository.SaveAsync();
 
             var result = new UserDetailsDTO
             {
@@ -76,13 +79,13 @@
 
         public async Task<UserDetailsDTO> RegisterUser(RegisterUserDTO dto)
         {
-            if (this.userRepository.GetAll().AsNoTracking().Any(x => x.Username.Equals(dto.Username)))
+            if (this._userRepository.GetAll().AsNoTracking().Any(x => x.Username.Equals(dto.Username)))
             {
                 //username is already taken
                 throw new CustomException(ErrorMessages.INVALID_USERNAME);
             }
 
-            var user = this.userFactory
+            var user = this._userFactory
                 .WithFirstName(dto.FirstName)
                 .WithLastName(dto.LastName)
                 .WithUsername(dto.Username)
@@ -90,9 +93,9 @@
                 .WithRoleId(Constants.USER_ROLE_ID)
                 .Build();
 
-            this.userRepository.Create(user);
+            this._userRepository.Create(user);
 
-            await this.userRepository.SaveAsync();
+            await this._userRepository.SaveAsync();
 
             var result = new UserDetailsDTO
             {
@@ -107,7 +110,7 @@
 
         public async Task<UserDetailsDTO> UpdateUser(UpdateUserDTO dto)
         {
-            var user = await this.userRepository.GetById(dto.Id);
+            var user = await this._userRepository.GetById(dto.Id);
 
             if (user == null)
             {
@@ -122,9 +125,9 @@
             user.UpdateFirstName(dto.FirstName);
             user.UpdateLastName(dto.LastName);
 
-            userRepository.Update(user);
+            _userRepository.Update(user);
 
-            await this.userRepository.SaveAsync();
+            await this._userRepository.SaveAsync();
 
             var result = new UserDetailsDTO
             {
@@ -137,21 +140,21 @@
 
         public async Task<int> DeleteUser(BaseUserDTO dto)
         {
-            var user = await this.userRepository.GetById(dto.Id);
+            var user = await this._userRepository.GetById(dto.Id);
 
             if (user == null)
             {
                 throw new CustomException(ErrorMessages.INVALID_INPUT_DATA);
             }
 
-            this.userRepository.Delete(user);
+            this._userRepository.Delete(user);
 
-            return await this.userRepository.SaveAsync();
+            return await this._userRepository.SaveAsync();
         }
 
         public async Task<ICollection<UserDetailsDTO>> GetAllUsers()
         {
-            var users = await this.userRepository.GetAll()
+            var users = await this._userRepository.GetAll()
                 .Include(x => x.Role)
                 .Where(x => x.Role.Name.Equals(Constants.USER_ROLE_NAME))
                 .AsNoTracking()
@@ -170,7 +173,7 @@
 
         public async Task<UserDetailsDTO> BlockUser(BaseUserDTO dto)
         {
-            var user = await this.userRepository.GetById(dto.Id);
+            var user = await this._userRepository.GetById(dto.Id);
 
             if (user == null)
             {
@@ -179,9 +182,9 @@
 
             user.Block();
 
-            userRepository.Update(user);
+            _userRepository.Update(user);
 
-            await this.userRepository.SaveAsync();
+            await this._userRepository.SaveAsync();
 
             var result = new UserDetailsDTO
             {
@@ -194,7 +197,7 @@
 
         public async Task<UserDetailsDTO> UnblockUser(BaseUserDTO dto)
         {
-            var user = await this.userRepository.GetById(dto.Id);
+            var user = await this._userRepository.GetById(dto.Id);
 
             if (user == null)
             {
@@ -203,9 +206,9 @@
 
             user.Unblock();
 
-            userRepository.Update(user);
+            _userRepository.Update(user);
 
-            await this.userRepository.SaveAsync();
+            await this._userRepository.SaveAsync();
 
             var result = new UserDetailsDTO
             {

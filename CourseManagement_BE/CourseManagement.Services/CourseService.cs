@@ -1,20 +1,25 @@
 ﻿namespace CourseManagement.Services
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using System.Collections.Generic;
+    using Microsoft.EntityFrameworkCore;
     using CourseManagement.Data.Factories.Contracts;
     using CourseManagement.Data.Models;
     using CourseManagement.DTO.Course;
     using CourseManagement.Repository.Contracts;
     using CourseManagement.Services.Contracts;
-    using Microsoft.EntityFrameworkCore;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
+    using CourseManagement.Utilities.Errors;
+    using CourseManagement.Utilities.Constants;
 
+    /// <summary>
+    /// The class is part of the application Service layer. It handles all the Business Logic connected to the Course and FavoriteCourse logical spaces.
+    /// </summary>
     public class CourseService : ICourseService
     {
         private readonly ICourseFactory _courseFactory;
-        private readonly IFavoriteCourseFactory _favoriteCourseFactory;
+        private readonly IFavoriteCourseFactory _favCourseFactory;
 
         private readonly IRepository<Course> _courseRepository;
         private readonly IRepository<FavoriteCourse> _favCourseRepository;
@@ -25,10 +30,10 @@
             IRepository<Course> courseRepository,
             IRepository<FavoriteCourse> favCourseRepository)
         {
-            _courseFactory = courseFactory;
-            _courseRepository = courseRepository;
-            _favCourseRepository = favCourseRepository;
-            _favoriteCourseFactory = favoriteCourseFactory;
+            this._courseFactory = courseFactory;
+            this._courseRepository = courseRepository;
+            this._favCourseRepository = favCourseRepository;
+            this._favCourseFactory = favoriteCourseFactory;
         }
 
         public async Task<CourseDetailsDTO> CreateCourse(CreateCourseDTO dto)
@@ -61,7 +66,7 @@
 
             if (course == null)
             {
-                //throw exception
+                throw new CustomException(ErrorMessages.INVALID_INPUT_DATA);
             }
 
             course.UpdateTitle(dto.Title);
@@ -89,7 +94,7 @@
 
             if (course == null)
             {
-                //throw exception
+                throw new CustomException(ErrorMessages.INVALID_INPUT_DATA);
             }
 
             this._courseRepository.Delete(course);
@@ -107,7 +112,7 @@
                     Id = x.Id,
                     Title = x.Title,
                     Summary = x.Summary,
-                    CreatedOn = x.CreatedOn.ToString("dd/MM/yyyy"),
+                    CreatedOn = x.CreatedOn.ToString(Constants.DATETIME_OFFICIAL_FORMAT),
                     Content = x.Content,
                     Rating = x.Rating,
                     Author = $"{x.Author.FirstName} {x.Author.LastName}",
@@ -122,6 +127,7 @@
         public async Task<ICollection<BaseCourseDTO>> GetAllCourses()
         {
             var courses = await this._courseRepository.GetAll()
+                .AsNoTracking()
                 .Select(x => new BaseCourseDTO
                 {
                     Id = x.Id,
@@ -138,6 +144,7 @@
             var courses = await this._favCourseRepository.GetAll()
                 .Include(x => x.Course)
                 .Where(x => x.UserId.Equals(userId))
+                .AsNoTracking()
                 .Select(x => new BaseCourseDTO
                 {
                     Id = x.Course.Id,
@@ -155,11 +162,11 @@
 
             if (course == null)
             {
-                //throw exception
+                throw new CustomException(ErrorMessages.INVALID_INPUT_DATA); //Course is not valid
             }
-            else if (course.Rating.Equals(0)) //course has not been rated so far
+            else if (course.Rating.Equals(0)) //Course has not been rated so far
             {
-                course.UpdateRating(dto.Rating); //set initial rating
+                course.UpdateRating(dto.Rating); //sets initial Course rating
             }
             else
             {
@@ -180,6 +187,11 @@
             var favoriteCourse = await this._favCourseRepository.GetAll()
                 .FirstOrDefaultAsync(x => x.CourseId.Equals(dto.CourseId) && x.UserId.Equals(userId));
 
+            if (favoriteCourse == null)
+            {
+                throw new CustomException(ErrorMessages.INVALID_INPUT_DATA);
+            }
+
             this._favCourseRepository.Delete(favoriteCourse);
 
             return await this._favCourseRepository.SaveAsync();
@@ -187,7 +199,7 @@
 
         public async Task<int> AddToFavorites(AddToFavoritesDTO dto, int userId)
         {
-            var favCourse = this._favoriteCourseFactory
+            var favCourse = this._favCourseFactory
                 .WithCourseId(dto.CourseId)
                 .WithUserId(userId)
                 .Build();
