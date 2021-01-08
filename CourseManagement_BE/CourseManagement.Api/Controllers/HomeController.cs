@@ -13,7 +13,7 @@
     {
         public IActionResult Index()
         {
-            return Ok("The application is listening on port :5000!");
+            return Ok($"The application is listening on port :{HttpContext.Connection.LocalPort}!");
         }
 
         [EnableCors]

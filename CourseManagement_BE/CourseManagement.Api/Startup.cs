@@ -1,9 +1,6 @@
 namespace CourseManagement.Api
 {
-    using CourseManagement.Api.Configuration;
-    using CourseManagement.Api.Middlewares;
-    using CourseManagement.Api.Helpers;
-    using CourseManagement.Data;
+    using System.Text;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -12,7 +9,10 @@ namespace CourseManagement.Api
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.IdentityModel.Tokens;
-    using System.Text;
+    using CourseManagement.Data;
+    using CourseManagement.Api.Helpers;
+    using CourseManagement.Api.Middlewares;
+    using CourseManagement.Api.Configuration;
 
     public class Startup
     {
@@ -63,7 +63,7 @@ namespace CourseManagement.Api
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
 
             //Register service providers to the service collection
-            services.RegisterInterfaces();                        
+            services.RegisterInterfaces();
 
             services.AddControllers();
         }
@@ -80,7 +80,7 @@ namespace CourseManagement.Api
             {
                 var context = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
 
-                context.Database.Migrate();
+                context.Database.Migrate(); //creates the database 
             }
 
             app.UseHttpsRedirection();
