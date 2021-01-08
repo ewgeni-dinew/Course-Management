@@ -11,7 +11,6 @@ import { Observable, throwError } from 'rxjs';
 import { IAlert } from 'src/app/shared/contracts/alert';
 import { HttpErrorService } from 'src/app/services/http-error.service';
 import { IHttpError } from 'src/app/shared/contracts/http-error';
-import { EROFS } from 'constants';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {

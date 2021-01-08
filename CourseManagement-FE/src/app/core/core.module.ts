@@ -5,10 +5,11 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FooterComponent } from './footer/footer.component';
-import { HttpErrorComponent } from './http-error/http-error.component';
+import { HttpErrorComponent } from './error/http-error/http-error.component';
+import { HttpErrorListComponent } from './error/http-error-list/http-error-list.component';
 
 @NgModule({
-  declarations: [NotFoundComponent, NavigationComponent, FooterComponent, HttpErrorComponent],
+  declarations: [NotFoundComponent, NavigationComponent, FooterComponent, HttpErrorComponent, HttpErrorListComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -17,7 +18,7 @@ import { HttpErrorComponent } from './http-error/http-error.component';
   exports: [
     NavigationComponent,
     FooterComponent,
-    HttpErrorComponent
+    HttpErrorListComponent
   ]
 })
 export class CoreModule { }

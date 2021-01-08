@@ -25,7 +25,7 @@ export class DetailsComponent implements OnInit {
   }
 
   addToFavoritesHandler(courseId: number) {
-    let promise = new Promise((resolve, reject) => {
+    let promise = new Promise<void>((resolve, reject) => {
       this.courseService.addCourseToFavorites(courseId).then(() => {
         this.router.navigate(['/course/favorites']);
       });
@@ -35,7 +35,7 @@ export class DetailsComponent implements OnInit {
   }
 
   removeFromFavoritesHandler(course: ICourse) {
-    let promise = new Promise((resolve, reject) => {
+    let promise = new Promise<void>((resolve, reject) => {
       this.courseService.removeCourseFromFavorites(course.id).then(() => {
         this.selectedCourse = null;
         this.removeCourseEvent.emit(course);
@@ -46,7 +46,7 @@ export class DetailsComponent implements OnInit {
   }
 
   rateCourseHandler() {
-    let promise = new Promise((resolve, reject) => {
+    let promise = new Promise<void>((resolve, reject) => {
       this.courseService.rateCourse(this.selectedCourse.rating, this.selectedCourse.id).then((res) => {
         this.selectedCourse.rating = res.rating;
         this.inputRating = res.rating;
