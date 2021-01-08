@@ -23,6 +23,7 @@
             {
                 await this.next(context);
             }
+            // catch () { } COULD BE USED TO CATCH ALL OTHER TYPES OF EXCEPTIONS
             catch (CustomException ex)
             {
                 var response = context.Response;

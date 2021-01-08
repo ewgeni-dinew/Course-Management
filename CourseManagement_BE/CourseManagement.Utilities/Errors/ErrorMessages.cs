@@ -8,12 +8,12 @@
         GENERAL_ERROR = 1,
 
         [ErrorMessage("The provided user credentials are not valid.")]
-        INVALID_USER_CREDENTIALS = 3,
+        INVALID_USER_CREDENTIALS = 2,
 
         [ErrorMessage("The provided username is already taken.")]
         INVALID_USERNAME = 3,
 
         [ErrorMessage("The provided data is not valid. Please check the input values.")]
-        INVALID_INPUT_DATA = 3,
+        INVALID_INPUT_DATA = 4,
     }
 }

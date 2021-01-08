@@ -1,10 +1,10 @@
 ﻿namespace CourseManagement.Api.Controllers
 {
-    using CourseManagement.Services.Contracts;
-    using CourseManagement.DTO.Account;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authorization;
+    using CourseManagement.DTO.Account;
+    using CourseManagement.Services.Contracts;
 
     [Route("api/[controller]/[action]")]
     [ApiController]
