@@ -7,7 +7,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class UserRepository : Repository, IRepository<ApplicationUser>
+    public class UserRepository : Repository, IRepository<ApplicationUser>, IUserRoleRepository
     {
         public UserRepository(ApplicationDbContext dbContext)
             : base(dbContext)
@@ -35,7 +35,12 @@
 
         public async Task<ApplicationUser> GetById(int id)
         {
-            return await Task.Run(() => this.DbContext.Users.FirstOrDefault(x => x.Id.Equals(id)));
+            return await this.DbContext.Users.FirstOrDefaultAsync(x => x.Id.Equals(id));
+        }
+
+        public IQueryable<Role> GetAllRoles()
+        {
+            return this.DbContext.Roles;
         }
     }
 }

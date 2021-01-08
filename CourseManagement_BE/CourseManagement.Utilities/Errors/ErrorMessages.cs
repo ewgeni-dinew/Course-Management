@@ -7,10 +7,13 @@
         [ErrorMessage("Whoops something went wrong")]
         GENERAL_ERROR = 1,
 
-        [ErrorMessage("Testing the second error message")]
-        TEST_ERROR = 2,
+        [ErrorMessage("The provided user credentials are not valid.")]
+        INVALID_USER_CREDENTIALS = 3,
 
-        [ErrorMessage("Block user error message")]
-        BLOCK_USER_ERROR = 3,
+        [ErrorMessage("The provided username is already taken.")]
+        INVALID_USERNAME = 3,
+
+        [ErrorMessage("The provided data is not valid. Please check the input values.")]
+        INVALID_INPUT_DATA = 3,
     }
 }

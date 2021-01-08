@@ -15,6 +15,7 @@
     using System.Text;
     using System.Threading.Tasks;
     using CourseManagement.Utilities.Errors;
+    using CourseManagement.Utilities.Constants;
 
     public class UserService : IUserService
     {
@@ -37,7 +38,7 @@
 
             if (user == null)
             {
-                throw new ArgumentException("Invalid User!");
+                throw new CustomException(ErrorMessages.INVALID_USER_CREDENTIALS);
             }
 
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -75,9 +76,10 @@
 
         public async Task<UserDetailsDTO> RegisterUser(RegisterUserDTO dto)
         {
-            if (this.userRepository.GetAll().Any(x => x.Username.Equals(dto.Username)))
+            if (this.userRepository.GetAll().AsNoTracking().Any(x => x.Username.Equals(dto.Username)))
             {
-                //throw error;
+                //username is already taken
+                throw new CustomException(ErrorMessages.INVALID_USERNAME);
             }
 
             var user = this.userFactory
@@ -85,7 +87,7 @@
                 .WithLastName(dto.LastName)
                 .WithUsername(dto.Username)
                 .WithPassword(dto.Password)
-                .WithRoleId(1) //should probably be changed
+                .WithRoleId(Constants.USER_ROLE_ID)
                 .Build();
 
             this.userRepository.Create(user);
@@ -109,7 +111,7 @@
 
             if (user == null)
             {
-                new ArgumentException("Invalid user!");
+                throw new CustomException(ErrorMessages.INVALID_INPUT_DATA);
             }
 
             if (dto.Password != "")
@@ -139,7 +141,7 @@
 
             if (user == null)
             {
-                //throw exception;
+                throw new CustomException(ErrorMessages.INVALID_INPUT_DATA);
             }
 
             this.userRepository.Delete(user);
@@ -151,7 +153,7 @@
         {
             var users = await this.userRepository.GetAll()
                 .Include(x => x.Role)
-                .Where(x => x.Role.Name.Equals("User"))
+                .Where(x => x.Role.Name.Equals(Constants.USER_ROLE_NAME))
                 .AsNoTracking()
                 .Select(x => new UserDetailsDTO
                 {
@@ -172,7 +174,7 @@
 
             if (user == null)
             {
-                //throw exception;
+                throw new CustomException(ErrorMessages.INVALID_INPUT_DATA);
             }
 
             user.Block();
@@ -196,7 +198,7 @@
 
             if (user == null)
             {
-                //throw exception;
+                throw new CustomException(ErrorMessages.INVALID_INPUT_DATA);
             }
 
             user.Unblock();
