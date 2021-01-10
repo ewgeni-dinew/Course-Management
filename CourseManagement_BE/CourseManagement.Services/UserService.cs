@@ -151,12 +151,16 @@
         {
             var user = await this._userRepository.GetById(dto.Id);
 
-            if (user == null)
+            if (user == null) //invalid input for user
+            {
+                throw new CustomException(ErrorMessages.INVALID_INPUT_DATA);
+            }
+            else if (!user.Password.Equals(dto.Password)) //the input for current Password does not match DB password -> cannot update password
             {
                 throw new CustomException(ErrorMessages.INVALID_INPUT_DATA);
             }
 
-            user.UpdatePassword(dto.Password);
+            user.UpdatePassword(dto.NewPassword);
 
             return await this._userRepository.SaveAsync();
         }
@@ -226,6 +230,6 @@
             };
 
             return result;
-        }        
+        }
     }
 }

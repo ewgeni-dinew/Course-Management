@@ -11,5 +11,9 @@
         [NotNullOrEmpty]
         [Password]
         public string Password { get; set; }
+
+        [NotNullOrEmpty]
+        [Password]
+        public string NewPassword { get; set; }
     }
 }

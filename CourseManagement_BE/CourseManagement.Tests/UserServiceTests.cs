@@ -13,6 +13,8 @@
     using CourseManagement.Repository.Contracts;
     using CourseManagement.Services;
     using CourseManagement.Services.Contracts;
+    using CourseManagement.Utilities.Errors;
+    using System.Threading.Tasks;
 
     public class UserServiceTests
     {
@@ -103,12 +105,28 @@
             var dto = new ChangePasswordDTO
             {
                 Id = 4,
-                Password = "Sb123456",
+                Password = "password",
+                NewPassword = "Sb123456"
             };
 
             var res = this._userService.ChangePassword(dto).Result;
 
             Assert.NotEqual(0, res);
+        }
+
+        [Fact]
+        public async Task ChangeUserPassword_WithIncorectCurrentPassword()
+        {
+            var dto = new ChangePasswordDTO
+            {
+                Id = 4,
+                Password = "something incorrect",
+                NewPassword = "Sb123456"
+            };
+
+            var ex = await Assert.ThrowsAsync<CustomException>(() => this._userService.ChangePassword(dto));
+
+            Assert.Equal((int)ErrorMessages.INVALID_INPUT_DATA, ex.ErrorCode);
         }
 
         [Fact]

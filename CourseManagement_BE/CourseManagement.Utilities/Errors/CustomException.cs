@@ -1,8 +1,8 @@
 ﻿namespace CourseManagement.Utilities.Errors
 {
-    using CourseManagement.Utilities.Errors.Attributes;
     using System;
     using System.Text.Json;
+    using CourseManagement.Utilities.Errors.Attributes;
 
     public class CustomException : Exception
     {
