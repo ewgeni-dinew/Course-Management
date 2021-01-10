@@ -9,7 +9,7 @@
         public string Username { get; set; }
 
         [NotNullOrEmpty]
-        //[Password] not ready to test yet
+        [Password]
         public string Password { get; set; }
 
         [NotNullOrEmpty]

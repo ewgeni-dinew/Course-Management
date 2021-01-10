@@ -1,5 +1,4 @@
-﻿using System;
-namespace CourseManagement.DTO.Attributes
+﻿namespace CourseManagement.DTO.Attributes
 {
     using System;
     using System.ComponentModel.DataAnnotations;
