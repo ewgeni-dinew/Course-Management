@@ -1,15 +1,15 @@
 ﻿namespace CourseManagement.Api.Configuration
 {
+    using System;
+    using System.Linq;
+    using System.Reflection;
+    using System.Collections.Generic;
+    using Microsoft.Extensions.DependencyInjection;
     using CourseManagement.Data.Factories.Contracts.Assembly;
     using CourseManagement.Data.Models;
     using CourseManagement.Repository;
     using CourseManagement.Repository.Contracts;
     using CourseManagement.Services.Contracts.Assembly;
-    using Microsoft.Extensions.DependencyInjection;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
 
     public static class InterfaceRegistrationConfig
     {
