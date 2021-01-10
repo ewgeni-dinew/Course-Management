@@ -21,7 +21,7 @@ export class EditComponent implements OnInit {
   ngOnInit(): void {
     const id = parseInt(this.route.snapshot.paramMap.get('id'));
 
-    let promise = new Promise((resolve, reject) => {
+    let promise = new Promise<void>((resolve, reject) => {
       this.courseService.getDetails(id).then((res) => {
         this.selectedCourse = res;
 

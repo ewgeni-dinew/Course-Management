@@ -15,7 +15,7 @@ export class CreateComponent implements OnInit {
   }
 
   createHandler(data: JSON) {
-    let promise = new Promise((resolve, rejects) => {
+    let promise = new Promise<void>((resolve, rejects) => {
       this.courseService.createCourse(data).then(() => {
         this.router.navigate(['/course/list']);
       });

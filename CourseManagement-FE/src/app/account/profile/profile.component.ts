@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AccountService } from 'src/app/services/account.service';
 import { IUser } from 'src/app/shared/contracts/user';
 import { AuthService } from 'src/app/services/auth.service';
+import { AppSettings } from "src/app/utilities/constants/app-settings";
 
 @Component({
   selector: 'app-profile',
@@ -9,7 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-
+  
   get loggedUser(): IUser {
     return this.authService.getLoggedUser;
   }

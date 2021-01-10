@@ -49,13 +49,9 @@
                 <label for="rePassword">Confirm Password</label>
                 <input #confirmPassword="ngModel" type="password" ngModel name="confirmPassword" class="form-control"
                     required>
-                <div *ngIf="confirmPassword.errors?.required && confirmPassword.dirty" class="alert alert-danger form-alert">
-                    Field is required.
-                </div>
-                <div *ngIf="confirmPassword.errors?.pattern && confirmPassword.dirty"
+                <div *ngIf="confirmPassword.errors?.required && confirmPassword.dirty"
                     class="alert alert-danger form-alert">
-                    Password is not in valid format. It must contain 8 characters. At least: 1 lower case letter, 1
-                    upper case letter and 1 digit
+                    Field is required.
                 </div>
                 <div *ngIf="password.dirty && confirmPassword.dirty && password.value !== confirmPassword.value"
                     class="alert alert-danger form-alert">
