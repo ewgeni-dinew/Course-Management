@@ -1,5 +1,9 @@
 ﻿namespace CourseManagement.Tests
 {
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.EntityFrameworkCore;
+    using Xunit;
     using CourseManagement.Data;
     using CourseManagement.Data.Factories;
     using CourseManagement.Data.Factories.Contracts;
@@ -9,10 +13,6 @@
     using CourseManagement.Repository.Contracts;
     using CourseManagement.Services;
     using CourseManagement.Services.Contracts;
-    using Microsoft.EntityFrameworkCore;
-    using System;
-    using System.Collections.Generic;
-    using Xunit;
 
     public class UserServiceTests
     {
@@ -96,6 +96,22 @@
         }
 
         [Fact]
+        public void ChangeUserPassword_WithValidInput()
+        {
+            //change password from 'password' to 'Sb123456'
+
+            var dto = new ChangePasswordDTO
+            {
+                Id = 4,
+                Password = "Sb123456",
+            };
+
+            var res = this._userService.ChangePassword(dto).Result;
+
+            Assert.NotEqual(0, res);
+        }
+
+        [Fact]
         public void BlockUser_ValidInput()
         {
             var dto = new BaseUserDTO
@@ -172,6 +188,7 @@
                 this.BuildSingleUser(1, "Firstname", "Lastname", "username@test.com", "password", 1), //used for LoginUser & Block/Unblock test
                 this.BuildSingleUser(2, "Firstname", "Lastname", "username_2@test.com", "password", 1), //used for UpdateUser test
                 this.BuildSingleUser(3, "Firstname", "Lastname", "username_3@test.com", "password", 1), //used for DeleteUser test
+                this.BuildSingleUser(4, "Firstname", "Lastname", "username_4@test.com", "password", 1), //used for ChangePassword test
             };
         }
 

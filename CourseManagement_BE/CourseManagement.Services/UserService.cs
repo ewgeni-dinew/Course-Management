@@ -147,6 +147,20 @@
             return await this._userRepository.SaveAsync();
         }
 
+        public async Task<int> ChangePassword(ChangePasswordDTO dto)
+        {
+            var user = await this._userRepository.GetById(dto.Id);
+
+            if (user == null)
+            {
+                throw new CustomException(ErrorMessages.INVALID_INPUT_DATA);
+            }
+
+            user.UpdatePassword(dto.Password);
+
+            return await this._userRepository.SaveAsync();
+        }
+
         public async Task<ICollection<UserDetailsDTO>> GetAllUsers()
         {
             var users = await this._userRepository.GetAll()
@@ -212,6 +226,6 @@
             };
 
             return result;
-        }
+        }        
     }
 }

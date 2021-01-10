@@ -1,8 +1,8 @@
 ﻿namespace CourseManagement.Services.Contracts
 {
-    using CourseManagement.DTO.Account;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using CourseManagement.DTO.Account;
 
     public interface IUserService
     {
@@ -19,5 +19,7 @@
         public Task<UserDetailsDTO> BlockUser(BaseUserDTO dto);
         
         public Task<UserDetailsDTO> UnblockUser(BaseUserDTO dto);
+        
+        public Task<int> ChangePassword(ChangePasswordDTO dto);
     }
 }

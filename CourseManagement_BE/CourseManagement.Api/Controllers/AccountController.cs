@@ -41,6 +41,15 @@
 
             return Ok(res);
         }
+        
+        [HttpPost]
+        [Authorize]
+        public async Task<ActionResult> ChangePassword(ChangePasswordDTO dto)
+        {
+            var res = await this._userService.ChangePassword(dto);
+
+            return Ok(res);
+        }
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
