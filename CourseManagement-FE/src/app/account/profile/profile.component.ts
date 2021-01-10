@@ -21,12 +21,20 @@ export class ProfileComponent implements OnInit {
   }
 
   updateProfileHandler(data: JSON) {
-    data['id'] = this.loggedUser.id;
-    this.accountService.updateAccount(data);
+
+    if (confirm("Please, confirm you want to update the profile information?")) {
+      data['id'] = this.loggedUser.id;
+      this.accountService.updateAccount(data);
+    }
   }
 
   changePasswordHandler(data: JSON) {
-    data['id'] = this.loggedUser.id;
-    this.accountService.updateAccount(data);
+
+    if (confirm("Please, confirm you want to change the profile password?")) {
+      delete data['confirmPassword'];
+
+      data['id'] = this.loggedUser.id;
+      this.accountService.changeUserPassword(data);
+    }
   }
 }

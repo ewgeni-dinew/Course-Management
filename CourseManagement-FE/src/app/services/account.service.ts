@@ -32,6 +32,10 @@ export class AccountService {
       });
   }
 
+  changeUserPassword(data: JSON) {
+    this.http.post(environment.apiUrl + 'account/changepassword', data).subscribe();
+  }
+
   logout() {
     localStorage.removeItem('loggedUser');
   }
