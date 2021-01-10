@@ -24,6 +24,11 @@ export class ProfileComponent implements OnInit {
     this.accountService.updateAccount(data);
   }
 
+  changePasswordHandler(data: JSON) {
+    data['id'] = this.loggedUser.id;
+    this.accountService.updateAccount(data);
+  }
+
   logoutHandler() {
     this.accountService.logout();
   }
