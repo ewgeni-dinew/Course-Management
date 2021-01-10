@@ -2,9 +2,10 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using CourseManagement.Utilities.Errors;
 
     [AttributeUsage(AttributeTargets.Property)]
-    public class EmailAttribute: ValidationAttribute
+    public class EmailAttribute : ValidationAttribute
     {
         public override bool IsValid(object value)
         {
@@ -18,7 +19,7 @@
 
         public override string FormatErrorMessage(string name)
         {
-            throw new ArgumentException("Test");
+            throw new CustomException(ErrorMessages.INVALID_EMAIL_FORMAT);
         }
     }
 }

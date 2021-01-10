@@ -2,6 +2,7 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using CourseManagement.Utilities.Errors;
 
     [AttributeUsage(AttributeTargets.Property)]
     public class NotNullOrEmptyAttribute : ValidationAttribute
@@ -18,7 +19,7 @@
 
         public override string FormatErrorMessage(string name)
         {
-            throw new ArgumentException("TEST");
+            throw new CustomException(ErrorMessages.INVALID_INPUT_DATA);
         }
     }
 }

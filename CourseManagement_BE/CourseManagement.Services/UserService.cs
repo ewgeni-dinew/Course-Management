@@ -117,11 +117,6 @@
                 throw new CustomException(ErrorMessages.INVALID_INPUT_DATA);
             }
 
-            if (dto.Password != "")
-            {
-                user.UpdatePassword(dto.Password);
-            }
-
             user.UpdateFirstName(dto.FirstName);
             user.UpdateLastName(dto.LastName);
 

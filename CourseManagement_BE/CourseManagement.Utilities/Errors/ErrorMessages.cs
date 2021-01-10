@@ -15,5 +15,11 @@
 
         [ErrorMessage("The provided data is not valid. Please check the input values.")]
         INVALID_INPUT_DATA = 4,
+
+        [ErrorMessage("The provided email address is not in valid format.")]
+        INVALID_EMAIL_FORMAT = 5,
+
+        [ErrorMessage("Invalid input password.")]
+        INVALID_PASSWORD_FORMAT = 6,
     }
 }

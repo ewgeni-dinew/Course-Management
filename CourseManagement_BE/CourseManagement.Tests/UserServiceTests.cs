@@ -86,8 +86,7 @@
             {
                 Id = 2,
                 FirstName = "Updated_FirstName",
-                LastName = "Updated_LastName",
-                Password = "password"
+                LastName = "Updated_LastName"
             };
 
             var res = this._userService.UpdateUser(dto).Result;

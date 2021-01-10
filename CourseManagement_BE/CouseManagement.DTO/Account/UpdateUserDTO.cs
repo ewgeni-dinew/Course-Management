@@ -13,9 +13,5 @@
 
         [NotNullOrEmpty]
         public string LastName { get; set; }
-
-        [NotNullOrEmpty]
-        //[Password] SHOULD BE UNCOMMENTED WHEN LOGIC IS COMPLETED
-        public string Password { get; set; }
     }
 }

@@ -2,7 +2,6 @@
 {
     using CourseManagement.Data.Models;
     using Microsoft.EntityFrameworkCore;
-
     public class ApplicationDbContext : DbContext
     {
         public virtual DbSet<ApplicationUser> Users { get; set; }
@@ -54,7 +53,7 @@
                             );
 
             builder.Entity<ApplicationUser>().HasData(
-                new ApplicationUser(1, "admin@test.com", "1234", "Admin", "Adminov", 2));
+                new ApplicationUser(1, "admin@test.com", "Sb123456", "Admin", "Adminov", 2));
         }
     }
 }

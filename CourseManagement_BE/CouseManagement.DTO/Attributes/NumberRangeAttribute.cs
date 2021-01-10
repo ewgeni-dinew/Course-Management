@@ -2,6 +2,7 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using CourseManagement.Utilities.Errors;
 
     [AttributeUsage(AttributeTargets.Property)]
     public class NumberRangeAttribute : ValidationAttribute
@@ -37,7 +38,7 @@
 
         public override string FormatErrorMessage(string name)
         {
-            throw new ArgumentException("Test");
+            throw new CustomException(ErrorMessages.INVALID_INPUT_DATA);
         }
     }
 }

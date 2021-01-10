@@ -3,6 +3,7 @@
     using System;
     using System.ComponentModel.DataAnnotations;
     using System.Text.RegularExpressions;
+    using CourseManagement.Utilities.Errors;
 
     [AttributeUsage(AttributeTargets.Property)]
     public class PasswordAttribute : ValidationAttribute
@@ -20,7 +21,7 @@
 
         public override string FormatErrorMessage(string name)
         {
-            throw new ArgumentException("Test");
+            throw new CustomException(ErrorMessages.INVALID_PASSWORD_FORMAT);
         }
     }
 }
