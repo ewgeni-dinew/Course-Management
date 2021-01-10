@@ -4,12 +4,26 @@
         <form #loginForm="ngForm" (ngSubmit)="loginHandler(loginForm.value)">
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="email" ngModel name="username" class="form-control" placeholder="user@example.com" required
-                    email>
+                <input #username="ngModel" type="email" ngModel name="username" class="form-control"
+                    placeholder="user@example.com" required email>
+                <div *ngIf="username.errors?.required && username.dirty" class="alert alert-danger form-alert">
+                    Username is required.
+                </div>
+                <div *ngIf="username.errors?.email && username.dirty" class="alert alert-danger form-alert">
+                    Invalid username.
+                </div>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" ngModel name="password" class="form-control" required>
+                <input #password="ngModel" type="password" ngModel name="password" class="form-control" required
+                    pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\S]{8,}$">
+                <div *ngIf="password.errors?.required && password.dirty" class="alert alert-danger form-alert">
+                    Password is required.
+                </div>
+                <div *ngIf="password.errors?.pattern && password.dirty" class="alert alert-danger form-alert">
+                    Password is not in valid format. It must contain 8 characters. At least: 1 lower case letter, 1
+                    upper case letter and 1 digit
+                </div>
             </div>
             <button type="submit" class="btn btn-success" [disabled]="!loginForm.valid">
                 Login
