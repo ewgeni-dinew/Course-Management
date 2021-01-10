@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IUser } from 'src/app/shared/contracts/user';
 import { AuthService } from 'src/app/services/auth.service';
+import { AccountService } from 'src/app/services/account.service';
 
 @Component({
   selector: 'app-navigation',
@@ -9,7 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class NavigationComponent implements OnInit {
 
-  constructor(private readonly authService: AuthService) { }
+  constructor(private readonly authService: AuthService, private accountService: AccountService) { }
 
   get loggedUser(): IUser {
     return this.authService.getLoggedUser;
@@ -20,5 +21,9 @@ export class NavigationComponent implements OnInit {
 
   isUserAdmin(): boolean {
     return this.loggedUser?.role === "Admin";
+  }
+
+  logoutHandler() {
+    this.accountService.logout();
   }
 }

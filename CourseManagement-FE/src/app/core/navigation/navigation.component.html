@@ -31,5 +31,8 @@
         <button routerLink="/account/profile" class="btn btn-light mr-sm-2 my-2 my-sm-0"
             type="submit">{{loggedUser.firstName}} {{loggedUser.lastName}}
         </button>
+        <button routerLink="" (click)="logoutHandler()" type="submit" class="btn btn-danger float-right">
+            Logout
+        </button>
     </div>
 </nav>

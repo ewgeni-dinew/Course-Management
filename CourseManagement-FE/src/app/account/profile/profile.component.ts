@@ -10,7 +10,7 @@ import { AppSettings } from "src/app/utilities/constants/app-settings";
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  
+
   get loggedUser(): IUser {
     return this.authService.getLoggedUser;
   }
@@ -28,9 +28,5 @@ export class ProfileComponent implements OnInit {
   changePasswordHandler(data: JSON) {
     data['id'] = this.loggedUser.id;
     this.accountService.updateAccount(data);
-  }
-
-  logoutHandler() {
-    this.accountService.logout();
   }
 }
