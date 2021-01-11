@@ -3,7 +3,7 @@ import { AccountService } from 'src/app/services/account.service';
 import { IUser } from 'src/app/shared/contracts/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { AlertService } from 'src/app/services/alert.service';
-import { IAlert } from 'src/app/shared/contracts/alert';
+import { AlertConsts } from 'src/app/utilities/constants/alerts';
 
 @Component({
   selector: 'app-profile',
@@ -16,34 +16,30 @@ export class ProfileComponent implements OnInit {
     return this.authService.getLoggedUser;
   }
 
-  constructor(private accountService: AccountService, private readonly authService: AuthService, private readonly alertService: AlertService) { }
+  constructor(private readonly accountService: AccountService, private readonly authService: AuthService, private readonly alertService: AlertService) { }
 
   ngOnInit(): void {
   }
 
   updateProfileHandler(data: JSON) {
-
     if (confirm("Please, confirm you want to update the profile information?")) {
       data['id'] = this.loggedUser.id;
 
       this.accountService.updateAccount(data);
+
+      //show success message
+      //  this.alertService.addAlertWithArgs(AlertConsts.PROFILE_UPDATE_SUCCESS, AlertConsts.TYPE_SUCCESS)
     }
   }
 
   changePasswordHandler(data: JSON) {
-
     if (confirm("Please, confirm you want to change the profile password?")) {
       delete data['confirmPassword'];
 
       data['id'] = this.loggedUser.id;
 
       this.accountService.changeUserPassword(data).then(() => {
-        const alert: IAlert = {
-          message: 'Password has been updated successfully.',
-          type: 'success'
-        }
-
-        this.alertService.addAlert(alert);
+        this.alertService.addAlertWithArgs(AlertConsts.PASSWORD_CHANGE_SUCCESS, AlertConsts.TYPE_SUCCESS);
       });
     }
   }
