@@ -21,7 +21,7 @@ export class ListComponent implements OnInit {
 
   unblockHandler(accountId: number) {
     this.accountService.unblockAccount(accountId).then(() => {
-      this.alertService.addAlertWithArgs(AlertConsts.PROFILE_UNBLOCKED, AlertConsts.TYPE_SUCCESS);
+      this.alertService.addAlertWithArgs(AlertConsts.PROFILE_UNBLOCKED, AlertConsts.TYPE_WARNING);
     }).then(() => {
       this.accounts = this.accountService.getAll();
     });
@@ -29,7 +29,7 @@ export class ListComponent implements OnInit {
 
   blockHandler(accountId: number) {
     this.accountService.blockAccount(accountId).then(() => {
-      this.alertService.addAlertWithArgs(AlertConsts.PROFILE_BLOCKED, AlertConsts.TYPE_SUCCESS);
+      this.alertService.addAlertWithArgs(AlertConsts.PROFILE_BLOCKED, AlertConsts.TYPE_WARNING);
     }).then(() => {
       this.accounts = this.accountService.getAll();
     });
@@ -39,7 +39,7 @@ export class ListComponent implements OnInit {
     if (confirm("Are you sure you want to delete this user?")) {
 
       this.accountService.deleteAccount(accountId).then(() => {
-        this.alertService.addAlertWithArgs(AlertConsts.PROFILE_DELETED, AlertConsts.TYPE_SUCCESS);
+        this.alertService.addAlertWithArgs(AlertConsts.PROFILE_DELETED, AlertConsts.TYPE_WARNING);
       }).then(() => {
         this.accounts = this.accountService.getAll()
       });
