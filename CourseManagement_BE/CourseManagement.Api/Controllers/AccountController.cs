@@ -46,9 +46,9 @@
         [Authorize]
         public async Task<ActionResult> ChangePassword(ChangePasswordDTO dto)
         {
-            var res = await this._userService.ChangePassword(dto);
+            await this._userService.ChangePassword(dto);
 
-            return Ok(res);
+            return Ok();
         }
 
         [HttpGet]

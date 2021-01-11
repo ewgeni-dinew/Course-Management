@@ -12,7 +12,7 @@ export class AlertConsts {
     public static PROFILE_UNBLOCKED: string = "Profile has been unblocked.";
     public static PROFILE_DELETED: string = "Profile has been deleted.";
     public static REGISTER_USER_SUCCESS: string = "Profile has successfully been registered.";
-    public static USER_LOGOUT_SUCCESS: string = "Profile has successfully been registered.";
+    public static USER_LOGOUT_SUCCESS: string = "Succefully logged out.";
 
     //Course related
     public static CREATE_COURSE_SUCCESS: string = "Course has been successfully created.";
