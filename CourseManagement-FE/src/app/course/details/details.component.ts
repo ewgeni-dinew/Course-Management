@@ -2,6 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ICourse } from 'src/app/shared/contracts/course';
 import { CourseService } from 'src/app/services/course.service';
 import { Router } from '@angular/router';
+import { AlertService } from 'src/app/services/alert.service';
+import { AlertConsts } from 'src/app/utilities/constants/alerts';
 
 @Component({
   selector: 'app-course-details',
@@ -10,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class DetailsComponent implements OnInit {
 
-  constructor(private readonly courseService: CourseService, private router: Router) { }
+  constructor(private readonly courseService: CourseService, private readonly router: Router, private readonly aletService: AlertService) { }
 
   @Input()
   selectedCourse: ICourse;
@@ -26,6 +28,8 @@ export class DetailsComponent implements OnInit {
 
   addToFavoritesHandler(courseId: number) {
     this.courseService.addCourseToFavorites(courseId).then(() => {
+      this.aletService.addAlertWithArgs(AlertConsts.ADD_FAV_COURSE_SUCCESS, AlertConsts.TYPE_INFO);
+    }).then(() => {
       this.router.navigate(['/course/favorites']);
     });
   }
@@ -34,6 +38,8 @@ export class DetailsComponent implements OnInit {
     this.courseService.removeCourseFromFavorites(course.id).then(() => {
       this.selectedCourse = null;
       this.removeCourseEvent.emit(course);
+    }).then(() => {
+      this.aletService.addAlertWithArgs(AlertConsts.REMOVE_FAV_COURSE_SUCCESS, AlertConsts.TYPE_WARNING);
     });
   }
 
@@ -41,6 +47,8 @@ export class DetailsComponent implements OnInit {
     this.courseService.rateCourse(this.selectedCourse.rating, this.selectedCourse.id).then((res) => {
       this.selectedCourse.rating = res.rating;
       this.inputRating = res.rating;
+    }).then(()=>{
+      this.aletService.addAlertWithArgs(AlertConsts.REMOVE_FAV_COURSE_SUCCESS, AlertConsts.TYPE_INFO);
     });
   }
 

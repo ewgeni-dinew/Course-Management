@@ -18,6 +18,8 @@ export class AlertComponent implements OnInit {
 
   ngOnInit(): void {
 
+    //!!!TODO different timeout on different message types
+
     //send an event to remove the error after a period of seconds;
     let timeout_period = 5 * 1000;
 

@@ -18,7 +18,7 @@ export class CreateComponent implements OnInit {
 
   createHandler(data: JSON) {
     this.courseService.createCourse(data).then(() => {
-      this.alertService.addAlertWithArgs(AlertConsts.CREATE_COURSE_SUCCESS, AlertConsts.TYPE_SUCCESS);
+      this.alertService.addAlertWithArgs(AlertConsts.CREATE_COURSE_SUCCESS, AlertConsts.TYPE_PRIMARY);
     }).then(() => {
       this.router.navigate(['/course/list']);
     });
