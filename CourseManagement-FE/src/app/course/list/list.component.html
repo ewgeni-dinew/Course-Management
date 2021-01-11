@@ -9,7 +9,8 @@
                     (click)="selectCourseHandler(course)">Find out more</button>
                 <button *ngIf="course.id === selectedCourse?.id" class="btn btn-light"
                     (click)="selectCourseHandler(course)">Hide details</button>
-                <button *ngIf="this.isUserAdmin" class="ml-1 btn btn-warning" [routerLink]="['/course/edit', course.id]">Edit</button>
+                <button *ngIf="this.isUserAdmin" class="ml-1 btn btn-warning"
+                    [routerLink]="['/course/edit', course.id]">Edit</button>
             </ng-template>
         </ngb-panel>
     </ngb-accordion>

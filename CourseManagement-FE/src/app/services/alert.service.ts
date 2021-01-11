@@ -4,7 +4,7 @@ import { IAlert } from '../shared/contracts/alert';
 @Injectable({
   providedIn: 'root'
 })
-export class HttpErrorService {
+export class AlertService {
 
   constructor() {
     this.alerts = [];

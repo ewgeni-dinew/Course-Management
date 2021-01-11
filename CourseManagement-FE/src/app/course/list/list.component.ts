@@ -11,17 +11,15 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class ListComponent implements OnInit {
 
-  constructor(private courseService: CourseService, private router: Router, private readonly authService: AuthService) { }
+  constructor(private readonly courseService: CourseService, private readonly router: Router, private readonly authService: AuthService) { }
 
   courses: ICourse[];
 
   selectedCourse: ICourse;
 
-
   public get isUserAdmin(): Boolean {
     return this.authService.isUserAdmin;
   }
-
 
   @Output('selectCourseEvent')
   selectCourseEvent = new EventEmitter<ICourse>();
@@ -42,17 +40,12 @@ export class ListComponent implements OnInit {
   }
 
   selectCourseHandler(inputCourse: ICourse) {
-
     if (inputCourse.id !== this.selectedCourse?.id) { //case 'Find out more' button
 
-      let promise = new Promise<void>((resolve, reject) => {
-        this.courseService.getDetails(inputCourse.id).then((result) => {
-          this.selectCourseEvent.emit(result);
-          this.selectedCourse = inputCourse;
-        });
-
-        resolve();
-      })
+      this.courseService.getDetails(inputCourse.id).then((result) => {
+        this.selectCourseEvent.emit(result);
+        this.selectedCourse = inputCourse;
+      });
 
     } else { //case 'Hide details' button
       this.selectedCourse = null;

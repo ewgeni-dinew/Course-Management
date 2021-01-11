@@ -18,28 +18,23 @@ export class ListComponent implements OnInit {
   }
 
   unblockHandler(accountId: number) {
-    var promise = new Promise<void>((resolve, reject) => {
-      this.accountService.unblockAccount(accountId).then(() => resolve());
+    this.accountService.unblockAccount(accountId).then(() => {
+      this.accounts = this.accountService.getAll();
     });
-
-    promise.then(() => { this.accounts = this.accountService.getAll() });
   }
 
   blockHandler(accountId: number) {
-    var promise = new Promise<void>((resolve, reject) => {
-      this.accountService.blockAccount(accountId).then(() => resolve());
+    this.accountService.blockAccount(accountId).then(() => {
+      this.accounts = this.accountService.getAll();
     });
-
-    promise.then(() => { this.accounts = this.accountService.getAll() });
   }
 
   deleteHandler(accountId: number) {
     if (confirm("Are you sure you want to delete this user?")) {
-      var promise = new Promise<void>((resolve, reject) => {
-        this.accountService.deleteAccount(accountId).then(() => resolve());
+
+      this.accountService.deleteAccount(accountId).then(() => {
+        this.accounts = this.accountService.getAll()
       });
     }
-
-    promise.then(() => { this.accounts = this.accountService.getAll() });
   }
 }

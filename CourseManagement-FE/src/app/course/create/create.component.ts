@@ -9,18 +9,14 @@ import { Router } from '@angular/router';
 })
 export class CreateComponent implements OnInit {
 
-  constructor(private readonly courseService: CourseService, private router: Router) { }
+  constructor(private readonly courseService: CourseService, private readonly router: Router) { }
 
   ngOnInit(): void {
   }
 
   createHandler(data: JSON) {
-    let promise = new Promise<void>((resolve, rejects) => {
-      this.courseService.createCourse(data).then(() => {
-        this.router.navigate(['/course/list']);
-      });
-
-      resolve();
+    this.courseService.createCourse(data).then(() => {
+      this.router.navigate(['/course/list']);
     });
   }
 }

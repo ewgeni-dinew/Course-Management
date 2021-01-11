@@ -1,9 +1,10 @@
-<h4 class="align-center">Courses</h4>
+<h4 class="align-center">{{this.getHeading}}</h4>
 <div class="row mt-4">
     <div class="col-md-4">
         <app-course-list #courseList (selectCourseEvent)="setSelectedEvent($event)"></app-course-list>
     </div>
     <div class="col-md-8">
-        <app-course-details [selectedCourse]="getSelectedCourse" [inputRating]="getCourseRating" (removeCourseEvent)="courseList.removeCourseFromList($event)"></app-course-details>
+        <app-course-details [selectedCourse]="getSelectedCourse" [inputRating]="getCourseRating"
+            (removeCourseEvent)="courseList.removeCourseFromList($event)"></app-course-details>
     </div>
 </div>

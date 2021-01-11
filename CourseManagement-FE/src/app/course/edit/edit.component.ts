@@ -21,13 +21,8 @@ export class EditComponent implements OnInit {
   ngOnInit(): void {
     const id = parseInt(this.route.snapshot.paramMap.get('id'));
 
-    let promise = new Promise<void>((resolve, reject) => {
-      this.courseService.getDetails(id).then((res) => {
-        this.selectedCourse = res;
-
-        resolve();
-      });
-
+    this.courseService.getDetails(id).then((res) => {
+      this.selectedCourse = res;
     });
   }
 
@@ -35,21 +30,18 @@ export class EditComponent implements OnInit {
     if (confirm("Are you sure to edit this course?")) {
       data['id'] = this.course.id;
 
-      let promise = new Promise((resolve, reject) => {
-        this.courseService.editCourse(data).then(() => {
-          this.router.navigate(['course/list']);
-        })
-      });
+      this.courseService.editCourse(data).then(() => {
+        this.router.navigate(['course/list']);
+      })
     }
   }
 
   deleteCourseHandler(courseId: number) {
     if (confirm("Are you sure to delete this course?")) {
-      let promise = new Promise((resolve, reject) => {
-        this.courseService.deleteCourse(courseId).then(() => {
-          this.router.navigate(['course/list']);
-        })
-      });
+      
+      this.courseService.deleteCourse(courseId).then(() => {
+        this.router.navigate(['course/list']);
+      })
     }
   }
 }

@@ -4,7 +4,6 @@ import { environment } from 'src/environments/environment';
 import { ICourse } from '../shared/contracts/course';
 import { AuthService } from './auth.service';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -22,29 +21,26 @@ export class CourseService {
     this.selectedCourse = course;
   }
 
-  async createCourse(data: JSON): Promise<void> {
+  createCourse(data: JSON): Promise<Object> {
 
     data['authorId'] = this.authService.getLoggedUser.id;
 
-    await this.http.post(environment.apiUrl + 'course/create', data).toPromise();
+    return this.http.post(environment.apiUrl + 'course/create', data).toPromise();
   }
 
-  async deleteCourse(courseId: number): Promise<void> {
-
+  deleteCourse(courseId: number): Promise<Object> {
     const data = {};
     data['id'] = courseId;
 
-    await this.http.post(environment.apiUrl + 'course/delete', <JSON>data).toPromise();
+    return this.http.post(environment.apiUrl + 'course/delete', <JSON>data).toPromise();
   }
 
-  async editCourse(data: JSON): Promise<void> {
-
-    await this.http.post(environment.apiUrl + 'course/edit', data)
+  editCourse(data: JSON): Promise<Object> {
+    return this.http.post(environment.apiUrl + 'course/edit', data)
       .toPromise();
   }
 
   getAll(): ICourse[] {
-
     let courses: ICourse[] = [];
 
     this.http.get<ICourse[]>(environment.apiUrl + 'course/getall')
@@ -56,7 +52,6 @@ export class CourseService {
   }
 
   getFavoriteCourses(): ICourse[] {
-
     let courses: ICourse[] = [];
 
     this.http.get<ICourse[]>(environment.apiUrl + 'course/getfavorites')
@@ -67,35 +62,31 @@ export class CourseService {
     return courses;
   }
 
-  async addCourseToFavorites(courseId: number): Promise<void> {
-
+  addCourseToFavorites(courseId: number): Promise<Object> {
     const data = {};
     data['courseId'] = courseId;
 
-    await this.http.post(environment.apiUrl + 'course/addToFavorites', <JSON>data).toPromise();
+    return this.http.post(environment.apiUrl + 'course/addToFavorites', <JSON>data).toPromise();
   }
 
-  async removeCourseFromFavorites(courseId: number): Promise<void> {
-
+  removeCourseFromFavorites(courseId: number): Promise<Object> {
     const data = {};
     data['courseId'] = courseId;
 
-    await this.http.post(environment.apiUrl + 'course/removeFromFavorites', <JSON>data).toPromise();
+    return this.http.post(environment.apiUrl + 'course/removeFromFavorites', <JSON>data).toPromise();
   }
 
-  async getDetails(courseId: number): Promise<ICourse> {
-
-    return await this.http.get<ICourse>(environment.apiUrl + 'course/details/' + courseId)
+  getDetails(courseId: number): Promise<ICourse> {
+    return this.http.get<ICourse>(environment.apiUrl + 'course/details/' + courseId)
       .toPromise();
   }
 
-  async rateCourse(rating: number, courseId: number): Promise<ICourse> {
-
+  rateCourse(rating: number, courseId: number): Promise<ICourse> {
     const data = {};
     data['courseId'] = courseId;
     data['rating'] = rating;
 
-    return await this.http.post<ICourse>(environment.apiUrl + 'course/rate', <JSON>data)
+    return this.http.post<ICourse>(environment.apiUrl + 'course/rate', <JSON>data)
       .toPromise();
   }
 }

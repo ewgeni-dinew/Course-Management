@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ICourse } from 'src/app/shared/contracts/course';
 
 @Component({
@@ -8,12 +9,16 @@ import { ICourse } from 'src/app/shared/contracts/course';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private readonly router: Router) { }
 
-
+  private heading: string;
   private courseToRemove: ICourse;
   private selectedCourse: ICourse;
   private courseRating: number;
+
+  public get getHeading(): string {
+    return this.heading;
+  }
 
   public get getCourseToRemove(): ICourse {
     return this.courseToRemove;
@@ -28,6 +33,12 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.router.url === "/course/favorites") {
+      this.heading = 'Favorite Courses';
+    }
+    else {
+      this.heading = 'Courses';
+    }
   }
 
   setSelectedEvent(course: ICourse) {
@@ -41,5 +52,11 @@ export class HomeComponent implements OnInit {
 
   resetCoursesOnPage(course: ICourse) {
     this.courseToRemove = course;
+  }
+
+  changePageHeading(title: string) {
+    if (title !== '') {
+      this.heading = `${title} Courses`;
+    }
   }
 }

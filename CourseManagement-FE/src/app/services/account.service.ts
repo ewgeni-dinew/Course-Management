@@ -10,20 +10,20 @@ export class AccountService {
 
   constructor(private readonly http: HttpClient) { }
 
-  async registerAccount(data: JSON): Promise<void> {
-    await this.http.post(environment.apiUrl + 'account/register', data).toPromise();
+  registerAccount(data: JSON): Promise<Object> {
+    return this.http.post(environment.apiUrl + 'account/register', data).toPromise();
   }
 
-  async login(data: JSON): Promise<void> {
-    const user = await this.http.post<IUser>(environment.apiUrl + 'account/login', data).toPromise();
-    localStorage.setItem('loggedUser', JSON.stringify(user));
+  async loginUser(data: JSON): Promise<void> {
+    const res = await this.http.post<IUser>(environment.apiUrl + 'account/login', data).toPromise();
+    localStorage.setItem('loggedUser', JSON.stringify(res));
   }
 
   updateAccount(data: JSON) {
     let user: IUser;
 
     this.http.post<IUser>(environment.apiUrl + 'account/update', data)
-      .subscribe(res => {
+      .subscribe((res) => {
         user = JSON.parse(localStorage.getItem('loggedUser'));
         user.firstName = res.firstName;
         user.lastName = res.lastName;
@@ -32,8 +32,9 @@ export class AccountService {
       });
   }
 
-  changeUserPassword(data: JSON) {
-    this.http.post(environment.apiUrl + 'account/changepassword', data).subscribe();
+  changeUserPassword(data: JSON): Promise<Object> {
+    return this.http.post(environment.apiUrl + 'account/changepassword', data)
+      .toPromise();
   }
 
   logout() {

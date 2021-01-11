@@ -9,13 +9,13 @@ import {
 import { retry, catchError } from "rxjs/operators";
 import { Observable, throwError } from 'rxjs';
 import { IAlert } from 'src/app/shared/contracts/alert';
-import { HttpErrorService } from 'src/app/services/http-error.service';
+import { AlertService } from 'src/app/services/alert.service';
 import { IHttpError } from 'src/app/shared/contracts/http-error';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
 
-  constructor(private readonly errorService: HttpErrorService) { }
+  constructor(private readonly errorService: AlertService) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 

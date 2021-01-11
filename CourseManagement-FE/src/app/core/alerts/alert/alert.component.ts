@@ -2,11 +2,11 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { IAlert } from 'src/app/shared/contracts/alert';
 
 @Component({
-  selector: 'app-http-error',
-  templateUrl: './http-error.component.html',
-  styleUrls: ['./http-error.component.css']
+  selector: 'app-alert',
+  templateUrl: './alert.component.html',
+  styleUrls: ['./alert.component.css']
 })
-export class HttpErrorComponent implements OnInit {
+export class AlertComponent implements OnInit {
 
   @Output()
   removeAlertEvent = new EventEmitter<IAlert>();
@@ -19,7 +19,7 @@ export class HttpErrorComponent implements OnInit {
   ngOnInit(): void {
 
     //send an event to remove the error after a period of seconds;
-    let timeout_period = 6 * 1000;
+    let timeout_period = 5 * 1000;
 
     setTimeout(() => {
       this.sendCloseAlertEvent(this.alert);
