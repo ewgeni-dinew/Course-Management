@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { RouterModule } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAlertModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FooterComponent } from './footer/footer.component';
 import { AlertComponent } from './alerts/alert/alert.component';
 import { AlertListComponent } from './alerts/alert-list/alert-list.component';
@@ -13,11 +13,13 @@ import { AlertListComponent } from './alerts/alert-list/alert-list.component';
   imports: [
     CommonModule,
     RouterModule,
-    NgbModule
+    NgbModule,
+    NgbAlertModule
   ],
   exports: [
     NavigationComponent,
     FooterComponent,
+    AlertComponent,
     AlertListComponent
   ]
 })

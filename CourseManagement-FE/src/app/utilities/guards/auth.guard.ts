@@ -8,7 +8,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class AuthGuard implements CanActivate {
 
-  constructor(private readonly authService: AuthService, public router: Router) { }
+  constructor(private readonly authService: AuthService, public readonly router: Router) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,

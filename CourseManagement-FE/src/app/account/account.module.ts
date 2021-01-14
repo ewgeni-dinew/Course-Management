@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ProfileComponent } from './profile/profile.component';
-import { FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { AccountRoutingModule } from './account-routing.module';
 import { ListComponent } from './list/list.component';
 
@@ -12,9 +12,9 @@ import { ListComponent } from './list/list.component';
   imports: [
     CommonModule,
     AccountRoutingModule,
-    FormsModule,
+    FormsModule
   ],
-  exports:[
+  exports: [
     LoginComponent
   ]
 })

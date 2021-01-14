@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class NegateAuthGuard implements CanActivate {
 
-  constructor(private readonly authService: AuthService, private readonly router: Router, private _location: Location) {
+  constructor(private readonly authService: AuthService, private _location: Location) {
   }
 
   canActivate(

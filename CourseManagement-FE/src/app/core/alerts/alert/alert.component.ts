@@ -13,7 +13,7 @@ export class AlertComponent implements OnInit {
   removeAlertEvent = new EventEmitter<IAlert>();
 
   @Input()
-  alert: IAlert;
+  public alert: IAlert;
 
   constructor() { }
 

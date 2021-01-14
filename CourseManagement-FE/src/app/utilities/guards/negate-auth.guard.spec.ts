@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 
 import { NegateAuthGuard } from './negate-auth.guard';
 
@@ -6,7 +7,8 @@ describe('NegateAuthGuard', () => {
   let guard: NegateAuthGuard;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+    });
     guard = TestBed.inject(NegateAuthGuard);
   });
 
