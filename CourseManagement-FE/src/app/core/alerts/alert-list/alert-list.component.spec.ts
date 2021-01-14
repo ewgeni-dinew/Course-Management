@@ -1,4 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { AlertComponent } from '../alert/alert.component';
 
 import { AlertListComponent } from './alert-list.component';
 
@@ -8,9 +10,10 @@ describe('AlertListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AlertListComponent ]
+      imports: [NgbAlertModule],
+      declarations: [AlertListComponent, AlertComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

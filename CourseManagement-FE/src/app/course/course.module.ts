@@ -7,7 +7,7 @@ import { DetailsComponent } from './details/details.component';
 import { HomeComponent } from './home/home.component';
 import { CourseRoutingModule } from './course-routing.module';
 import { FormsModule } from '@angular/forms';
-import { NgbAlertModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordionModule, NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -17,7 +17,8 @@ import { NgbAlertModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CommonModule,
     CourseRoutingModule,
     FormsModule,
-    NgbModule
+    NgbAccordionModule,
+    NgbRatingModule
   ]
 })
 export class CourseModule { }

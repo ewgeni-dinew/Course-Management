@@ -9,18 +9,18 @@ import { AuthService } from '../services/auth.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
+  constructor(private readonly authService: AuthService) { }
 
-  
-  public get isUserLoggedIn() : Boolean {
+
+  public get isUserLoggedIn(): Boolean {
     return !!this.loggedUser;
   }
-  
-  
-  public get loggedUser() : IUser {
+
+
+  public get loggedUser(): IUser {
     return this.authService.getLoggedUser;
   }
-  
+
   ngOnInit(): void {
   }
 

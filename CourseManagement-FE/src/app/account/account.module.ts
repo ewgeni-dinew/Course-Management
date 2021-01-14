@@ -12,10 +12,10 @@ import { ListComponent } from './list/list.component';
   imports: [
     CommonModule,
     AccountRoutingModule,
-    FormsModule
+    FormsModule //check
   ],
   exports: [
-    LoginComponent
+    LoginComponent //check
   ]
 })
 export class AccountModule { }

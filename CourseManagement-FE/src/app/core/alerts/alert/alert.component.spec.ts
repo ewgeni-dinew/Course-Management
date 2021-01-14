@@ -9,8 +9,7 @@ describe('AlertComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        NgbAlertModule],
+      imports: [NgbAlertModule],
       declarations: [AlertComponent]
     })
       .compileComponents();
