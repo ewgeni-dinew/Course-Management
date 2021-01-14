@@ -47,8 +47,8 @@ export class DetailsComponent implements OnInit {
     this.courseService.rateCourse(this.selectedCourse.rating, this.selectedCourse.id).then((res) => {
       this.selectedCourse.rating = res.rating;
       this.inputRating = res.rating;
-    }).then(()=>{
-      this.aletService.addAlertWithArgs(AlertConsts.REMOVE_FAV_COURSE_SUCCESS, AlertConsts.TYPE_INFO);
+    }).then(() => {
+      this.aletService.addAlertWithArgs(AlertConsts.RATE_COURSE_SUCCESS, AlertConsts.TYPE_INFO);
     });
   }
 

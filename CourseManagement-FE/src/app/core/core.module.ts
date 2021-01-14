@@ -13,7 +13,7 @@ import { AlertListComponent } from './alerts/alert-list/alert-list.component';
   imports: [
     CommonModule,
     RouterModule,
-    NgbModule, //check
+    NgbModule,
     NgbAlertModule
   ],
   exports: [

@@ -17,9 +17,7 @@ describe('AppComponent', () => {
         CoreModule,
         AccountModule,
         CoreModule],
-      declarations: [
-        AppComponent, HomeComponent
-      ],
+      declarations: [AppComponent, HomeComponent],
     }).compileComponents();
   }));
 
