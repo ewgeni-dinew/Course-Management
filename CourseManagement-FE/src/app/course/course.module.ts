@@ -17,8 +17,7 @@ import { NgbAlertModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CommonModule,
     CourseRoutingModule,
     FormsModule,
-    NgbModule,
-    NgbAlertModule
+    NgbModule
   ]
 })
 export class CourseModule { }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ICourse } from 'src/app/shared/contracts/course';
 import { CourseService } from 'src/app/services/course.service';
-import { Router, Route, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AlertService } from 'src/app/services/alert.service';
 import { AlertConsts } from 'src/app/utilities/constants/alerts';
 

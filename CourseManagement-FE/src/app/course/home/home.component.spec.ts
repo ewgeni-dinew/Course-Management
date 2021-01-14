@@ -1,4 +1,9 @@
+import { HttpClient, HttpHandler } from '@angular/common/http';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NgbAccordionModule, NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
+import { DetailsComponent } from '../details/details.component';
+import { ListComponent } from '../list/list.component';
 
 import { HomeComponent } from './home.component';
 
@@ -8,9 +13,11 @@ describe('HomeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HomeComponent ]
+      imports: [RouterTestingModule, NgbAccordionModule, NgbRatingModule],
+      providers: [HttpHandler, HttpClient],
+      declarations: [HomeComponent, ListComponent, DetailsComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

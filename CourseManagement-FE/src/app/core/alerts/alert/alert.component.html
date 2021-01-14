@@ -1,1 +1,1 @@
-<ngb-alert [type]="alert.type" (close)="sendCloseAlertEvent(alert)">{{alert.message}}</ngb-alert>
+<ngb-alert *ngIf="alert" [type]="alert?.type" (close)="sendCloseAlertEvent(alert)">{{alert.message}}</ngb-alert>

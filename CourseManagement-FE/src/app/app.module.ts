@@ -13,6 +13,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './utilities/interceptors/auth.interceptor';
 import { HttpErrorInterceptor } from './utilities/interceptors/http-error.interceptor';
 import { FormsModule } from '@angular/forms';
+import { AlertListComponent } from './core/alerts/alert-list/alert-list.component';
+import { AlertComponent } from './core/alerts/alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -26,9 +28,7 @@ import { FormsModule } from '@angular/forms';
     CoreModule,
     AccountModule,
     CourseModule,
-    NgbModule,
-    //NgbAlertModule,
-    FormsModule
+    NgbModule
   ],
   providers: [
     {
