@@ -31,6 +31,7 @@
         public IQueryable<Course> GetAll()
         {
             return this.DbContext.Courses;
+            //System.Console.WriteLine();
         }
 
         public async Task<Course> GetById(int id)
