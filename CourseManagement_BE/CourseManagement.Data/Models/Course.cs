@@ -4,7 +4,7 @@
     using System;
     using System.Collections.Generic;
 
-    public class Course : IIdentifiable
+    public class Course : IIdentifiable, IDatable
     {
         internal Course()
         {
@@ -33,8 +33,6 @@
 
         public string Content { get; private set; }
 
-        public DateTime CreatedOn { get; private set; }
-
         public virtual ApplicationUser Author { get; private set; }
 
         public int AuthorId { get; private set; }
@@ -42,6 +40,10 @@
         public double Rating { get; private set; }
 
         public ICollection<FavoriteCourse> Favorites { get; private set; }
+
+        public DateTime CreatedOn { get; set; }
+
+        public DateTime? UpdatedOn { get; set; }
 
         //METHODS
 

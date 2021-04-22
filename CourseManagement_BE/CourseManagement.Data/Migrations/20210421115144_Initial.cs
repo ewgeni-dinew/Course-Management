@@ -56,9 +56,10 @@ namespace CourseManagement.Data.Migrations
                     Title = table.Column<string>(nullable: true),
                     Summary = table.Column<string>(nullable: true),
                     Content = table.Column<string>(nullable: true),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
                     AuthorId = table.Column<int>(nullable: false),
-                    Rating = table.Column<double>(nullable: false)
+                    Rating = table.Column<double>(nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    UpdatedOn = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
