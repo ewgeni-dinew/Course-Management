@@ -1,6 +1,8 @@
 ﻿namespace CourseManagement.Data.Models
 {
-    public class Role
+    using CourseManagement.Data.Models.Contracts;
+
+    public class Role : IIdentifiable
     {
         internal Role(string name)
         {

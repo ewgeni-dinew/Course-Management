@@ -1,7 +1,13 @@
 ﻿namespace CourseManagement.Data
 {
     using CourseManagement.Data.Models;
+    using CourseManagement.Data.Models.Contracts;
     using Microsoft.EntityFrameworkCore;
+    using System;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class ApplicationDbContext : DbContext
     {
         public virtual DbSet<ApplicationUser> Users { get; set; }
@@ -12,11 +18,25 @@
 
         public virtual DbSet<Role> Roles { get; set; }
 
-        public ApplicationDbContext() { } //for unit testing purposes only
+        public ApplicationDbContext() { } //for UNIT tests
 
         public ApplicationDbContext(
            DbContextOptions<ApplicationDbContext> options) : base(options)
         { }
+
+        public override int SaveChanges()
+        {
+            UpdateEntityDatesOnChange();
+
+            return base.SaveChanges();
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            UpdateEntityDatesOnChange();
+
+            return base.SaveChangesAsync(cancellationToken);
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -49,11 +69,29 @@
         {
             builder.Entity<Role>().HasData(
                             new Role(1, "User"),
-                            new Role(2, "Admin")
-                            );
+                            new Role(2, "Admin"));
 
             builder.Entity<ApplicationUser>().HasData(
                 new ApplicationUser(1, "admin@test.com", "Sb123456", "Admin", "Adminov", 2));
+        }
+
+        private void UpdateEntityDatesOnChange()
+        {
+            var entries = ChangeTracker.Entries()
+                                                .Where(x => x.Entity is IDatable &&
+                                                (x.State == EntityState.Added || x.State == EntityState.Modified));
+
+            foreach (var entry in entries)
+            {
+                if (entry.State == EntityState.Added)
+                {
+                    ((IDatable)entry.Entity).CreatedOn = DateTime.UtcNow;
+                }
+                else if (entry.State == EntityState.Modified)
+                {
+                    ((IDatable)entry.Entity).UpdatedOn = DateTime.UtcNow;
+                }
+            }
         }
     }
 }

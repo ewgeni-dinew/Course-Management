@@ -104,7 +104,7 @@
 
         public async Task<CourseDetailsDTO> GetCourseDetails(int id, int userId)
         {
-            var course = await this._courseRepository.GetAll()
+            var course = await this._courseRepository.GetAll
                 .Include(x => x.Author)
                 .Include(x => x.Favorites)
                 .Select(x => new CourseDetailsDTO
@@ -126,7 +126,7 @@
 
         public async Task<ICollection<BaseCourseDTO>> GetAllCourses()
         {
-            var courses = await this._courseRepository.GetAll()
+            var courses = await this._courseRepository.GetAll
                 .AsNoTracking()
                 .Select(x => new BaseCourseDTO
                 {
@@ -141,7 +141,7 @@
 
         public async Task<ICollection<BaseCourseDTO>> GetFavoriteCourses(int userId)
         {
-            var courses = await this._favCourseRepository.GetAll()
+            var courses = await this._favCourseRepository.GetAll
                 .Include(x => x.Course)
                 .Where(x => x.UserId.Equals(userId))
                 .AsNoTracking()
@@ -184,7 +184,7 @@
 
         public async Task<int> RemoveFromFavorites(AddToFavoritesDTO dto, int userId)
         {
-            var favoriteCourse = await this._favCourseRepository.GetAll()
+            var favoriteCourse = await this._favCourseRepository.GetAll
                 .FirstOrDefaultAsync(x => x.CourseId.Equals(dto.CourseId) && x.UserId.Equals(userId));
 
             if (favoriteCourse == null)

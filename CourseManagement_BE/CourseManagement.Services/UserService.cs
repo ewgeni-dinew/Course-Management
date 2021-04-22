@@ -33,7 +33,7 @@
 
         public async Task<UserDetailsDTO> LoginUser(LoginUserDTO dto)
         {
-            var user = await Task.Run(() => this._userRepository.GetAll()?
+            var user = await Task.Run(() => this._userRepository.GetAll?
                 .Include(x => x.Role)
                 .Where(x => !x.IsBlocked)
                 .FirstOrDefault(x => x.Username.Equals(dto.Username) && x.Password.Equals(dto.Password))
@@ -79,7 +79,7 @@
 
         public async Task<UserDetailsDTO> RegisterUser(RegisterUserDTO dto)
         {
-            if (this._userRepository.GetAll().AsNoTracking().Any(x => x.Username.Equals(dto.Username)))
+            if (this._userRepository.GetAll.AsNoTracking().Any(x => x.Username.Equals(dto.Username)))
             {
                 //username is already taken
                 throw new CustomException(ErrorMessages.INVALID_USERNAME);
@@ -167,7 +167,7 @@
 
         public async Task<ICollection<UserDetailsDTO>> GetAllUsers()
         {
-            var users = await this._userRepository.GetAll()
+            var users = await this._userRepository.GetAll
                 .Include(x => x.Role)
                 .Where(x => x.Role.Name.Equals(Constants.USER_ROLE_NAME))
                 .AsNoTracking()

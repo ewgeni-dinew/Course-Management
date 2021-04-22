@@ -16,7 +16,7 @@
 
             var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
 
-            var connectionString = "Server=DESKTOP-78T1K6E\\SQLEXPRESS;Database=CourseManagementDb;Trusted_Connection=True;MultipleActiveResultSets=true";
+            var connectionString = "Server=WS236\\COLIBRI;Database=CourseManagementDb;Trusted_Connection=True;MultipleActiveResultSets=true";
 
             builder.UseSqlServer(connectionString);
 

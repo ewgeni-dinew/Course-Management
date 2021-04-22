@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CourseManagement.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200523191743_Initial")]
+    [Migration("20210421115144_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,6 +27,9 @@ namespace CourseManagement.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
@@ -46,6 +49,9 @@ namespace CourseManagement.Data.Migrations
                     b.Property<string>("Token")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(450)");
 
@@ -63,10 +69,11 @@ namespace CourseManagement.Data.Migrations
                         new
                         {
                             Id = 1,
+                            CreatedOn = new DateTime(2021, 4, 21, 11, 51, 44, 338, DateTimeKind.Utc).AddTicks(8142),
                             FirstName = "Admin",
                             IsBlocked = false,
                             LastName = "Adminov",
-                            Password = "1234",
+                            Password = "Sb123456",
                             RoleId = 2,
                             Username = "admin@test.com"
                         });
@@ -138,7 +145,7 @@ namespace CourseManagement.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role");
+                    b.ToTable("Roles");
 
                     b.HasData(
                         new

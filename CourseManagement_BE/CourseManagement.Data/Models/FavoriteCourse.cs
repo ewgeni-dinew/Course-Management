@@ -1,6 +1,8 @@
 ﻿namespace CourseManagement.Data.Models
 {
-    public class FavoriteCourse
+    using CourseManagement.Data.Models.Contracts;
+
+    public class FavoriteCourse : IIdentifiable
     {
         internal FavoriteCourse(int userId, int courseId)
         {

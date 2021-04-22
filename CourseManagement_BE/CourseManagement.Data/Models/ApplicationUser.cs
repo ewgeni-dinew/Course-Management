@@ -1,9 +1,10 @@
 ﻿namespace CourseManagement.Data.Models
 {
+    using CourseManagement.Data.Models.Contracts;
     using System;
     using System.Collections.Generic;
 
-    public class ApplicationUser
+    public class ApplicationUser : IIdentifiable, IDatable
     {
         internal ApplicationUser()
         {
@@ -28,7 +29,7 @@
             : this(username, password, firstName, lastName, roleId)
         {
             //Validate_If_Id_IsNull(id);
-
+            this.CreatedOn = DateTime.UtcNow;
             this.Id = id;
         }
 
@@ -54,8 +55,13 @@
 
         public virtual ICollection<FavoriteCourse> Favorites { get; private set; }
 
-        //METHODS
+        public DateTime CreatedOn { get; set; }
 
+        public DateTime? UpdatedOn { get; set; }
+
+        //
+        //METHODS
+        //
         public void UpdateToken(string token)
         {
             this.Token = token;

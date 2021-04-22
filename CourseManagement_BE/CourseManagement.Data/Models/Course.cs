@@ -1,13 +1,13 @@
 ﻿namespace CourseManagement.Data.Models
 {
+    using CourseManagement.Data.Models.Contracts;
     using System;
     using System.Collections.Generic;
 
-    public class Course
+    public class Course : IIdentifiable
     {
         internal Course()
         {
-            this.CreatedOn = DateTime.UtcNow;
         }
 
         internal Course(string title, string summary, string content, int authorId)

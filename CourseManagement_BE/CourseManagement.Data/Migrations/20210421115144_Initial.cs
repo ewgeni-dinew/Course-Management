@@ -32,13 +32,15 @@ namespace CourseManagement.Data.Migrations
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     RoleId = table.Column<int>(nullable: false),
-                    Token = table.Column<string>(nullable: true)
+                    Token = table.Column<string>(nullable: true),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    UpdatedOn = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Users_Role_RoleId",
+                        name: "FK_Users_Roles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "Roles",
                         principalColumn: "Id",
@@ -105,8 +107,8 @@ namespace CourseManagement.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "FirstName", "IsBlocked", "LastName", "Password", "RoleId", "Token", "Username" },
-                values: new object[] { 1, "Admin", false, "Adminov", "1234", 2, null, "admin@test.com" });
+                columns: new[] { "Id", "CreatedOn", "FirstName", "IsBlocked", "LastName", "Password", "RoleId", "Token", "UpdatedOn", "Username" },
+                values: new object[] { 1, new DateTime(2021, 4, 21, 11, 51, 44, 338, DateTimeKind.Utc).AddTicks(8142), "Admin", false, "Adminov", "Sb123456", 2, null, null, "admin@test.com" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Courses_AuthorId",

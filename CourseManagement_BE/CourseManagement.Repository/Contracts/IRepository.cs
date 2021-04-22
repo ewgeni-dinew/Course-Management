@@ -5,7 +5,7 @@
 
     public interface IRepository<Entity> : ISaveble
     {
-        public IQueryable<Entity> GetAll();
+        public IQueryable<Entity> GetAll { get; }
 
         public Task<Entity> GetById(int id);
 

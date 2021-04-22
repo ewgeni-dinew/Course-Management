@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Authorization;
     using CourseManagement.DTO.Account;
     using CourseManagement.Services.Contracts;
+    using Microsoft.AspNetCore.Cors;
 
     [Route("api/[controller]/[action]")]
     [ApiController]
