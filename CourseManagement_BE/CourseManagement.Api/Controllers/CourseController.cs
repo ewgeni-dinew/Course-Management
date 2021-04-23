@@ -119,6 +119,16 @@
             return File(courseKVP.Value, Constants.APPLICATION_PDF_MIME, $"{courseKVP.Key}.pdf");
         }
 
+
+        [HttpGet("{id}")]
+        //TODO [Authorize]
+        public async Task<IActionResult> DownloadWord(int id)
+        {
+            var courseKVP = await this._courseService.DownloadCourseAsWORD(id);
+
+            return File(courseKVP.Value, Constants.APPLICATION_PDF_MIME, $"{courseKVP.Key}.pdf");
+        }
+
         private int GetUserIdFromJWT()
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;

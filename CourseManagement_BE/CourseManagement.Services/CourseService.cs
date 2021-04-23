@@ -236,6 +236,27 @@
             return kvp;
         }
 
+        public async Task<KeyValuePair<string, byte[]>> DownloadCourseAsWORD(int courseId)
+        {
+            var course = await this._courseRepository.GetById(courseId);
+
+            if (course == null)
+            {
+                throw new CustomException(ErrorMessages.INVALID_INPUT_DATA); //Course is not valid
+            }
+            else if (course.UpdatedOn?.ToString(Constants.DATETIME_PRECISION_F_FORMAT)
+                != course.ContentBytesCreatedOn?.ToString(Constants.DATETIME_PRECISION_F_FORMAT))
+            { //bytes content is NOT from the latest version of the course data; update bytes
+                await UpdateCourseByteArrayContent(course);
+            }
+
+            var courseAsByteArray = this._pdfService.GeneratePdfFile(course.Title, course.Content);
+
+            var kvp = new KeyValuePair<string, byte[]>(course.Title.ToLower(), courseAsByteArray);
+
+            return kvp;
+        }
+
         private async Task UpdateCourseByteArrayContent(Course course)
         {
             var sb = new StringBuilder();
