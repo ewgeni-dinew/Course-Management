@@ -5,10 +5,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="DinkToPdf" Version="1.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CourseManagement.Data\CourseManagement.Data.csproj" />
     <ProjectReference Include="..\CourseManagement.Repository\CourseManagement.Repository.csproj" />
     <ProjectReference Include="..\CourseManagement.Utilities\CourseManagement.Utilities.csproj" />
     <ProjectReference Include="..\CouseManagement.DTO\CourseManagement.DTO.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="..\Libraries\libwkhtmltox.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\Libraries\libwkhtmltox.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>

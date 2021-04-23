@@ -9,6 +9,8 @@
     using CourseManagement.Repository.Contracts;
     using CourseManagement.Services;
     using CourseManagement.Services.Contracts;
+    using CourseManagement.Services.Utils;
+    using DinkToPdf;
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
@@ -37,8 +39,9 @@
 
             this._favCourseRepository = new FavoriteCourseRepository(dbContext);
 
-            this._courseService = new CourseService(this._courseFactory, this._favoriteCourseFactory, this._courseRepository, this._favCourseRepository);
+            var pdfService = new PdfService(new SynchronizedConverter(new PdfTools()));
 
+            this._courseService = new CourseService(pdfService, this._courseFactory, this._favoriteCourseFactory, this._courseRepository, this._favCourseRepository);
         }
 
         [Fact]
@@ -114,7 +117,7 @@
         {
             var userId = 1;
 
-            var initialFavCourseCount  = this._courseService.GetFavoriteCourses(userId).Result.Count;
+            var initialFavCourseCount = this._courseService.GetFavoriteCourses(userId).Result.Count;
 
             var dto = new AddToFavoritesDTO
             {

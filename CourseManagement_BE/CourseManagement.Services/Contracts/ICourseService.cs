@@ -24,6 +24,6 @@
 
         public Task<CourseRatingDTO> RateCourse(RateCourseDTO dto);
 
-        public Task<string> DownloadCourse(int id);
+        public Task<KeyValuePair<string, byte[]>> DownloadCourseAsPDF(int id);
     }
 }

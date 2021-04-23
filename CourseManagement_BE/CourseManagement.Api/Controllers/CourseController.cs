@@ -110,11 +110,11 @@
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Download(int id)
+        public async Task<IActionResult> DownloadPDF(int id)
         {
-            var res = await this._courseService.DownloadCourse(id);
+            var courseKVP = await this._courseService.DownloadCourseAsPDF(id);
 
-            return Ok(res);
+            return File(courseKVP.Value, "application/octet-stream", $"{courseKVP.Key}.pdf");
         }
 
         private int GetUserIdFromJWT()

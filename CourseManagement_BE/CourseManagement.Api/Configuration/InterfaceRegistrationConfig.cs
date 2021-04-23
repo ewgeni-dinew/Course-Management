@@ -10,6 +10,8 @@
     using CourseManagement.Repository;
     using CourseManagement.Repository.Contracts;
     using CourseManagement.Services.Contracts.Assembly;
+    using DinkToPdf;
+    using DinkToPdf.Contracts;
 
     public static class InterfaceRegistrationConfig
     {
@@ -40,6 +42,8 @@
             services.AddScoped<IRepository<ApplicationUser>, UserRepository>();
             services.AddScoped<IRepository<Course>, CourseRepository>();
             services.AddScoped<IRepository<FavoriteCourse>, FavoriteCourseRepository>();
+
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
         }
     }
 

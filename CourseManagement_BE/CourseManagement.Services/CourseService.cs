@@ -13,12 +13,15 @@
     using CourseManagement.Utilities.Errors;
     using CourseManagement.Utilities.Constants;
     using System.Text;
+    using CourseManagement.Services.Utils;
 
     /// <summary>
     /// The class is part of the application Service layer. It handles all the Business Logic connected to the Course and FavoriteCourse logical spaces.
     /// </summary>
     public class CourseService : ICourseService
     {
+        private readonly IPdfService _pdfService;
+
         private readonly ICourseFactory _courseFactory;
         private readonly IFavoriteCourseFactory _favCourseFactory;
 
@@ -26,11 +29,13 @@
         private readonly IRepository<FavoriteCourse> _favCourseRepository;
 
         public CourseService(
+            IPdfService pdfService,
             ICourseFactory courseFactory,
             IFavoriteCourseFactory favoriteCourseFactory,
             IRepository<Course> courseRepository,
             IRepository<FavoriteCourse> favCourseRepository)
         {
+            this._pdfService = pdfService;
             this._courseFactory = courseFactory;
             this._courseRepository = courseRepository;
             this._favCourseRepository = favCourseRepository;
@@ -210,7 +215,7 @@
             return await this._favCourseRepository.SaveAsync();
         }
 
-        public async Task<string> DownloadCourse(int courseId)
+        public async Task<KeyValuePair<string, byte[]>> DownloadCourseAsPDF(int courseId)
         {
             var course = await this._courseRepository.GetById(courseId);
 
@@ -218,22 +223,31 @@
             {
                 throw new CustomException(ErrorMessages.INVALID_INPUT_DATA); //Course is not valid
             }
-            else if (!course.UpdatedOn.Equals(course.ContentBytesCreatedOn))
+            else if (course.UpdatedOn?.ToString(Constants.DATETIME_PRECISION_F_FORMAT)
+                != course.ContentBytesCreatedOn?.ToString(Constants.DATETIME_PRECISION_F_FORMAT))
             { //bytes content is NOT from the latest version of the course data; update bytes
-
-                var sb = new StringBuilder();
-
-                //append course data to StringBuilder; add two empty lines between Title and Content
-                sb.AppendLine(course.Title).AppendLine().AppendLine().AppendLine(course.Content);
-
-                var bytes = Encoding.ASCII.GetBytes(sb.ToString());
-
-                course.UpdateContentBytes(bytes);
-
-                await this._courseRepository.SaveAsync();
+                await UpdateCourseByteArrayContent(course);
             }
 
-            return Encoding.ASCII.GetString(course.ContentBytes);
+            var courseAsByteArray = this._pdfService.GeneratePdfFile();
+
+            var kvp = new KeyValuePair<string, byte[]>(course.Title.ToLower(), courseAsByteArray);
+
+            return kvp;
+        }
+
+        private async Task UpdateCourseByteArrayContent(Course course)
+        {
+            var sb = new StringBuilder();
+
+            //append course data to StringBuilder; add two empty lines between Title and Content
+            sb.AppendLine(course.Title).AppendLine().AppendLine().AppendLine(course.Content);
+
+            var bytes = Encoding.ASCII.GetBytes(sb.ToString());
+
+            course.UpdateContentBytes(bytes);
+
+            await this._courseRepository.SaveAsync();
         }
     }
 }

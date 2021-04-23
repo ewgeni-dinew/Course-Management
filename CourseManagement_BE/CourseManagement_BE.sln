@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseManagement.DTO", "Cou
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseManagement.Tests", "CourseManagement.Tests\CourseManagement.Tests.csproj", "{16D81661-7710-4BC3-AEE5-81B7D636171A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseManagement.Utilities", "CourseManagement.Utilities\CourseManagement.Utilities.csproj", "{463FCA0A-2DC5-41BF-9581-7AA9B34151D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseManagement.Utilities", "CourseManagement.Utilities\CourseManagement.Utilities.csproj", "{463FCA0A-2DC5-41BF-9581-7AA9B34151D9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{EE7B90D3-262A-49DE-A553-0F130938AF3C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
