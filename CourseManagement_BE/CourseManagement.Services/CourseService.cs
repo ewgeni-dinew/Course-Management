@@ -229,7 +229,7 @@
                 await UpdateCourseByteArrayContent(course);
             }
 
-            var courseAsByteArray = this._pdfService.GeneratePdfFile();
+            var courseAsByteArray = this._pdfService.GeneratePdfFile(course.Title, course.Content);
 
             var kvp = new KeyValuePair<string, byte[]>(course.Title.ToLower(), courseAsByteArray);
 

@@ -1,8 +1,9 @@
 ﻿namespace CourseManagement.Services.Utils
 {
+    using System;
+    using System.Text;
     using DinkToPdf;
     using DinkToPdf.Contracts;
-    using System;
 
     public class PdfService : IPdfService
     {
@@ -10,21 +11,28 @@
 
         public PdfService(IConverter converter)
         {
-            _converter = converter;
+            this._converter = converter;
         }
-        public byte[] GeneratePdfFile()
+
+        public byte[] GeneratePdfFile(string title, string content)
         {
             try
             {
+                var paragraphs = new StringBuilder();
+
+                //proper format of paragraphs
+                foreach (var c in content.Split('\n'))
+                    paragraphs.AppendLine($"<p>{c}</p>");
+
                 var html = $@"
                         <!DOCTYPE html>
                         <html lang=""en"">
                         <head>
-                            This is the header of this document.
+                            Powered by Boreas.
                         </head>
                         <body>
-                            <h1>This is the heading for demonstration purposes only.</h1>
-                            <p>This is a line of text for demonstration purposes only.</p>
+                            <h1>{title}</h1>
+                            {paragraphs}
                         </body>
                         </html>
                         ";
@@ -78,15 +86,14 @@
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                throw;
+                //TODO throw new PDF exception
+                throw ex;
             }
-            
         }
     }
 
     public interface IPdfService
     {
-        public byte[] GeneratePdfFile();
+        public byte[] GeneratePdfFile(string title, string content);
     }
 }

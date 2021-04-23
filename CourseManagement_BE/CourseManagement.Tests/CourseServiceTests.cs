@@ -10,14 +10,16 @@
     using CourseManagement.Services;
     using CourseManagement.Services.Contracts;
     using CourseManagement.Services.Utils;
-    using DinkToPdf;
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
+    using DinkToPdf;
     using Xunit;
 
     public class CourseServiceTests
     {
+        private readonly IPdfService _pdfService;
+
         private readonly ICourseFactory _courseFactory;
         private readonly IFavoriteCourseFactory _favoriteCourseFactory;
         private readonly IUserFactory _userFactory;
@@ -39,9 +41,9 @@
 
             this._favCourseRepository = new FavoriteCourseRepository(dbContext);
 
-            var pdfService = new PdfService(new SynchronizedConverter(new PdfTools()));
+            this._pdfService = new PdfService(new SynchronizedConverter(new PdfTools()));
 
-            this._courseService = new CourseService(pdfService, this._courseFactory, this._favoriteCourseFactory, this._courseRepository, this._favCourseRepository);
+            this._courseService = new CourseService(this._pdfService, this._courseFactory, this._favoriteCourseFactory, this._courseRepository, this._favCourseRepository);
         }
 
         [Fact]
