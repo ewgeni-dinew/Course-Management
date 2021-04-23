@@ -49,7 +49,9 @@
 
         public DateTime? ContentBytesCreatedOn { get; private set; }
 
-        //METHODS
+        //
+        // METHODS
+        //
 
         public void UpdateRating(double rating)
         {

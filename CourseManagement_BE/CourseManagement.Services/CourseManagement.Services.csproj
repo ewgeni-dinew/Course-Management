@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Utils\Libraries\**" />
+    <EmbeddedResource Remove="Utils\Libraries\**" />
+    <None Remove="Utils\Libraries\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="DinkToPdf" Version="1.0.8" />
   </ItemGroup>
 
@@ -16,13 +22,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="libwkhtmltox.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Include="..\Libraries\libwkhtmltox.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Word">
+      <HintPath>C:\Windows\assembly\GAC_MSIL\Microsoft.Office.Interop.Word\15.0.0.0__71e9bce111e9429c\Microsoft.Office.Interop.Word.dll</HintPath>
+    </Reference>
   </ItemGroup>
   
 </Project>

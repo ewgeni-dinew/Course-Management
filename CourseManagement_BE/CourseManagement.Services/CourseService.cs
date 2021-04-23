@@ -4,7 +4,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using System.Collections.Generic;
-    using Microsoft.EntityFrameworkCore;
+    using System.Text;
     using CourseManagement.Data.Factories.Contracts;
     using CourseManagement.Data.Models;
     using CourseManagement.DTO.Course;
@@ -12,8 +12,8 @@
     using CourseManagement.Services.Contracts;
     using CourseManagement.Utilities.Errors;
     using CourseManagement.Utilities.Constants;
-    using System.Text;
     using CourseManagement.Services.Utils;
+    using Microsoft.EntityFrameworkCore;
 
     /// <summary>
     /// The class is part of the application Service layer. It handles all the Business Logic connected to the Course and FavoriteCourse logical spaces.

@@ -3,10 +3,11 @@
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Authorization;
     using CourseManagement.DTO.Course;
     using CourseManagement.Services.Contracts;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Authorization;
+    using CourseManagement.Utilities.Constants;
 
     [Route("api/[controller]/[action]")]
     [ApiController]
@@ -110,11 +111,12 @@
         }
 
         [HttpGet("{id}")]
+        //TODO [Authorize]
         public async Task<IActionResult> DownloadPDF(int id)
         {
             var courseKVP = await this._courseService.DownloadCourseAsPDF(id);
 
-            return File(courseKVP.Value, "application/octet-stream", $"{courseKVP.Key}.pdf");
+            return File(courseKVP.Value, Constants.APPLICATION_PDF_MIME, $"{courseKVP.Key}.pdf");
         }
 
         private int GetUserIdFromJWT()
