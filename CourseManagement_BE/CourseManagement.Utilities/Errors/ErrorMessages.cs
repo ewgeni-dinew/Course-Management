@@ -21,5 +21,8 @@
 
         [ErrorMessage("Invalid input password.")]
         INVALID_PASSWORD_FORMAT = 6,
+
+        [ErrorMessage("Error generating PDF file.")]
+        GENERATE_PDF_ERROR = 7,
     }
 }

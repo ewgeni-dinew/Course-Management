@@ -18,6 +18,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseManagement.Utilities", "CourseManagement.Utilities\CourseManagement.Utilities.csproj", "{463FCA0A-2DC5-41BF-9581-7AA9B34151D9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{EE7B90D3-262A-49DE-A553-0F130938AF3C}"
+	ProjectSection(SolutionItems) = preProject
+		Libraries\libwkhtmltox.dll = Libraries\libwkhtmltox.dll
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

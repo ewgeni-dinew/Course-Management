@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="..\Libraries\libwkhtmltox.dll" />
+    <None Remove="libwkhtmltox.dll" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,4 +24,5 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
+  
 </Project>

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Text;
+    using CourseManagement.Utilities.Errors;
     using DinkToPdf;
     using DinkToPdf.Contracts;
 
@@ -34,8 +35,7 @@
                             <h1>{title}</h1>
                             {paragraphs}
                         </body>
-                        </html>
-                        ";
+                        </html>";
 
                 var globalSettings = new GlobalSettings
                 {
@@ -43,12 +43,6 @@
                     Orientation = Orientation.Portrait,
                     PaperSize = PaperKind.A4,
                     Margins = new MarginSettings { Top = 25, Bottom = 25 }
-                };
-
-                var objectSettings = new ObjectSettings
-                {
-                    PagesCount = true,
-                    HtmlContent = html
                 };
 
                 var webSettings = new WebSettings
@@ -72,9 +66,14 @@
                     Line = true
                 };
 
-                objectSettings.HeaderSettings = headerSettings;
-                objectSettings.FooterSettings = footerSettings;
-                objectSettings.WebSettings = webSettings;
+                var objectSettings = new ObjectSettings
+                {
+                    PagesCount = true,
+                    HtmlContent = html,
+                    HeaderSettings = headerSettings,
+                    FooterSettings = footerSettings,
+                    WebSettings = webSettings
+                };
 
                 var htmlToPdfDocument = new HtmlToPdfDocument()
                 {
@@ -84,10 +83,9 @@
 
                 return _converter.Convert(htmlToPdfDocument);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                //TODO throw new PDF exception
-                throw ex;
+                throw new CustomException(ErrorMessages.GENERATE_PDF_ERROR);
             }
         }
     }
