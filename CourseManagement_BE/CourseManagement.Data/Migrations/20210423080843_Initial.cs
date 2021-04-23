@@ -59,7 +59,9 @@ namespace CourseManagement.Data.Migrations
                     AuthorId = table.Column<int>(nullable: false),
                     Rating = table.Column<double>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: false),
-                    UpdatedOn = table.Column<DateTime>(nullable: true)
+                    UpdatedOn = table.Column<DateTime>(nullable: true),
+                    ContentBytes = table.Column<byte[]>(nullable: true),
+                    ContentBytesCreatedOn = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -109,7 +111,7 @@ namespace CourseManagement.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "CreatedOn", "FirstName", "IsBlocked", "LastName", "Password", "RoleId", "Token", "UpdatedOn", "Username" },
-                values: new object[] { 1, new DateTime(2021, 4, 21, 11, 51, 44, 338, DateTimeKind.Utc).AddTicks(8142), "Admin", false, "Adminov", "Sb123456", 2, null, null, "admin@test.com" });
+                values: new object[] { 1, new DateTime(2021, 4, 23, 8, 8, 42, 817, DateTimeKind.Utc).AddTicks(4794), "Admin", false, "Adminov", "Sb123456", 2, null, null, "admin@test.com" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Courses_AuthorId",

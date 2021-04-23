@@ -45,6 +45,10 @@
 
         public DateTime? UpdatedOn { get; set; }
 
+        public byte[] ContentBytes { get; private set; }
+
+        public DateTime? ContentBytesCreatedOn { get; private set; }
+
         //METHODS
 
         public void UpdateRating(double rating)
@@ -65,6 +69,12 @@
         public void UpdateContent(string content)
         {
             this.Content = content;
+        }
+
+        public void UpdateContentBytes(byte[] contentBytes)
+        {
+            this.ContentBytes = contentBytes;
+            this.ContentBytesCreatedOn = DateTime.UtcNow;
         }
     }
 }

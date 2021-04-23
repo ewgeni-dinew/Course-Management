@@ -12,6 +12,7 @@
     using CourseManagement.Services.Contracts;
     using CourseManagement.Utilities.Errors;
     using CourseManagement.Utilities.Constants;
+    using System.Text;
 
     /// <summary>
     /// The class is part of the application Service layer. It handles all the Business Logic connected to the Course and FavoriteCourse logical spaces.
@@ -207,6 +208,32 @@
             this._favCourseRepository.Create(favCourse);
 
             return await this._favCourseRepository.SaveAsync();
+        }
+
+        public async Task<string> DownloadCourse(int courseId)
+        {
+            var course = await this._courseRepository.GetById(courseId);
+
+            if (course == null)
+            {
+                throw new CustomException(ErrorMessages.INVALID_INPUT_DATA); //Course is not valid
+            }
+            else if (!course.UpdatedOn.Equals(course.ContentBytesCreatedOn))
+            { //bytes content is NOT from the latest version of the course data; update bytes
+
+                var sb = new StringBuilder();
+
+                //append course data to StringBuilder; add two empty lines between Title and Content
+                sb.AppendLine(course.Title).AppendLine().AppendLine().AppendLine(course.Content);
+
+                var bytes = Encoding.ASCII.GetBytes(sb.ToString());
+
+                course.UpdateContentBytes(bytes);
+
+                await this._courseRepository.SaveAsync();
+            }
+
+            return Encoding.ASCII.GetString(course.ContentBytes);
         }
     }
 }

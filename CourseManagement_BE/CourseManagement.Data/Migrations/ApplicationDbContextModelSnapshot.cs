@@ -67,7 +67,7 @@ namespace CourseManagement.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedOn = new DateTime(2021, 4, 21, 11, 51, 44, 338, DateTimeKind.Utc).AddTicks(8142),
+                            CreatedOn = new DateTime(2021, 4, 23, 8, 8, 42, 817, DateTimeKind.Utc).AddTicks(4794),
                             FirstName = "Admin",
                             IsBlocked = false,
                             LastName = "Adminov",
@@ -90,6 +90,12 @@ namespace CourseManagement.Data.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<byte[]>("ContentBytes")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<DateTime?>("ContentBytesCreatedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -101,6 +107,9 @@ namespace CourseManagement.Data.Migrations
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 

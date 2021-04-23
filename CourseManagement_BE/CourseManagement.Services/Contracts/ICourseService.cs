@@ -23,5 +23,7 @@
         public Task<int> RemoveFromFavorites(AddToFavoritesDTO dto, int userId);
 
         public Task<CourseRatingDTO> RateCourse(RateCourseDTO dto);
+
+        public Task<string> DownloadCourse(int id);
     }
 }

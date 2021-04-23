@@ -109,6 +109,14 @@
             return Ok(res);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Download(int id)
+        {
+            var res = await this._courseService.DownloadCourse(id);
+
+            return Ok(res);
+        }
+
         private int GetUserIdFromJWT()
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
