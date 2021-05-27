@@ -13,5 +13,9 @@
         public const string APPLICATION_PDF_MIME = "application/pdf";
 
         public const string APPLICATION_WORD_MIME = "application/msword";
+
+        public const string FILE_EXTENSION_PDF = ".pdf";
+
+        public const string FILE_EXTENSION_WORD = ".doc";
     }
 }

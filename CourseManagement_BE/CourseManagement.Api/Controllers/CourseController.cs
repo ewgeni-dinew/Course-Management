@@ -116,7 +116,7 @@
         {
             var courseKVP = await this._courseService.DownloadCourseAsPDF(id);
 
-            return File(courseKVP.Value, Constants.APPLICATION_PDF_MIME, $"{courseKVP.Key}.pdf");
+            return File(courseKVP.Value, Constants.APPLICATION_PDF_MIME, $"{courseKVP.Key}{Constants.FILE_EXTENSION_PDF}");
         }
 
 
@@ -126,7 +126,7 @@
         {
             var courseKVP = await this._courseService.DownloadCourseAsWORD(id);
 
-            return File(courseKVP.Value, Constants.APPLICATION_WORD_MIME, $"{courseKVP.Key}.doc");
+            return File(courseKVP.Value, Constants.APPLICATION_WORD_MIME, $"{courseKVP.Key}{Constants.FILE_EXTENSION_WORD}");
         }
 
         private int GetUserIdFromJWT()
