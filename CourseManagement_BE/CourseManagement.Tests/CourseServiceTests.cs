@@ -196,6 +196,36 @@
             Assert.Equal(calcMedianRating, res.Rating); //assert rating is calculated properly thereafter
         }
 
+        [Fact]
+        public void DownloadCourse_PDF_WithValidInput()
+        {
+            var userId = 1;
+            var courseId = 1;
+
+            var courseDto = this._courseService.GetCourseDetails(courseId, userId).Result;
+
+            var res = this._courseService.DownloadCourseAsPDF(courseId).Result;
+
+            Assert.Equal(courseDto.Title.ToLower(), res.Key.ToLower());
+            Assert.NotNull(res.Value);
+            Assert.NotEmpty(res.Value);
+        }
+
+        [Fact]
+        public void DownloadCourse_WORD_WithValidInput()
+        {
+            var userId = 1;
+            var courseId = 1;
+
+            var courseDto = this._courseService.GetCourseDetails(courseId, userId).Result;
+
+            var res = this._courseService.DownloadCourseAsWORD(courseId).Result;
+
+            Assert.Equal(courseDto.Title.ToLower(), res.Key.ToLower());
+            Assert.NotNull(res.Value);
+            Assert.NotEmpty(res.Value);
+        }
+
         //SETUP METHODS 
 
         private ApplicationDbContext SetupMockDatabaseWithSeedData()
