@@ -55,7 +55,7 @@ namespace CourseManagement.Api
             //CORS policy
             services.AddCors(options => options.AddDefaultPolicy(builder =>
             {
-                builder//TODO remove comment //.WithOrigins("http://localhost:4200")
+                builder.WithOrigins("http://localhost:4200") //TODO remove comment 
                 .AllowAnyMethod()
                 .AllowAnyHeader();
             }));

@@ -1,7 +1,20 @@
 <div *ngIf="!!selectedCourse">
-    <div class="row">
+    <div class="row justify-content-between">
         <pre class="col-md-3">Course Rating: <b>{{inputRating}}</b></pre>
         <ngb-rating [(rate)]="selectedCourse.rating" class="col-md-3"></ngb-rating>
+        <div class="col-md-1">
+            <p>Download: </p>
+        </div>
+        <div class="col-md-1">
+            <a routerLink="">
+                <img src="../../../assets/pdf.png" class="app-icon d-inline-block align-top" alt="download as Pdf">
+            </a>
+        </div>
+        <div class="col-md-1">
+            <a routerLink="">
+                <img src="../../../assets/word.png" class="app-icon d-inline-block align-top" alt="download as Word">
+            </a>
+        </div>
     </div>
     <div *ngIf="selectedCourse.rating !== inputRating" class="row mt-2 mb-2">
         <pre class="col-md-3 text-red">Your Rating: <b>{{selectedCourse.rating}}</b></pre>
