@@ -11,5 +11,7 @@
         public const string DATETIME_PRECISION_F_FORMAT = "dd/MM/yyyy hh:mm:ss.f";
 
         public const string APPLICATION_PDF_MIME = "application/pdf";
+
+        public const string APPLICATION_WORD_MIME = "application/msword";
     }
 }

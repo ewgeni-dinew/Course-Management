@@ -21,6 +21,7 @@
     public class CourseService : ICourseService
     {
         private readonly IPdfService _pdfService;
+        private readonly IWordService _wordService;
 
         private readonly ICourseFactory _courseFactory;
         private readonly IFavoriteCourseFactory _favCourseFactory;
@@ -30,12 +31,14 @@
 
         public CourseService(
             IPdfService pdfService,
+            IWordService wordService,
             ICourseFactory courseFactory,
             IFavoriteCourseFactory favoriteCourseFactory,
             IRepository<Course> courseRepository,
             IRepository<FavoriteCourse> favCourseRepository)
         {
             this._pdfService = pdfService;
+            this._wordService = wordService;
             this._courseFactory = courseFactory;
             this._courseRepository = courseRepository;
             this._favCourseRepository = favCourseRepository;
@@ -250,7 +253,7 @@
                 await UpdateCourseByteArrayContent(course);
             }
 
-            var courseAsByteArray = this._pdfService.GeneratePdfFile(course.Title, course.Content);
+            var courseAsByteArray = this._wordService.GenerateWordFile(course.Title, course.Content);
 
             var kvp = new KeyValuePair<string, byte[]>(course.Title.ToLower(), courseAsByteArray);
 
