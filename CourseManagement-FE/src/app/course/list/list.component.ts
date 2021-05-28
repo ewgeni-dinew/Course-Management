@@ -21,6 +21,10 @@ export class ListComponent implements OnInit {
     return this.authService.isUserAdmin;
   }
 
+  public get courseSummaryParagrahs() : string[] {
+    return this.selectedCourse?.summary.split(/\r?\n/).filter(Boolean);
+  }
+
   @Output('selectCourseEvent')
   selectCourseEvent = new EventEmitter<ICourse>();
 

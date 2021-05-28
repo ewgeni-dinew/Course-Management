@@ -28,8 +28,8 @@
         <p class="col-md-2">{{selectedCourse.author}}</p>
         <p class="col-md-2">{{selectedCourse.createdOn}}</p>
     </div>
-    <div class="row">
-        <p class="col">{{selectedCourse.content}}</p>
+    <div *ngFor="let p of courseContentParagrahs" class="row">        
+        <p class="col">{{p}}</p>
     </div>
     <div class="row">
         <p class="col">

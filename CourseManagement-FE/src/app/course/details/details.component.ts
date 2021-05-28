@@ -13,6 +13,10 @@ import { AlertConsts } from 'src/app/utilities/constants/alerts';
 export class DetailsComponent implements OnInit {
 
   constructor(private readonly courseService: CourseService, private readonly router: Router, private readonly aletService: AlertService) { }
+ 
+  public get courseContentParagrahs() : string[] {
+    return this.selectedCourse.content.split(/\r?\n/).filter(Boolean);
+  }  
 
   @Input()
   selectedCourse: ICourse;
