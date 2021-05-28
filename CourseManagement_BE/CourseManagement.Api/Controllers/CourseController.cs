@@ -111,7 +111,7 @@
         }
 
         [HttpGet("{id}")]
-        //TODO [Authorize]
+        [Authorize]
         public async Task<IActionResult> DownloadPDF(int id)
         {
             var courseKVP = await this._courseService.DownloadCourseAsPDF(id);
@@ -121,7 +121,7 @@
 
 
         [HttpGet("{id}")]
-        //TODO [Authorize]
+        [Authorize]
         public async Task<IActionResult> DownloadWord(int id)
         {
             var courseKVP = await this._courseService.DownloadCourseAsWORD(id);

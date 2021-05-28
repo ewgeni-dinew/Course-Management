@@ -121,7 +121,7 @@
                     Id = x.Id,
                     Title = x.Title,
                     Summary = x.Summary,
-                    CreatedOn = x.CreatedOn.ToString(Constants.DATETIME_OFFICIAL_FORMAT),
+                    CreatedOn = x.CreatedOn.ToString(Constants.DATETIME_PRECISION_FORMAT),
                     Content = x.Content,
                     Rating = x.Rating,
                     Author = $"{x.Author.FirstName} {x.Author.LastName}",

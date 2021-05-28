@@ -55,4 +55,30 @@ export class DetailsComponent implements OnInit {
   isPageFavorites(): Boolean {
     return this.router.url === "/course/favorites";
   }
+
+  downloadPDF() {
+    this.courseService.downloadPDF(this.selectedCourse.id)
+      .subscribe(data => {
+
+        var downloadURL = window.URL.createObjectURL(data);
+        var link = document.createElement('a');
+        link.href = downloadURL;
+        link.download = this.selectedCourse.title + ".pdf";
+        link.click();
+
+      });
+  }
+
+  downloadWord() {
+    this.courseService.downloadWord(this.selectedCourse.id)
+      .subscribe(data => {
+
+        var downloadURL = window.URL.createObjectURL(data);
+        var link = document.createElement('a');
+        link.href = downloadURL;
+        link.download = this.selectedCourse.title + ".doc";
+        link.click();
+
+      });
+  }
 }

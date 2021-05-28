@@ -15,7 +15,7 @@ import { IHttpError } from 'src/app/shared/contracts/http-error';
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
 
-  constructor(private readonly errorService: AlertService) { }
+  constructor(private readonly alertService: AlertService) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 
@@ -23,27 +23,21 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     return next.handle(request)
       .pipe(
         retry(0),
-        catchError((error: HttpErrorResponse) => {
-
-          //TODO this should be refactored as it does not depend on the IHttpError interface
-          //tried different approaches but did not succeed
-          //currently works >>>
-          let httpError: IHttpError = {
-            errorMessage: error.error.ErrorMessage,
-            errorCode: error.error.ErrorCode
-          };
-          //<<<
+        catchError((error: HttpErrorResponse) => {          
 
           let alert = <IAlert>{};
 
           //switch between error codes and modify alert types if needed
           if (error.status === 400) {
-
-            alert.message = httpError.errorMessage;
+            alert.message = error.error.ErrorMessage;
             alert.type = 'danger';
-
-            this.errorService.addAlert(alert);
+          } 
+          else if (error.status === 401) {
+            alert.message = "Unauthorized action!";
+            alert.type = 'danger';
           }
+
+          this.alertService.addAlert(alert);
 
           return throwError(error);
         })

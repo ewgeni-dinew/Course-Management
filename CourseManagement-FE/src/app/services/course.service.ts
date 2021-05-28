@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { ICourse } from '../shared/contracts/course';
 import { AuthService } from './auth.service';
+import { saveAs } from 'file-saver';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -88,5 +90,21 @@ export class CourseService {
 
     return this.http.post<ICourse>(environment.apiUrl + 'course/rate', <JSON>data)
       .toPromise();
+  }
+
+  downloadPDF(courseId: number): Observable<Blob> {
+    const httpOptions = {
+      responseType: 'blob' as 'json'
+    };
+
+    return this.http.get<any>(environment.apiUrl + 'course/downloadPDF/' + courseId, httpOptions);
+  }
+
+  downloadWord(courseId: number): Observable<Blob> {
+    const httpOptions = {
+      responseType: 'blob' as 'json'
+    };
+
+    return this.http.get<any>(environment.apiUrl + 'course/downloadWord/' + courseId, httpOptions);
   }
 }
