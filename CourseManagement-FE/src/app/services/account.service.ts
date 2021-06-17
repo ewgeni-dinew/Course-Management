@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { IUser } from '../shared/contracts/user';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
 
-  constructor(private readonly http: HttpClient) { }
+  constructor(private readonly http: HttpClient, private readonly router: Router) { }
 
   registerAccount(data: JSON): Promise<Object> {
     return this.http.post(environment.apiUrl + 'account/register', data).toPromise();
@@ -39,6 +40,8 @@ export class AccountService {
 
   logout() {
     localStorage.removeItem('loggedUser');
+
+    this.router.navigate(['/']);
   }
 
   getAll(): IUser[] {

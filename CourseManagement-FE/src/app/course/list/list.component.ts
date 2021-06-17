@@ -3,6 +3,8 @@ import { CourseService } from 'src/app/services/course.service';
 import { ICourse } from 'src/app/shared/contracts/course';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { Store } from '@ngrx/store';
+import { State } from '../state/course.reducer';
 
 @Component({
   selector: 'app-course-list',
@@ -11,7 +13,8 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class ListComponent implements OnInit {
 
-  constructor(private readonly courseService: CourseService, private readonly router: Router, private readonly authService: AuthService) { }
+  constructor(private readonly courseService: CourseService, private readonly router: Router,
+    private readonly authService: AuthService, private store: Store<State>) { }
 
   courses: ICourse[];
 
@@ -21,7 +24,7 @@ export class ListComponent implements OnInit {
     return this.authService.isUserAdmin;
   }
 
-  public get courseSummaryParagrahs() : string[] {
+  public get courseSummaryParagrahs(): string[] {
     return this.selectedCourse?.summary.split(/\r?\n/).filter(Boolean);
   }
 
@@ -55,5 +58,17 @@ export class ListComponent implements OnInit {
       this.selectedCourse = null;
       this.selectCourseEvent.emit(this.selectedCourse); //hides the details
     }
+  }
+
+  getCourseSummaryParagraphs(course: ICourse): string[] {
+    return course.summary.split(/\r?\n/).filter(Boolean);
+  }
+
+  selectCourse() {
+    this.store.dispatch({
+      type: '[Course] Select course'
+    });
+  
+    this.store.select('courses');
   }
 }

@@ -1,20 +1,17 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from "@angular/common/http";
-
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
-import { NgbAlertModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AccountModule } from './account/account.module';
 import { CoreModule } from './core/core.module';
 import { CourseModule } from './course/course.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './utilities/interceptors/auth.interceptor';
 import { HttpErrorInterceptor } from './utilities/interceptors/http-error.interceptor';
-import { FormsModule } from '@angular/forms';
-import { AlertListComponent } from './core/alerts/alert-list/alert-list.component';
-import { AlertComponent } from './core/alerts/alert/alert.component';
+import { StoreModule } from '@ngrx/store';
 
 @NgModule({
   declarations: [
@@ -28,7 +25,8 @@ import { AlertComponent } from './core/alerts/alert/alert.component';
     CoreModule,
     AccountModule,
     CourseModule,
-    NgbModule
+    NgbModule,
+    StoreModule.forRoot({}, {})
   ],
   providers: [
     {

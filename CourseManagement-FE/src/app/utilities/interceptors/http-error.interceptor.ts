@@ -11,11 +11,12 @@ import { Observable, throwError } from 'rxjs';
 import { IAlert } from 'src/app/shared/contracts/alert';
 import { AlertService } from 'src/app/services/alert.service';
 import { IHttpError } from 'src/app/shared/contracts/http-error';
+import { AccountService } from 'src/app/services/account.service';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
 
-  constructor(private readonly alertService: AlertService) { }
+  constructor(private readonly alertService: AlertService, private readonly acountService: AccountService) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 
@@ -35,6 +36,8 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           else if (error.status === 401) {
             alert.message = "Unauthorized action!";
             alert.type = 'danger';
+
+            this.acountService.logout();
           }
 
           this.alertService.addAlert(alert);

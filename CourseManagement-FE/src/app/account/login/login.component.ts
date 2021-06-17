@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
 
   loginHandler(data: JSON) {
     this.accountService.loginUser(data).then(() => {
-      this.router.navigate(['/home'])
+      this.router.navigate(['/home']);
     });
   }
 }

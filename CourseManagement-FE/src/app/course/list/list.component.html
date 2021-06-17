@@ -2,7 +2,7 @@
     <ngb-accordion [closeOthers]="true" #acc="ngbAccordion">
         <ngb-panel *ngFor="let course of courses" title={{course.title}}>
             <ng-template ngbPanelContent>
-                <div *ngFor="let p of courseSummaryParagrahs">
+                <div *ngFor="let p of getCourseSummaryParagraphs(course)">
                     <p>{{p}}</p>
                 </div>
                 <button *ngIf="course.id !== selectedCourse?.id" class="btn btn-primary"
