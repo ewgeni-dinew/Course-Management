@@ -24,7 +24,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     return next.handle(request)
       .pipe(
         retry(0),
-        catchError((error: HttpErrorResponse) => {          
+        catchError((error: HttpErrorResponse) => {
 
           let alert = <IAlert>{};
 
@@ -32,11 +32,12 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           if (error.status === 400) {
             alert.message = error.error.ErrorMessage;
             alert.type = 'danger';
-          } 
+          }
           else if (error.status === 401) {
             alert.message = "Unauthorized action!";
             alert.type = 'danger';
 
+            //TODO decide if user should be logged out; as he can only be unauthorized
             this.acountService.logout();
           }
 

@@ -1,10 +1,11 @@
 <h4 class="align-center">{{this.getHeading}}</h4>
 <div class="row mt-4">
     <div class="col-md-4">
-        <app-course-list #courseList (selectCourseEvent)="setSelectedEvent($event)"></app-course-list>
+        <app-course-list #courseList [showCourseDetails]="showCourseDetails$ | async" [clickedCourse]="selectedCourse$ | async"></app-course-list>
     </div>
     <div class="col-md-8">
-        <app-course-details [selectedCourse]="selectedCourse$ | async"
-            (removeCourseEvent)="courseList.removeCourseFromList($event)"></app-course-details>
+        <app-course-details [selectedCourse]="selectedCourse$ | async" [courseRating]="courseRating$ | async"
+            [inputRating]="courseRating$ | async" (removeCourseEvent)="courseList.removeCourseFromList($event)">
+        </app-course-details>
     </div>
 </div>

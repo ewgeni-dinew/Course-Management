@@ -1,14 +1,16 @@
 <div *ngIf="this.courses">
-    <ngb-accordion [closeOthers]="true" #acc="ngbAccordion">
-        <ngb-panel *ngFor="let course of courses" title={{course.title}}>
+    <ngb-accordion [closeOthers]="true" #acc="ngbAccordion" activeIds="{{clickedCourse?.id}}">
+        <ngb-panel *ngFor="let course of courses" title={{course.title}} id="{{course.id}}">
             <ng-template ngbPanelContent>
                 <div *ngFor="let p of getCourseSummaryParagraphs(course)">
                     <p>{{p}}</p>
                 </div>
-                <button *ngIf="course.id !== selectedCourse?.id" class="btn btn-primary"
-                    (click)="selectCourseHandler(course)">Find out more</button>
-                <button *ngIf="course.id === selectedCourse?.id" class="btn btn-light"
-                    (click)="selectCourseHandler(course)">Hide details</button>
+                <button
+                    *ngIf="!this.showCourseDetails || (this.showCourseDetails && course.id !== this.clickedCourse?.id)"
+                    class="btn btn-primary" (click)="selectCourseHandler(course)">Find out more</button>
+                <button *ngIf="this.showCourseDetails && this.showCourseDetails && course.id === this.clickedCourse?.id"
+                    class="btn btn-light" (click)="selectCourseHandler(course)">Hide
+                    details</button>
                 <button *ngIf="this.isUserAdmin" class="ml-1 btn btn-warning"
                     [routerLink]="['/course/edit', course.id]">Edit</button>
             </ng-template>

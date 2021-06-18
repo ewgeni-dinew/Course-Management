@@ -6,3 +6,7 @@ const getCourseFeatureState = createFeatureSelector<CourseState>('courses'); //m
 export const getSelectedCourse = createSelector(getCourseFeatureState, state => state.selectedCourse);
 
 export const getSelectedFavCourse = createSelector(getCourseFeatureState, state => state.selectedFavCourse);
+
+export const getCourseRating = createSelector(getCourseFeatureState, state => state.courseRating);
+
+export const getCourseShowDetails = createSelector(getCourseFeatureState, state => state.showCourseDetails);

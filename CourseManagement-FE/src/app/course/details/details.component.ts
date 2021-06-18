@@ -4,6 +4,10 @@ import { CourseService } from 'src/app/services/course.service';
 import { Router } from '@angular/router';
 import { AlertService } from 'src/app/services/alert.service';
 import { AlertConsts } from 'src/app/utilities/constants/alerts';
+import { getCourseShowDetails, getSelectedCourse } from '../state/course.selectors';
+import { select, Store } from '@ngrx/store';
+import { State } from '../state/course.reducer';
+import { selectCourse, selectCourseRating } from '../state/course.actions';
 
 @Component({
   selector: 'app-course-details',
@@ -13,16 +17,22 @@ import { AlertConsts } from 'src/app/utilities/constants/alerts';
 export class DetailsComponent implements OnInit {
 
   constructor(private readonly courseService: CourseService, private readonly router: Router,
-    private readonly alertService: AlertService) { }
+    private readonly alertService: AlertService, private readonly store: Store<State>) { }
 
   public get courseContentParagrahs(): string[] {
     return this.selectedCourse.content.split(/\r?\n/).filter(Boolean);
   }
 
-  inputRating: number;
-
+  showCourseDetails$ = this.store.pipe(select(getCourseShowDetails));
+  
   @Input()
   selectedCourse: ICourse;
+
+  @Input()
+  courseRating: number; //used for the initial rating
+
+  @Input()
+  inputRating: number; //used for the updated(input) value
 
   @Output()
   removeCourseEvent = new EventEmitter<ICourse>();
@@ -48,9 +58,8 @@ export class DetailsComponent implements OnInit {
   }
 
   rateCourseHandler() {
-    this.courseService.rateCourse(this.selectedCourse.rating, this.selectedCourse.id).then((res) => {
-      this.selectedCourse.rating = res.rating;
-      this.inputRating = res.rating;
+    this.courseService.rateCourse(this.inputRating, this.selectedCourse.id).then((res) => {
+      this.store.dispatch(selectCourseRating({ rating: res.rating })); //dispatch event to update the rating from the store      
     }).then(() => {
       this.alertService.addAlertWithArgs(AlertConsts.RATE_COURSE_SUCCESS, AlertConsts.TYPE_INFO);
     });
@@ -69,7 +78,6 @@ export class DetailsComponent implements OnInit {
         link.href = downloadURL;
         link.download = this.selectedCourse.title + ".pdf";
         link.click();
-
       });
   }
 
@@ -82,7 +90,6 @@ export class DetailsComponent implements OnInit {
         link.href = downloadURL;
         link.download = this.selectedCourse.title + ".doc";
         link.click();
-
       });
   }
 }

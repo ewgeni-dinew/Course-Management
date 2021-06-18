@@ -1,6 +1,6 @@
-<div *ngIf="!!selectedCourse">
+<div *ngIf="showCourseDetails$ | async">
     <div class="row">
-        <pre class="col-md-2">Course Rating: <b>{{selectedCourse.rating}}</b></pre>
+        <pre class="col-md-2">Course Rating: <b>{{courseRating}}</b></pre>
         <ngb-rating [(rate)]="inputRating" class="col-md-2"></ngb-rating>
         <div class="col-md-3 offset-md-5">
             <div class="row">
@@ -18,7 +18,7 @@
             </div>
         </div>
     </div>
-    <div *ngIf="inputRating && selectedCourse.rating !== inputRating" class="row mt-2 mb-2">
+    <div *ngIf="inputRating && courseRating !== inputRating" class="row mt-2 mb-2">
         <pre class="col-md-3 text-red">Your Rating: <b>{{inputRating}}</b></pre>
         <div class="col-md-3">
             <button class="btn btn-warning" (click)="rateCourseHandler()">Rate</button>

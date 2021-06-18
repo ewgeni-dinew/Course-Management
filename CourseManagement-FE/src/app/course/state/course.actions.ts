@@ -10,3 +10,13 @@ export const selectFavCourse = createAction(
     '[Course] Select favorite course',
     props<{ course: ICourse }>()
 );
+
+export const selectCourseRating = createAction(
+    '[Course] Select course rating',
+    props<{ rating: number }>()
+);
+
+export const selectCourseShowDetails = createAction(
+    '[Course] Show course details',
+    props<{ flag: boolean }>()
+);
