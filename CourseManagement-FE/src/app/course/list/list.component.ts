@@ -25,19 +25,13 @@ export class ListComponent implements OnInit {
 
   courses: ICourse[];
 
-  selectedCourse: ICourse;
-
   public get isUserAdmin(): Boolean {
     return this.authService.isUserAdmin;
   }
 
   ngOnInit(): void {
-    if (this.router.url === "/course/favorites") {
-      this.courses = this.courseService.getFavoriteCourses();
-    }
-    else {
-      this.courses = this.courseService.getAll();
-    }
+    if (this.router.url === "/course/favorites") this.courses = this.courseService.getFavoriteCourses();
+    else this.courses = this.courseService.getAll();
   }
 
   removeCourseFromList(course: ICourse) {
@@ -47,19 +41,16 @@ export class ListComponent implements OnInit {
   }
 
   selectCourseHandler(inputCourse: ICourse) {
-    console.log(this.clickedCourse);
-    if (!this.showCourseDetails || (this.showCourseDetails && inputCourse.id !== this.clickedCourse?.id)) { //case 'Find out more' button
+    if (!this.showCourseDetails || (this.showCourseDetails && inputCourse.id !== this.clickedCourse?.id)) { //case 'Find out more' button clicked
       this.courseService.getDetails(inputCourse.id).then((result) => {
         this.store.dispatch(selectCourse({ course: result }));
         this.store.dispatch(selectCourseRating({ rating: result.rating }));
         this.store.dispatch(selectCourseShowDetails({ flag: true }));
-      }).then(() => this.selectedCourse = inputCourse);
+      });
 
-    } else { //case 'Hide details' button
-      this.selectedCourse = null;
+    } else { //case 'Hide details' button clicked
       this.store.dispatch(selectCourseShowDetails({ flag: false }));
     }
-    console.log(this.clickedCourse);
   }
 
   getCourseSummaryParagraphs(course: ICourse): string[] {
