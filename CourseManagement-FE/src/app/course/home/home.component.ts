@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { select, Store } from '@ngrx/store';
 import { ICourse } from 'src/app/shared/contracts/course';
+import { State } from '../state/course.reducer';
+import { getSelectedCourse } from '../state/course.selectors';
 
 @Component({
   selector: 'app-home',
@@ -8,13 +11,13 @@ import { ICourse } from 'src/app/shared/contracts/course';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  selectedCourse$ = this.store.pipe(select(getSelectedCourse));
 
-  constructor(private readonly router: Router) { }
+  constructor(private readonly router: Router, private readonly store: Store<State>) { }
 
   private heading: string;
   private courseToRemove: ICourse;
   private selectedCourse: ICourse;
-  private courseRating: number;
 
   public get getHeading(): string {
     return this.heading;
@@ -28,10 +31,6 @@ export class HomeComponent implements OnInit {
     return this.selectedCourse;
   }
 
-  public get getCourseRating(): number {
-    return this.courseRating;
-  }
-
   ngOnInit(): void {
     if (this.router.url === "/course/favorites") {
       this.heading = 'Favorite Courses';
@@ -42,11 +41,6 @@ export class HomeComponent implements OnInit {
   }
 
   setSelectedEvent(course: ICourse) {
-
-    if (course) {
-      this.courseRating = course.rating;
-    }
-
     this.selectedCourse = course;
   }
 

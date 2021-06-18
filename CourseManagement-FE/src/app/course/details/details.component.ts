@@ -12,11 +12,14 @@ import { AlertConsts } from 'src/app/utilities/constants/alerts';
 })
 export class DetailsComponent implements OnInit {
 
-  constructor(private readonly courseService: CourseService, private readonly router: Router, private readonly aletService: AlertService) { }
- 
-  public get courseContentParagrahs() : string[] {
+  constructor(private readonly courseService: CourseService, private readonly router: Router,
+    private readonly alertService: AlertService) { }
+
+  public get courseContentParagrahs(): string[] {
     return this.selectedCourse.content.split(/\r?\n/).filter(Boolean);
-  }  
+  }
+
+  inputRating: number;
 
   @Input()
   selectedCourse: ICourse;
@@ -24,15 +27,12 @@ export class DetailsComponent implements OnInit {
   @Output()
   removeCourseEvent = new EventEmitter<ICourse>();
 
-  @Input()
-  inputRating: number;
-
   ngOnInit(): void {
   }
 
   addToFavoritesHandler(courseId: number) {
     this.courseService.addCourseToFavorites(courseId).then(() => {
-      this.aletService.addAlertWithArgs(AlertConsts.ADD_FAV_COURSE_SUCCESS, AlertConsts.TYPE_INFO);
+      this.alertService.addAlertWithArgs(AlertConsts.ADD_FAV_COURSE_SUCCESS, AlertConsts.TYPE_INFO);
     }).then(() => {
       this.router.navigate(['/course/favorites']);
     });
@@ -43,7 +43,7 @@ export class DetailsComponent implements OnInit {
       this.selectedCourse = null;
       this.removeCourseEvent.emit(course);
     }).then(() => {
-      this.aletService.addAlertWithArgs(AlertConsts.REMOVE_FAV_COURSE_SUCCESS, AlertConsts.TYPE_WARNING);
+      this.alertService.addAlertWithArgs(AlertConsts.REMOVE_FAV_COURSE_SUCCESS, AlertConsts.TYPE_WARNING);
     });
   }
 
@@ -52,7 +52,7 @@ export class DetailsComponent implements OnInit {
       this.selectedCourse.rating = res.rating;
       this.inputRating = res.rating;
     }).then(() => {
-      this.aletService.addAlertWithArgs(AlertConsts.RATE_COURSE_SUCCESS, AlertConsts.TYPE_INFO);
+      this.alertService.addAlertWithArgs(AlertConsts.RATE_COURSE_SUCCESS, AlertConsts.TYPE_INFO);
     });
   }
 

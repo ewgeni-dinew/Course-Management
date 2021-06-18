@@ -1,6 +1,7 @@
-import { createAction, createReducer, on } from "@ngrx/store";
+import { createReducer, on } from "@ngrx/store";
 import { ICourse } from "src/app/shared/contracts/course";
 import * as AppState from "../../state/app.state";
+import { selectCourse, selectFavCourse } from "./course.actions";
 
 export interface State extends AppState.State {
     courses: CourseState
@@ -18,10 +19,16 @@ const initialState: CourseState = {
 
 export const courseReducer = createReducer<CourseState>(
     initialState,
-    on(createAction('[Course] Select course'), (state): CourseState => {
+    on(selectCourse, (state, { course }) => {
         return {
             ...state,
-            selectedCourse: null
-        };
+            selectedCourse: course
+        }
+    }),
+    on(selectFavCourse, (state, { course }) => {
+        return {
+            ...state,
+            selectedFavCourse: course
+        }
     })
 );

@@ -4,7 +4,7 @@
         <app-course-list #courseList (selectCourseEvent)="setSelectedEvent($event)"></app-course-list>
     </div>
     <div class="col-md-8">
-        <app-course-details [selectedCourse]="getSelectedCourse" [inputRating]="getCourseRating"
+        <app-course-details [selectedCourse]="selectedCourse$ | async"
             (removeCourseEvent)="courseList.removeCourseFromList($event)"></app-course-details>
     </div>
 </div>

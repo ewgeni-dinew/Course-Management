@@ -1,23 +1,25 @@
 <div *ngIf="!!selectedCourse">
     <div class="row">
-        <pre class="col-md-2">Course Rating: <b>{{inputRating}}</b></pre>
-        <ngb-rating [(rate)]="selectedCourse.rating" class="col-md-2"></ngb-rating>
+        <pre class="col-md-2">Course Rating: <b>{{selectedCourse.rating}}</b></pre>
+        <ngb-rating [(rate)]="inputRating" class="col-md-2"></ngb-rating>
         <div class="col-md-3 offset-md-5">
             <div class="row">
                 <div class="col-sm-6">
                     <p>Download: </p>
                 </div>
                 <div class="col-sm-3">
-                    <input class="app-icon d-inline-block align-top" type="image" src="../../../assets/word.png" (click)="downloadWord()"/>
+                    <input class="app-icon d-inline-block align-top" type="image" src="../../../assets/word.png"
+                        (click)="downloadWord()" />
                 </div>
                 <div class="col-sm-3">
-                    <input class="app-icon d-inline-block align-top" type="image" src="../../../assets/pdf.png" (click)="downloadPDF()"/>
+                    <input class="app-icon d-inline-block align-top" type="image" src="../../../assets/pdf.png"
+                        (click)="downloadPDF()" />
                 </div>
             </div>
         </div>
     </div>
-    <div *ngIf="selectedCourse.rating !== inputRating" class="row mt-2 mb-2">
-        <pre class="col-md-3 text-red">Your Rating: <b>{{selectedCourse.rating}}</b></pre>
+    <div *ngIf="inputRating && selectedCourse.rating !== inputRating" class="row mt-2 mb-2">
+        <pre class="col-md-3 text-red">Your Rating: <b>{{inputRating}}</b></pre>
         <div class="col-md-3">
             <button class="btn btn-warning" (click)="rateCourseHandler()">Rate</button>
         </div>
@@ -28,7 +30,7 @@
         <p class="col-md-2">{{selectedCourse.author}}</p>
         <p class="col-md-2">{{selectedCourse.createdOn}}</p>
     </div>
-    <div *ngFor="let p of courseContentParagrahs" class="row">        
+    <div *ngFor="let p of courseContentParagrahs" class="row">
         <p class="col">{{p}}</p>
     </div>
     <div class="row">

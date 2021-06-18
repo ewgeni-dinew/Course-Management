@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { Store } from '@ngrx/store';
 import { State } from '../state/course.reducer';
+import { selectCourse } from '../state/course.actions';
 
 @Component({
   selector: 'app-course-list',
@@ -14,7 +15,7 @@ import { State } from '../state/course.reducer';
 export class ListComponent implements OnInit {
 
   constructor(private readonly courseService: CourseService, private readonly router: Router,
-    private readonly authService: AuthService, private store: Store<State>) { }
+    private readonly authService: AuthService, private readonly store: Store<State>) { }
 
   courses: ICourse[];
 
@@ -28,8 +29,9 @@ export class ListComponent implements OnInit {
     return this.selectedCourse?.summary.split(/\r?\n/).filter(Boolean);
   }
 
-  @Output('selectCourseEvent')
-  selectCourseEvent = new EventEmitter<ICourse>();
+  //to be removed
+  // @Output('selectCourseEvent')
+  // selectCourseEvent = new EventEmitter<ICourse>();
 
   removeCourseFromList(course: ICourse) {
     this.courses.forEach((item, index) => {
@@ -50,13 +52,16 @@ export class ListComponent implements OnInit {
     if (inputCourse.id !== this.selectedCourse?.id) { //case 'Find out more' button
 
       this.courseService.getDetails(inputCourse.id).then((result) => {
-        this.selectCourseEvent.emit(result);
+        //this.selectCourseEvent.emit(result); to be removed
         this.selectedCourse = inputCourse;
+        this.store.dispatch(selectCourse({ course: result }));
       });
 
     } else { //case 'Hide details' button
+      //this.selectCourseEvent.emit(this.selectedCourse); //hides the details //to be removed
+      
       this.selectedCourse = null;
-      this.selectCourseEvent.emit(this.selectedCourse); //hides the details
+      this.store.dispatch(selectCourse({ course: this.selectedCourse }));
     }
   }
 
@@ -68,7 +73,7 @@ export class ListComponent implements OnInit {
     this.store.dispatch({
       type: '[Course] Select course'
     });
-  
+
     this.store.select('courses');
   }
 }
