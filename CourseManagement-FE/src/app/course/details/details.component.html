@@ -33,7 +33,7 @@
     <div *ngFor="let p of courseContentParagrahs" class="row">
         <p class="col">{{p}}</p>
     </div>
-    <div class="row">
+    <div class="row mb-5">
         <p class="col">
             <button *ngIf="!selectedCourse.isFavorite" class="btn btn-outline-primary"
                 (click)="addToFavoritesHandler(selectedCourse.id)">Add to favorites</button>

@@ -20,14 +20,9 @@ export class HomeComponent implements OnInit {
   constructor(private readonly router: Router, private readonly store: Store<State>) { }
 
   private heading: string;
-  private courseToRemove: ICourse;
 
   public get getHeading(): string {
     return this.heading;
-  }
-
-  public get getCourseToRemove(): ICourse {
-    return this.courseToRemove;
   }
 
   ngOnInit(): void {
@@ -38,16 +33,6 @@ export class HomeComponent implements OnInit {
     else {
       this.heading = 'Courses';
       this.selectedCourse$ = this.store.pipe(select(getSelectedCourse));
-    }
-  }
-
-  resetCoursesOnPage(course: ICourse) {
-    this.courseToRemove = course;
-  }
-
-  changePageHeading(title: string) {
-    if (title !== '') {
-      this.heading = `${title} Courses`;
     }
   }
 }

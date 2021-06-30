@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { Store } from '@ngrx/store';
 import { State } from '../state/course.reducer';
-import { selectCourse, selectCourseRating, selectCourseShowDetails } from '../state/course.actions';
+import { selectCourse, selectCourseRating, selectCourseShowDetails, selectFavCourse } from '../state/course.actions';
 
 @Component({
   selector: 'app-course-list',
@@ -41,9 +41,16 @@ export class ListComponent implements OnInit {
   }
 
   selectCourseHandler(inputCourse: ICourse) {
-    if (!this.showCourseDetails || (this.showCourseDetails && inputCourse.id !== this.clickedCourse?.id)) { //case 'Find out more' button clicked
+
+    if (!this.showCourseDetails || (this.showCourseDetails && inputCourse.id !== this.clickedCourse?.id)) {
+      //case 'Find out more' button clicked   
+
       this.courseService.getDetails(inputCourse.id).then((result) => {
-        this.store.dispatch(selectCourse({ course: result }));
+        if (this.isPageFavoriteCourse()) {
+          this.store.dispatch(selectFavCourse({ course: result })) //displatch event for selected course: far favorite
+        } else {
+          this.store.dispatch(selectCourse({ course: result })); //displatch event for selected course: far normal
+        }
         this.store.dispatch(selectCourseRating({ rating: result.rating }));
         this.store.dispatch(selectCourseShowDetails({ flag: true }));
       });
@@ -55,5 +62,13 @@ export class ListComponent implements OnInit {
 
   getCourseSummaryParagraphs(course: ICourse): string[] {
     return course.summary.split(/\r?\n/).filter(Boolean);
+  }
+
+  isPageFavoriteCourse(): boolean {
+    if (this.router.url === "/course/favorites") {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

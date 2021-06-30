@@ -7,7 +7,7 @@ import { AlertConsts } from 'src/app/utilities/constants/alerts';
 import { getCourseShowDetails, getSelectedCourse } from '../state/course.selectors';
 import { select, Store } from '@ngrx/store';
 import { State } from '../state/course.reducer';
-import { selectCourse, selectCourseRating } from '../state/course.actions';
+import { selectCourse, selectCourseRating, selectFavCourse } from '../state/course.actions';
 
 @Component({
   selector: 'app-course-details',
@@ -22,9 +22,9 @@ export class DetailsComponent implements OnInit {
   public get courseContentParagrahs(): string[] {
     return this.selectedCourse.content.split(/\r?\n/).filter(Boolean);
   }
-
-  showCourseDetails$ = this.store.pipe(select(getCourseShowDetails));
   
+  showCourseDetails$ = this.store.pipe(select(getCourseShowDetails));
+
   @Input()
   selectedCourse: ICourse;
 
@@ -41,7 +41,9 @@ export class DetailsComponent implements OnInit {
   }
 
   addToFavoritesHandler(courseId: number) {
-    this.courseService.addCourseToFavorites(courseId).then(() => {
+    this.courseService.addCourseToFavorites(courseId).then(()=>{
+      this.store.dispatch(selectFavCourse({course: this.selectedCourse}))
+    }).then(() => {
       this.alertService.addAlertWithArgs(AlertConsts.ADD_FAV_COURSE_SUCCESS, AlertConsts.TYPE_INFO);
     }).then(() => {
       this.router.navigate(['/course/favorites']);
