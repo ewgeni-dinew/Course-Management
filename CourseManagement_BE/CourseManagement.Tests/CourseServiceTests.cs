@@ -9,17 +9,18 @@
     using CourseManagement.Repository.Contracts;
     using CourseManagement.Services;
     using CourseManagement.Services.Contracts;
-    using CourseManagement.Services.Utils;
+    using CourseManagement.Services.Utils.PDF;
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
     using DinkToPdf;
     using Xunit;
+    using CourseManagement.Services.Utils.Word;
 
     public class CourseServiceTests
     {
         private readonly IPdfService _pdfService;
-        private readonly IWordService _wordService;
+        //---private readonly IWordService _wordService;
 
         private readonly ICourseFactory _courseFactory;
         private readonly IFavoriteCourseFactory _favoriteCourseFactory;
@@ -44,11 +45,14 @@
 
             this._pdfService = new PdfService(new SynchronizedConverter(new PdfTools()));
 
-            this._wordService = new WordService();
+            //---this._wordService = new WordService();
+
+            IWordService somth = null;
 
             this._courseService = new CourseService(
                 this._pdfService,
-                this._wordService,
+                somth,
+                //---this._wordService,
                 this._courseFactory,
                 this._favoriteCourseFactory,
                 this._courseRepository,

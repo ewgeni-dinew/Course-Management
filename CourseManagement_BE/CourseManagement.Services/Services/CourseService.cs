@@ -12,8 +12,9 @@
     using CourseManagement.Services.Contracts;
     using CourseManagement.Utilities.Errors;
     using CourseManagement.Utilities.Constants;
-    using CourseManagement.Services.Utils;
     using Microsoft.EntityFrameworkCore;
+    using CourseManagement.Services.Utils.PDF;
+    using CourseManagement.Services.Utils.Word;
 
     /// <summary>
     /// The class is part of the application Service layer. It handles all the Business Logic connected to the Course and FavoriteCourse logical spaces.
@@ -255,7 +256,7 @@
 
             var courseAsByteArray = this._wordService.GenerateWordFile(course.Title, course.Content);
 
-            var kvp = new KeyValuePair<string, byte[]>(course.Title.ToLower(), courseAsByteArray);
+            var kvp = new KeyValuePair<string, byte[]>(course.Title, courseAsByteArray);
 
             return kvp;
         }

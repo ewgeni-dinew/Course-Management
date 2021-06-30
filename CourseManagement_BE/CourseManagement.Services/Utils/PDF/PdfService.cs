@@ -1,4 +1,4 @@
-﻿namespace CourseManagement.Services.Utils
+﻿namespace CourseManagement.Services.Utils.PDF
 {
     using System;
     using System.Text;

@@ -5,8 +5,14 @@
     using Microsoft.EntityFrameworkCore.Design;
     using Microsoft.Extensions.Configuration;
 
+    /// <summary>
+    /// Helper class to create and use Database Migrations
+    /// Gets the Connection string from the AppSettings.json file
+    /// </summary>
     public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
     {
+        private const string CONNECTION_STRING_KEY = "DefaultConnection";
+
         public ApplicationDbContext CreateDbContext(string[] args)
         {
             var configuration = new ConfigurationBuilder()
@@ -16,7 +22,7 @@
 
             var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
 
-            var connectionString = "Server=WS236\\COLIBRI;Database=CourseManagementDb;Trusted_Connection=True;MultipleActiveResultSets=true";
+            var connectionString = configuration.GetConnectionString(CONNECTION_STRING_KEY);
 
             builder.UseSqlServer(connectionString);
 
