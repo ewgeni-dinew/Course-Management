@@ -20,7 +20,7 @@
     public class CourseServiceTests
     {
         private readonly IPdfService _pdfService;
-        //---private readonly IWordService _wordService;
+        private readonly IWordService _wordService;
 
         private readonly ICourseFactory _courseFactory;
         private readonly IFavoriteCourseFactory _favoriteCourseFactory;
@@ -45,14 +45,11 @@
 
             this._pdfService = new PdfService(new SynchronizedConverter(new PdfTools()));
 
-            //---this._wordService = new WordService();
-
-            IWordService somth = null;
+            this._wordService = new WordService();
 
             this._courseService = new CourseService(
                 this._pdfService,
-                somth,
-                //---this._wordService,
+                this._wordService,
                 this._courseFactory,
                 this._favoriteCourseFactory,
                 this._courseRepository,
