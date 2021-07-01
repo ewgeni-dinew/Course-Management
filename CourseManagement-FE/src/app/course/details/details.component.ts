@@ -4,7 +4,7 @@ import { CourseService } from 'src/app/services/course.service';
 import { Router } from '@angular/router';
 import { AlertService } from 'src/app/services/alert.service';
 import { AlertConsts } from 'src/app/utilities/constants/alerts';
-import { getCourseShowDetails, getSelectedCourse } from '../state/course.selectors';
+import { getSelectedCourse } from '../state/course.selectors';
 import { select, Store } from '@ngrx/store';
 import { State } from '../state/course.reducer';
 import { selectCourse, selectCourseRating, selectFavCourse } from '../state/course.actions';
@@ -22,8 +22,6 @@ export class DetailsComponent implements OnInit {
   public get courseContentParagrahs(): string[] {
     return this.selectedCourse.content.split(/\r?\n/).filter(Boolean);
   }
-  
-  showCourseDetails$ = this.store.pipe(select(getCourseShowDetails));
 
   @Input()
   selectedCourse: ICourse;
@@ -41,8 +39,8 @@ export class DetailsComponent implements OnInit {
   }
 
   addToFavoritesHandler(courseId: number) {
-    this.courseService.addCourseToFavorites(courseId).then(()=>{
-      this.store.dispatch(selectFavCourse({course: this.selectedCourse}))
+    this.courseService.addCourseToFavorites(courseId).then(() => {
+      this.store.dispatch(selectFavCourse({ course: this.selectedCourse }))
     }).then(() => {
       this.alertService.addAlertWithArgs(AlertConsts.ADD_FAV_COURSE_SUCCESS, AlertConsts.TYPE_INFO);
     }).then(() => {
@@ -61,7 +59,7 @@ export class DetailsComponent implements OnInit {
 
   rateCourseHandler() {
     this.courseService.rateCourse(this.inputRating, this.selectedCourse.id).then((res) => {
-      this.store.dispatch(selectCourseRating({ rating: res.rating })); //dispatch event to update the rating from the store      
+      this.store.dispatch(selectCourseRating({ rating: res.rating, isFavCourse: this.isPageFavoriteCourse() })); //dispatch event to update the rating from the store      
     }).then(() => {
       this.alertService.addAlertWithArgs(AlertConsts.RATE_COURSE_SUCCESS, AlertConsts.TYPE_INFO);
     });
@@ -93,5 +91,10 @@ export class DetailsComponent implements OnInit {
         link.download = this.selectedCourse.title + ".doc";
         link.click();
       });
+  }
+
+  isPageFavoriteCourse(): boolean {
+    if (this.router.url === "/course/favorites") return true;
+    else return false;
   }
 }

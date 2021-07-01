@@ -1,4 +1,4 @@
-<div *ngIf="showCourseDetails$ | async">
+<div *ngIf="selectedCourse">
     <div class="row">
         <pre class="col-md-2">Course Rating: <b>{{courseRating}}</b></pre>
         <ngb-rating [(rate)]="inputRating" class="col-md-2"></ngb-rating>

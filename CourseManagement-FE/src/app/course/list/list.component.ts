@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { Store } from '@ngrx/store';
 import { State } from '../state/course.reducer';
-import { selectCourse, selectCourseRating, selectCourseShowDetails, selectFavCourse } from '../state/course.actions';
+import { deselectCourse, selectCourse, selectFavCourse } from '../state/course.actions';
 
 @Component({
   selector: 'app-course-list',
@@ -18,10 +18,10 @@ export class ListComponent implements OnInit {
     private readonly authService: AuthService, private readonly store: Store<State>) { }
 
   @Input()
-  showCourseDetails: boolean; //comes from store; shows if the course details should be displayed
+  clickedCourse: ICourse; //comes from store; shows the course that is currently clicked for details
 
   @Input()
-  clickedCourse: ICourse; //comes from store; shows the course that is currently clicked for details
+  courseId: number; //comes from the store; used for the course summary 'card'
 
   courses: ICourse[];
 
@@ -42,21 +42,21 @@ export class ListComponent implements OnInit {
 
   selectCourseHandler(inputCourse: ICourse) {
 
-    if (!this.showCourseDetails || (this.showCourseDetails && inputCourse.id !== this.clickedCourse?.id)) {
+    if (inputCourse.id !== this.clickedCourse?.id) {
       //case 'Find out more' button clicked   
 
       this.courseService.getDetails(inputCourse.id).then((result) => {
         if (this.isPageFavoriteCourse()) {
-          this.store.dispatch(selectFavCourse({ course: result })) //displatch event for selected course: far favorite
+          this.store.dispatch(selectFavCourse({ course: result })) //displatch event for selected course: for favorite
         } else {
-          this.store.dispatch(selectCourse({ course: result })); //displatch event for selected course: far normal
+          this.store.dispatch(selectCourse({ course: result })); //displatch event for selected course: for normal
         }
-        this.store.dispatch(selectCourseRating({ rating: result.rating }));
-        this.store.dispatch(selectCourseShowDetails({ flag: true }));
       });
 
-    } else { //case 'Hide details' button clicked
-      this.store.dispatch(selectCourseShowDetails({ flag: false }));
+    } else {
+      //case 'Hide details' button clicked
+
+      this.store.dispatch(deselectCourse({ isFavCourse: this.isPageFavoriteCourse() }));
     }
   }
 
@@ -65,10 +65,7 @@ export class ListComponent implements OnInit {
   }
 
   isPageFavoriteCourse(): boolean {
-    if (this.router.url === "/course/favorites") {
-      return true;
-    } else {
-      return false;
-    }
+    if (this.router.url === "/course/favorites") return true;
+    else return false;
   }
 }

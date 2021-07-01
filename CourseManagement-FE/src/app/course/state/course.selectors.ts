@@ -1,12 +1,17 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
-import { CourseState } from "./course.reducer";
+import { State } from "./course.reducer";
 
-const getCourseFeatureState = createFeatureSelector<CourseState>('courses'); //main selector for the 'courses' feature
+const getCourseFeatureState = createFeatureSelector<State>('courses'); //main selector for the 'courses' feature
 
-export const getSelectedCourse = createSelector(getCourseFeatureState, state => state.selectedCourse);
+export const getSelectedCourse = createSelector(getCourseFeatureState, state => state.courseState.object);
 
-export const getSelectedFavCourse = createSelector(getCourseFeatureState, state => state.selectedFavCourse);
+export const getCourseRating = createSelector(getCourseFeatureState, state => state.courseState.courseRating);
 
-export const getCourseRating = createSelector(getCourseFeatureState, state => state.courseRating);
+export const getSelectedCourseId = createSelector(getCourseFeatureState, state => state.courseState.courseId);
 
-export const getCourseShowDetails = createSelector(getCourseFeatureState, state => state.showCourseDetails);
+// for favorite course >>>
+export const getSelectedFavCourse = createSelector(getCourseFeatureState, state => state.favCourseState.object);
+
+export const getFavCourseRating = createSelector(getCourseFeatureState, state => state.favCourseState.courseRating);
+
+export const getSelectedFavCourseId = createSelector(getCourseFeatureState, state => state.favCourseState.courseId);

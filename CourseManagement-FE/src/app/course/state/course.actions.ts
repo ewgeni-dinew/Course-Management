@@ -13,10 +13,10 @@ export const selectFavCourse = createAction(
 
 export const selectCourseRating = createAction(
     '[Course] Select course rating',
-    props<{ rating: number }>()
+    props<{ rating: number, isFavCourse: boolean }>()
 );
 
-export const selectCourseShowDetails = createAction(
-    '[Course] Show course details',
-    props<{ flag: boolean }>()
+export const deselectCourse = createAction(
+    '[Course] Deselect course',
+    props<{ isFavCourse: boolean }>()
 );
