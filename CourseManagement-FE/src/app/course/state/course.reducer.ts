@@ -11,20 +11,20 @@ export interface State extends AppState.State {
 
 export interface CourseState {
     object: ICourse,
-    courseRating: number,
-    courseId: number
+    courseRating: number | null,
+    courseId: number | null
 }
 
 const initialState: State = {
     courseState: {
         object: null,
-        courseRating: 0,
-        courseId: 0,
+        courseRating: null,
+        courseId: null,
     },
     favCourseState: {
         object: null,
-        courseRating: 0,
-        courseId: 0,
+        courseRating: null,
+        courseId: null,
     },
     showFavCourse: false,
 };
@@ -62,7 +62,7 @@ export const courseReducer = createReducer<State>(
         let c: CourseState = {
             object: null, //is set before the return
             courseRating: rating,
-            courseId: 0 //is set before the return
+            courseId: null //is set before the return
         };
 
         if (isFavCourse) {
@@ -85,8 +85,8 @@ export const courseReducer = createReducer<State>(
 
         let c: CourseState = {
             object: null,
-            courseRating: 0,
-            courseId: 0 //is set before the return
+            courseRating: null,
+            courseId: null //is set before the return
         };
 
         if (isFavCourse) {
