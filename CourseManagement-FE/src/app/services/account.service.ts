@@ -18,6 +18,10 @@ export class AccountService {
   async loginUser(data: JSON): Promise<void> {
     const res = await this.http.post<IUser>(environment.apiUrl + 'account/login', data).toPromise();
     localStorage.setItem('loggedUser', JSON.stringify(res));
+
+    let date = new Date();
+    date.setTime(date.getTime() + (7 * 24 * 60 * 60 * 1000))
+    document.cookie = "refreshToken=" + res.refreshToken + "; expires=" + date.toUTCString() + "; path=/";
   }
 
   updateAccount(data: JSON) {
@@ -39,9 +43,36 @@ export class AccountService {
   }
 
   logout() {
-    localStorage.removeItem('loggedUser');
 
-    this.router.navigate(['/']);
+    const data = {
+      refreshToken: this.getCookieRefreshToken()
+    };
+
+    this.http.post(environment.apiUrl + 'account/revoketoken', data)
+      .subscribe(() => {
+        localStorage.removeItem('loggedUser');
+        this.router.navigate(['/']);
+
+      }, (error) => {
+        localStorage.removeItem('loggedUser');
+        this.router.navigate(['/']);
+      });
+  }
+
+  refreshToken() {
+    const user: IUser = JSON.parse(localStorage.getItem('loggedUser'));
+
+    const data = {
+      refreshToken: this.getCookieRefreshToken()
+    };
+
+    this.http.post<String>(environment.apiUrl + 'account/refreshtoken/' + user.id, data)
+      .subscribe((res) => {
+        user.token = res;
+        localStorage.setItem('loggedUser', JSON.stringify(user));
+      }, (error) => {
+        console.log('error');
+      });
   }
 
   getAll(): IUser[] {
@@ -74,5 +105,17 @@ export class AccountService {
 
     return this.http.post(environment.apiUrl + 'account/delete', data)
       .toPromise();
+  }
+
+  private getCookieRefreshToken(): String {
+
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; refreshToken=`);
+
+    if (parts.length === 2) {
+      return parts.pop().split(';').shift();
+    } else {
+      return '';
+    }
   }
 }

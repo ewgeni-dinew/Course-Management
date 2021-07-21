@@ -5,6 +5,7 @@ export interface IUser {
     firstName: String;
     lastName: String;
     token: String;
+    refreshToken: String;
     role: String;
     isBlocked: boolean;
 }

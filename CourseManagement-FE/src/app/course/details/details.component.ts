@@ -4,10 +4,9 @@ import { CourseService } from 'src/app/services/course.service';
 import { Router } from '@angular/router';
 import { AlertService } from 'src/app/services/alert.service';
 import { AlertConsts } from 'src/app/utilities/constants/alerts';
-import { getSelectedCourse } from '../state/course.selectors';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { State } from '../state/course.reducer';
-import { selectCourse, selectCourseRating, selectFavCourse } from '../state/course.actions';
+import { selectCourseRating, selectFavCourse } from '../state/course.actions';
 
 @Component({
   selector: 'app-course-details',

@@ -38,7 +38,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             alert.type = 'danger';
 
             //TODO decide if user should be logged out; as he can only be unauthorized
-            this.acountService.logout();
+            //this.acountService.logout();
           }
 
           this.alertService.addAlert(alert);
