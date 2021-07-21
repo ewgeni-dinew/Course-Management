@@ -17,5 +17,7 @@
         public bool IsBlocked { get; set; }
 
         public bool IsDeleted { get; set; }
+
+        public string RefreshToken { get; set; }
     }
 }

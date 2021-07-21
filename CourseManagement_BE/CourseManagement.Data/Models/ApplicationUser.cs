@@ -13,6 +13,8 @@
             this.Courses = new List<Course>();
 
             this.Favorites = new List<FavoriteCourse>();
+
+            this.RefreshTokens = new List<RefreshToken>();
         }
 
         internal ApplicationUser(string username, string password, string firstName, string lastName, int roleId)
@@ -49,11 +51,13 @@
 
         public virtual Role Role { get; private set; }
 
-        public string Token { get; private set; }
+        public string Token { get; private set; } //TODO remove
 
         public virtual ICollection<Course> Courses { get; private set; }
 
         public virtual ICollection<FavoriteCourse> Favorites { get; private set; }
+
+        public virtual ICollection<RefreshToken> RefreshTokens { get; set; }
 
         public DateTime CreatedOn { get; set; }
 

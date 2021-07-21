@@ -129,6 +129,10 @@
             return File(courseKVP.Value, Constants.APPLICATION_WORD_MIME, $"{courseKVP.Key}{Constants.FILE_EXTENSION_WORD}");
         }
 
+        //
+        //Private methods
+        //
+
         private int GetUserIdFromJWT()
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;

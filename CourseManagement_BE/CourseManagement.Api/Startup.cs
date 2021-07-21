@@ -13,6 +13,7 @@ namespace CourseManagement.Api
     using CourseManagement.Api.Helpers;
     using CourseManagement.Api.Middlewares;
     using CourseManagement.Api.Configuration;
+    using System;
 
     public class Startup
     {
@@ -48,7 +49,8 @@ namespace CourseManagement.Api
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
-                    ValidateAudience = false
+                    ValidateAudience = false,
+                    ClockSkew = TimeSpan.Zero //JWT Expiration time offset; In this case we want no offset from the expiration time;
                 };
             });
 

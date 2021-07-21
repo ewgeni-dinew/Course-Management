@@ -16,6 +16,7 @@
     using CourseManagement.Services.Contracts;
     using CourseManagement.Utilities.Errors;
     using CourseManagement.Utilities.Constants;
+    using System.Security.Cryptography;
 
     /// <summary>
     /// The class is part of the application Service layer. It handles all the Business Logic connected to the ApplicationUser logical space.
@@ -44,23 +45,11 @@
                 throw new CustomException(ErrorMessages.INVALID_USER_CREDENTIALS);
             }
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes("1p4kdl13pr0w[pkda;;kado[po");
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                    new Claim(ClaimTypes.Email, user.Username.ToString()),
-                    new Claim(ClaimTypes.Role, user.Role.Name.ToString())
-                }),
-                Expires = DateTime.UtcNow.AddMinutes(60),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
+            var jwtToken = GenerateJWTToken(user);
 
-            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var refreshToken = GenerateRefreshToken();
 
-            user.UpdateToken(tokenHandler.WriteToken(token));
+            user.RefreshTokens.Add(refreshToken);
 
             await _userRepository.SaveAsync();
 
@@ -70,8 +59,9 @@
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Username = user.Username,
-                Token = user.Token,
+                Token = jwtToken,
                 Role = user.Role.Name,
+                RefreshToken = refreshToken.Token
             };
 
             return result;
@@ -219,7 +209,7 @@
 
             user.Unblock();
 
-            _userRepository.Update(user);
+            this._userRepository.Update(user);
 
             await this._userRepository.SaveAsync();
 
@@ -230,6 +220,106 @@
             };
 
             return result;
+        }
+
+        public async Task<Tuple<string, string>> RefreshToken(int userId, string refreshToken)
+        {
+            var user = this._userRepository.GetAll
+                .Include(x => x.Role)
+                .FirstOrDefault(x => x.Id.Equals(userId));
+
+            if (user == null)
+            {
+                throw new CustomException(ErrorMessages.ERROR_PROCESSING_DATA);
+            }
+
+            var token = user.RefreshTokens
+                .FirstOrDefault(x => x.Token == refreshToken);
+
+            if (token == null || !token.IsActive)
+            {
+                throw new CustomException(ErrorMessages.INVALID_REFRESH_TOKEN);
+            }
+
+            var newRefreshToken = GenerateRefreshToken();
+
+            token.Revoked = DateTime.UtcNow;
+            token.ReplacedByToken = newRefreshToken.Token;
+            user.RefreshTokens.Add(newRefreshToken);
+
+            this._userRepository.Update(user);
+            await this._userRepository.SaveAsync();
+
+            var jwtToken = GenerateJWTToken(user);
+
+            return new Tuple<string, string>(jwtToken, newRefreshToken.Token);
+        }
+
+        public async Task<string> RevokeToken(int userId, string refreshToken)
+        {
+            var user = this._userRepository.GetAll
+                .FirstOrDefault(x => x.Id.Equals(userId));
+
+            if (user == null)
+            {
+                throw new CustomException(ErrorMessages.ERROR_PROCESSING_DATA);
+            }
+
+            var token = user.RefreshTokens
+                .FirstOrDefault(x => x.Token == refreshToken);
+
+            if (token == null)
+            {
+                throw new CustomException(ErrorMessages.INVALID_REFRESH_TOKEN);
+            }
+
+            if (!token.IsActive) return null;
+
+            token.Revoked = DateTime.UtcNow;
+
+            this._userRepository.Update(user);
+            await this._userRepository.SaveAsync();
+
+            return "Token was successfully revoked.";
+        }
+
+        private RefreshToken GenerateRefreshToken()
+        {
+            using (var rng = new RNGCryptoServiceProvider())
+            {
+                var byteBuffer = new byte[64];
+
+                rng.GetBytes(byteBuffer); //fills the byte array
+
+                return new RefreshToken
+                {
+                    Token = Convert.ToBase64String(byteBuffer),
+                    Expires = DateTime.UtcNow.AddDays(7), //set the RefreshToken expiration date
+                    Created = DateTime.UtcNow,
+                    //TODO add IP address
+                };
+            }
+        }
+
+        private string GenerateJWTToken(ApplicationUser user)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes("1p4kdl13pr0w[pkda;;kado[po");
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new Claim(ClaimTypes.Email, user.Username.ToString()),
+                    new Claim(ClaimTypes.Role, user.Role.Name.ToString())
+                }),
+                Expires = DateTime.UtcNow.AddMinutes(2),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            return tokenHandler.WriteToken(token);
         }
     }
 }

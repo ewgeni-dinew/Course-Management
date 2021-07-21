@@ -67,7 +67,7 @@ namespace CourseManagement.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedOn = new DateTime(2021, 4, 23, 8, 8, 42, 817, DateTimeKind.Utc).AddTicks(4794),
+                            CreatedOn = new DateTime(2021, 7, 20, 14, 52, 26, 316, DateTimeKind.Utc).AddTicks(3115),
                             FirstName = "Admin",
                             IsBlocked = false,
                             LastName = "Adminov",
@@ -174,6 +174,45 @@ namespace CourseManagement.Data.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.OwnsMany("CourseManagement.Data.Models.RefreshToken", "RefreshTokens", b1 =>
+                        {
+                            b1.Property<int>("ApplicationUserId")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<DateTime>("Created")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<string>("CreatedByIp")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<DateTime>("Expires")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<string>("ReplacedByToken")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<DateTime?>("Revoked")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<string>("RevokedByIp")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Token")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("ApplicationUserId", "Id");
+
+                            b1.ToTable("RefreshToken");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ApplicationUserId");
+                        });
                 });
 
             modelBuilder.Entity("CourseManagement.Data.Models.Course", b =>

@@ -24,5 +24,11 @@
 
         [ErrorMessage("Error generating PDF file.")]
         GENERATE_PDF_ERROR = 7,
+
+        [ErrorMessage("Error processing the request. Please check the data.")]
+        ERROR_PROCESSING_DATA = 8,
+
+        [ErrorMessage("The provided token is invalid.")]
+        INVALID_REFRESH_TOKEN = 9,
     }
 }
