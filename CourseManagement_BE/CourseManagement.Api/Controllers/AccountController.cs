@@ -5,9 +5,6 @@
     using Microsoft.AspNetCore.Authorization;
     using CourseManagement.DTO.Account;
     using CourseManagement.Services.Contracts;
-    using Microsoft.AspNetCore.Http;
-    using System.Security.Claims;
-    using System.Linq;
 
     [Route("api/[controller]/[action]")]
     [ApiController]

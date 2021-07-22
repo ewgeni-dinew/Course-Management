@@ -73,7 +73,7 @@
         {
             var currentDate = DateTime.UtcNow;
 
-            foreach (var t in refreshTokens)
+            foreach (var t in refreshTokens.Where(x => x.IsActive))
             {
                 t.Revoked = currentDate;
             }

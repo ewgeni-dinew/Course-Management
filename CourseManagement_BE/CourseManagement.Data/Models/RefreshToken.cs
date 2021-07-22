@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-
-namespace CourseManagement.Data.Models
+﻿namespace CourseManagement.Data.Models
 {
+    using System;
+    using Microsoft.EntityFrameworkCore;
+
     [Owned]
     public class RefreshToken
     {

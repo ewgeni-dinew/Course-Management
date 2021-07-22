@@ -1,5 +1,6 @@
 namespace CourseManagement.Api
 {
+    using System;
     using System.Text;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
@@ -13,7 +14,6 @@ namespace CourseManagement.Api
     using CourseManagement.Api.Helpers;
     using CourseManagement.Api.Middlewares;
     using CourseManagement.Api.Configuration;
-    using System;
 
     public class Startup
     {
