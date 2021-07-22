@@ -6,7 +6,6 @@
     using CourseManagement.DTO.Account;
     using CourseManagement.Services.Contracts;
     using Microsoft.AspNetCore.Http;
-    using System;
     using System.Security.Claims;
     using System.Linq;
 
@@ -93,57 +92,22 @@
             return Ok();
         }
 
-        [HttpPost("{userId}")] //TODO try it out with post
+        [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult> RefreshToken(int userId, [FromBody] RefreshTokenDTO dto)
+        public async Task<ActionResult> RefreshToken(RefreshTokenDTO dto)
         {
-            //var cookie = Request.Cookies["refreshToken"];
+            var res = await this._userService.RefreshToken(dto);
 
-            var refreshToken = dto.RefreshToken;
-
-            var res = await this._userService.RefreshToken(userId, refreshToken);
-
-            SetRefreshTokenCookie(res.Item2);
-
-            return Ok(res.Item1);
+            return Ok(res);
         }
 
         [HttpPost]
         [AllowAnonymous]
         public async Task<ActionResult> RevokeToken(RefreshTokenDTO dto)
         {
-            //var refreshToken = Request.Cookies["refreshToken"];
-
-            var refreshToken = dto.RefreshToken;
-
-            var userId = GetUserIdFromJWT();
-
-            var res = await this._userService.RevokeToken(userId, refreshToken);
+            var res = await this._userService.RevokeToken(dto);
 
             return Ok(res);
-        }
-
-
-        //
-        // Private methods
-        //
-
-        private int GetUserIdFromJWT()
-        {
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
-
-            return int.Parse(identity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
-        }
-
-        private void SetRefreshTokenCookie(string refreshToken)
-        {
-            var cookieOptions = new CookieOptions
-            {
-                HttpOnly = true,
-                Expires = DateTime.UtcNow.AddDays(7),
-            };
-
-            Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
         }
     }
 }

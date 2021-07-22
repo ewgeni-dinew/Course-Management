@@ -47,7 +47,7 @@
 
             var res = this._userService.LoginUser(dto).Result;
 
-            Assert.NotEqual("", res.Token);
+            Assert.NotEqual("", res.AccessToken);
             Assert.Equal(1, res.Id);
             Assert.Equal(dto.Username, res.Username);
         }

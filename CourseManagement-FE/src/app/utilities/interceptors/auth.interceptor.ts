@@ -15,11 +15,11 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 
-    let jwt = this.authService.getLoggedUser?.token;
+    let jwt = this.authService.getLoggedUser?.accessToken;
 
     if (jwt) {
       const modified = request.clone({
-        setHeaders: { 'Authorization': 'Bearer ' + this.authService.getLoggedUser?.token }
+        setHeaders: { 'Authorization': 'Bearer ' + this.authService.getLoggedUser?.accessToken }
       });
 
       return next.handle(modified);

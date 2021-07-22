@@ -1,6 +1,5 @@
 ﻿namespace CourseManagement.Services.Contracts
 {
-    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using CourseManagement.DTO.Account;
@@ -23,8 +22,8 @@
 
         public Task<int> ChangePassword(ChangePasswordDTO dto);
 
-        public Task<Tuple<string, string>> RefreshToken(int userId, string refreshToken);
+        public Task<RefreshTokenDTO> RefreshToken(RefreshTokenDTO dto);
 
-        public Task<string> RevokeToken(int userId, string refreshToken);
+        public Task<string> RevokeToken(RefreshTokenDTO dto);
     }
 }

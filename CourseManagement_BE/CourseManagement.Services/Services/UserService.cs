@@ -47,6 +47,8 @@
 
             var jwtToken = GenerateJWTToken(user);
 
+            RevokePreviousUserTokens(user.RefreshTokens);
+
             var refreshToken = GenerateRefreshToken();
 
             user.RefreshTokens.Add(refreshToken);
@@ -59,12 +61,22 @@
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Username = user.Username,
-                Token = jwtToken,
+                AccessToken = jwtToken,
                 Role = user.Role.Name,
                 RefreshToken = refreshToken.Token
             };
 
             return result;
+        }
+
+        private void RevokePreviousUserTokens(ICollection<RefreshToken> refreshTokens)
+        {
+            var currentDate = DateTime.UtcNow;
+
+            foreach (var t in refreshTokens)
+            {
+                t.Revoked = currentDate;
+            }
         }
 
         public async Task<UserDetailsDTO> RegisterUser(RegisterUserDTO dto)
@@ -222,11 +234,11 @@
             return result;
         }
 
-        public async Task<Tuple<string, string>> RefreshToken(int userId, string refreshToken)
+        public async Task<RefreshTokenDTO> RefreshToken(RefreshTokenDTO dto)
         {
             var user = this._userRepository.GetAll
                 .Include(x => x.Role)
-                .FirstOrDefault(x => x.Id.Equals(userId));
+                .FirstOrDefault(x => x.Id.Equals(dto.UserId));
 
             if (user == null)
             {
@@ -234,7 +246,7 @@
             }
 
             var token = user.RefreshTokens
-                .FirstOrDefault(x => x.Token == refreshToken);
+                .FirstOrDefault(x => x.Token == dto.RefreshToken);
 
             if (token == null || !token.IsActive)
             {
@@ -252,13 +264,17 @@
 
             var jwtToken = GenerateJWTToken(user);
 
-            return new Tuple<string, string>(jwtToken, newRefreshToken.Token);
+            return new RefreshTokenDTO
+            {
+                AccessToken = jwtToken,
+                RefreshToken = newRefreshToken.Token
+            };
         }
 
-        public async Task<string> RevokeToken(int userId, string refreshToken)
+        public async Task<string> RevokeToken(RefreshTokenDTO dto)
         {
             var user = this._userRepository.GetAll
-                .FirstOrDefault(x => x.Id.Equals(userId));
+                .FirstOrDefault(x => x.Id.Equals(dto.UserId));
 
             if (user == null)
             {
@@ -266,7 +282,7 @@
             }
 
             var token = user.RefreshTokens
-                .FirstOrDefault(x => x.Token == refreshToken);
+                .FirstOrDefault(x => x.Token == dto.RefreshToken);
 
             if (token == null)
             {
@@ -285,20 +301,18 @@
 
         private RefreshToken GenerateRefreshToken()
         {
-            using (var rng = new RNGCryptoServiceProvider())
+            using var rng = new RNGCryptoServiceProvider();
+            var byteBuffer = new byte[64];
+
+            rng.GetBytes(byteBuffer); //fills the byte array
+
+            return new RefreshToken
             {
-                var byteBuffer = new byte[64];
-
-                rng.GetBytes(byteBuffer); //fills the byte array
-
-                return new RefreshToken
-                {
-                    Token = Convert.ToBase64String(byteBuffer),
-                    Expires = DateTime.UtcNow.AddDays(7), //set the RefreshToken expiration date
-                    Created = DateTime.UtcNow,
-                    //TODO add IP address
-                };
-            }
+                Token = Convert.ToBase64String(byteBuffer),
+                Expires = DateTime.UtcNow.AddDays(7), //set the RefreshToken expiration date
+                Created = DateTime.UtcNow,
+                //TODO add IP address
+            };
         }
 
         private string GenerateJWTToken(ApplicationUser user)
@@ -313,7 +327,7 @@
                     new Claim(ClaimTypes.Email, user.Username.ToString()),
                     new Claim(ClaimTypes.Role, user.Role.Name.ToString())
                 }),
-                Expires = DateTime.UtcNow.AddMinutes(2),
+                Expires = DateTime.UtcNow.AddMinutes(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
