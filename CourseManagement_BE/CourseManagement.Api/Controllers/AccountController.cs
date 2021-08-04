@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Authorization;
     using CourseManagement.DTO.Account;
     using CourseManagement.Services.Contracts;
+    using CourseManagement.Api.Helpers;
 
     [Route("api/[controller]/[action]")]
     [ApiController]
@@ -54,7 +55,7 @@
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [AllowAnonymousWithPolicy("Admin")]//[Authorize(Roles = "Admin")]
         public async Task<ActionResult> GetAll()
         {
             var res = await this._userService.GetAllUsers();
@@ -105,6 +106,20 @@
             var res = await this._userService.RevokeToken(dto);
 
             return Ok(res);
+        }
+
+        [HttpGet]
+        [AllowAnonymousWithPolicy("Admin, SysAdmin")]
+        public void Test()
+        {
+
+        }
+
+        [HttpGet]
+        [AllowAnonymousWithPolicy()]
+        public void Test2()
+        {
+
         }
     }
 }

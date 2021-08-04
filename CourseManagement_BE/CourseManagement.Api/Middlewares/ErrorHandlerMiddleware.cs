@@ -26,14 +26,18 @@
             // catch () { } COULD BE USED TO CATCH ALL OTHER TYPES OF EXCEPTIONS
             catch (CustomException ex)
             {
+                Console.WriteLine("---ERROR---: " + ex.Message); //used for testing purposes only
+
                 var response = context.Response;
                 response.ContentType = "application/json";
                 response.StatusCode = (int)HttpStatusCode.BadRequest;
 
                 await response.WriteAsync(ex.ToString());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine("---ERROR---: " + ex.Message); //used for testing purposes only
+
                 var response = context.Response;
                 response.ContentType = "application/json";
                 response.StatusCode = (int)HttpStatusCode.BadRequest;
