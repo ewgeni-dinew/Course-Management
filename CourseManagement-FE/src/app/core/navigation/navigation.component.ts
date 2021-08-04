@@ -29,10 +29,5 @@ export class NavigationComponent implements OnInit {
     this.accountService.logout();
 
     this.aletService.addAlertWithArgs(AlertConsts.USER_LOGOUT_SUCCESS, AlertConsts.TYPE_INFO);
-  }
-  
-  //TODO remove
-  refreshTokenHandler() {
-    this.accountService.refreshToken();
-  }
+  }  
 }

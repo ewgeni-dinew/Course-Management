@@ -19,7 +19,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
     if (jwt) {
       const modified = request.clone({
-        setHeaders: { 'Authorization': 'Bearer ' + this.authService.getLoggedUser?.accessToken }
+        setHeaders: { 'Authorization': 'Bearer ' + jwt }
       });
 
       return next.handle(modified);

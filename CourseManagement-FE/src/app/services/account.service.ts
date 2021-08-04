@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { IUser } from '../shared/contracts/user';
 import { Router } from '@angular/router';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -66,14 +67,19 @@ export class AccountService {
         refreshToken: user.refreshToken
       };
 
-      this.http.post<IUser>(environment.apiUrl + 'account/refreshtoken', data)
-        .subscribe((res) => {
+      return this.http.post<IUser>(environment.apiUrl + 'account/refreshtoken', data)
+        .pipe(map((res: IUser) => {
           user.accessToken = res.accessToken;
           user.refreshToken = res.refreshToken;
           localStorage.setItem('loggedUser', JSON.stringify(user));
-        }, (error) => {
-          console.log('error');
-        });
+        }));
+      // .subscribe((res) => {
+      //   user.accessToken = res.accessToken;
+      //   user.refreshToken = res.refreshToken;
+      //   localStorage.setItem('loggedUser', JSON.stringify(user));
+      // }, (error) => {
+      //   console.log('error');
+      // });
     }
   }
 
