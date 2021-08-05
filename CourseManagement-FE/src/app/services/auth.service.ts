@@ -13,7 +13,12 @@ export class AuthService {
   }
 
   public get isUserAdmin(): Boolean {
-    return this.getLoggedUser.role.toLowerCase() === "admin";
+    if (this.getLoggedUser) {
+      return this.getLoggedUser.role.toLocaleLowerCase() === "admin";
+    }
+    else {
+      return false;
+    }
   }
 
   public get getUserAccessToken(): String {

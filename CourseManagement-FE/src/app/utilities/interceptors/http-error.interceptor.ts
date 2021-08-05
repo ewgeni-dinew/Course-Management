@@ -38,7 +38,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             return next.handle(request);
           }),
           catchError(e => {
-            if (e.status !== 401) {
+            if (e.status !== 400 && e.status !== 401) {
               return this.handleResponseError(e);
             } else {
               // case JWT *INVALID*
