@@ -6,8 +6,8 @@
     using CourseManagement.DTO.Course;
     using CourseManagement.Services.Contracts;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Authorization;
     using CourseManagement.Utilities.Constants;
+    using CourseManagement.Api.Authorization;
 
     [Route("api/[controller]/[action]")]
     [ApiController]
@@ -21,7 +21,7 @@
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [CustomAuthorization("Admin")]
         public async Task<IActionResult> Create(CreateCourseDTO dto)
         {
             await this._courseService.CreateCourse(dto);
@@ -30,7 +30,7 @@
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [CustomAuthorization("Admin")]
         public async Task<IActionResult> Edit(EditCourseDTO dto)
         {
             await this._courseService.EditCourse(dto);
@@ -40,7 +40,7 @@
 
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [CustomAuthorization("Admin")]
         public async Task<IActionResult> Delete(DeleteCourseDTO dto)
         {
             await this._courseService.DeleteCourse(dto);
@@ -49,7 +49,7 @@
         }
 
         [HttpGet]
-        [Authorize]
+        [CustomAuthorization()]
         public async Task<IActionResult> GetAll()
         {
             var res = await this._courseService.GetAllCourses();
@@ -58,7 +58,7 @@
         }
 
         [HttpGet]
-        [Authorize]
+        [CustomAuthorization()]
         public async Task<IActionResult> GetFavorites()
         {
             var userId = GetUserIdFromJWT();
@@ -69,7 +69,7 @@
         }
 
         [HttpPost]
-        [Authorize]
+        [CustomAuthorization()]
         public async Task<IActionResult> AddToFavorites(AddToFavoritesDTO dto)
         {
             var userId = GetUserIdFromJWT();
@@ -80,7 +80,7 @@
         }
 
         [HttpPost]
-        [Authorize]
+        [CustomAuthorization()]
         public async Task<IActionResult> RemoveFromFavorites(AddToFavoritesDTO dto)
         {
             var userId = GetUserIdFromJWT();
@@ -91,7 +91,7 @@
         }
 
         [HttpGet("{id}")]
-        [Authorize]
+        [CustomAuthorization()]
         public async Task<IActionResult> Details(int id)
         {
             var userId = GetUserIdFromJWT();
@@ -102,7 +102,7 @@
         }
 
         [HttpPost]
-        [Authorize]
+        [CustomAuthorization()]
         public async Task<IActionResult> Rate(RateCourseDTO dto)
         {
             var res = await this._courseService.RateCourse(dto);
@@ -111,7 +111,7 @@
         }
 
         [HttpGet("{id}")]
-        [Authorize]
+        [CustomAuthorization()]
         public async Task<IActionResult> DownloadPDF(int id)
         {
             var courseKVP = await this._courseService.DownloadCourseAsPDF(id);
@@ -121,7 +121,7 @@
 
 
         [HttpGet("{id}")]
-        [Authorize]
+        [CustomAuthorization()]
         public async Task<IActionResult> DownloadWord(int id)
         {
             var courseKVP = await this._courseService.DownloadCourseAsWORD(id);

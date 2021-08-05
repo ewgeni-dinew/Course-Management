@@ -5,7 +5,7 @@
     using Microsoft.AspNetCore.Authorization;
     using CourseManagement.DTO.Account;
     using CourseManagement.Services.Contracts;
-    using CourseManagement.Api.Helpers;
+    using CourseManagement.Api.Authorization;
 
     [Route("api/[controller]/[action]")]
     [ApiController]
@@ -37,7 +37,7 @@
         }
 
         [HttpPost]
-        [Authorize]
+        [CustomAuthorization()]
         public async Task<ActionResult> Update(UpdateUserDTO dto)
         {
             var res = await this._userService.UpdateUser(dto);
@@ -46,7 +46,7 @@
         }
 
         [HttpPost]
-        [Authorize]
+        [CustomAuthorization()]
         public async Task<ActionResult> ChangePassword(ChangePasswordDTO dto)
         {
             await this._userService.ChangePassword(dto);
@@ -55,7 +55,7 @@
         }
 
         [HttpGet]
-        [AllowAnonymousWithPolicy("Admin")]//[Authorize(Roles = "Admin")]
+        [CustomAuthorization("Admin")]
         public async Task<ActionResult> GetAll()
         {
             var res = await this._userService.GetAllUsers();
@@ -64,7 +64,7 @@
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [CustomAuthorization("Admin")]
         public async Task<ActionResult> Block(BaseUserDTO dto)
         {
             await this._userService.BlockUser(dto);
@@ -73,7 +73,7 @@
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [CustomAuthorization("Admin")]
         public async Task<ActionResult> Unblock(BaseUserDTO dto)
         {
             await this._userService.UnblockUser(dto);
@@ -82,7 +82,7 @@
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [CustomAuthorization("Admin")]
         public async Task<ActionResult> Delete(BaseUserDTO dto)
         {
             await this._userService.DeleteUser(dto);
@@ -106,20 +106,6 @@
             var res = await this._userService.RevokeToken(dto);
 
             return Ok(res);
-        }
-
-        [HttpGet]
-        [AllowAnonymousWithPolicy("Admin, SysAdmin")]
-        public void Test()
-        {
-
-        }
-
-        [HttpGet]
-        [AllowAnonymousWithPolicy()]
-        public void Test2()
-        {
-
         }
     }
 }
