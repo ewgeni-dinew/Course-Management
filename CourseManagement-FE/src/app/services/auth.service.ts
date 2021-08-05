@@ -11,8 +11,12 @@ export class AuthService {
   public get getLoggedUser(): IUser {
     return JSON.parse(localStorage.getItem('loggedUser'));
   }
-  
+
   public get isUserAdmin(): Boolean {
     return this.getLoggedUser.role.toLowerCase() === "admin";
+  }
+
+  public get getUserAccessToken(): String {
+    return this.getLoggedUser?.accessToken;
   }
 }

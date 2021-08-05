@@ -12,7 +12,7 @@ import { AlertConsts } from 'src/app/utilities/constants/alerts';
 })
 export class NavigationComponent implements OnInit {
 
-  constructor(private readonly authService: AuthService, private readonly accountService: AccountService, private readonly aletService: AlertService) { }
+  constructor(private readonly authService: AuthService, private readonly accountService: AccountService, private readonly alertService: AlertService) { }
 
   get loggedUser(): IUser {
     return this.authService.getLoggedUser;
@@ -21,13 +21,13 @@ export class NavigationComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  isUserAdmin(): boolean {
-    return this.loggedUser?.role === "Admin";
+  isUserAdmin(): Boolean {
+    return this.authService.isUserAdmin;
   }
 
   logoutHandler() {
     this.accountService.logout();
 
-    this.aletService.addAlertWithArgs(AlertConsts.USER_LOGOUT_SUCCESS, AlertConsts.TYPE_INFO);
+    this.alertService.addAlertWithArgs(AlertConsts.USER_LOGOUT_SUCCESS, AlertConsts.TYPE_INFO);
   }  
 }
