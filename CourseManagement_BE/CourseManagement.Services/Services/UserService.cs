@@ -7,6 +7,7 @@
     using System.Collections.Generic;
     using System.IdentityModel.Tokens.Jwt;
     using System.Security.Claims;
+    using System.Security.Cryptography;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.IdentityModel.Tokens;
     using CourseManagement.DTO.Account;
@@ -16,7 +17,6 @@
     using CourseManagement.Services.Contracts;
     using CourseManagement.Utilities.Errors;
     using CourseManagement.Utilities.Constants;
-    using System.Security.Cryptography;
 
     /// <summary>
     /// The class is part of the application Service layer. It handles all the Business Logic connected to the ApplicationUser logical space.

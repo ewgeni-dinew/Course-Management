@@ -1,11 +1,11 @@
 ﻿namespace CourseManagement.Repository
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.EntityFrameworkCore;
     using CourseManagement.Data;
     using CourseManagement.Data.Models.Contracts;
     using CourseManagement.Repository.Contracts;
-    using Microsoft.EntityFrameworkCore;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public abstract class Repository<T> : IRepository<T>
         where T : class, IIdentifiable

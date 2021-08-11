@@ -1,13 +1,12 @@
 ﻿namespace CourseManagement.Services.Utils.Word
 {
+    using System.IO;
     using DocumentFormat.OpenXml;
     using DocumentFormat.OpenXml.Packaging;
     using DocumentFormat.OpenXml.Wordprocessing;
-    using System.IO;
 
     public class WordService : IWordService
     {
-
         public byte[] GenerateWordFile(string title, string content)
         {
             var stream = new MemoryStream();

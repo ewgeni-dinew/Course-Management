@@ -1,8 +1,8 @@
 ﻿namespace CourseManagement.Services.Contracts
 {
-    using CourseManagement.DTO.Course;
-    using System.Collections.Generic;
     using System.Threading.Tasks;
+    using System.Collections.Generic;
+    using CourseManagement.DTO.Course;
 
     public interface ICourseService
     {

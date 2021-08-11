@@ -1,12 +1,12 @@
 ﻿namespace CourseManagement.Data
 {
-    using CourseManagement.Data.Models;
-    using CourseManagement.Data.Models.Contracts;
-    using Microsoft.EntityFrameworkCore;
     using System;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using Microsoft.EntityFrameworkCore;
+    using CourseManagement.Data.Models;
+    using CourseManagement.Data.Models.Contracts;
 
     public class ApplicationDbContext : DbContext
     {

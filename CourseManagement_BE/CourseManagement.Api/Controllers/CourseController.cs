@@ -3,9 +3,9 @@
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
     using CourseManagement.DTO.Course;
     using CourseManagement.Services.Contracts;
-    using Microsoft.AspNetCore.Mvc;
     using CourseManagement.Utilities.Constants;
     using CourseManagement.Api.Authorization;
 

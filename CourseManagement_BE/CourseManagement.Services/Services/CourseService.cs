@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
     using System.Collections.Generic;
     using System.Text;
+    using Microsoft.EntityFrameworkCore;
     using CourseManagement.Data.Factories.Contracts;
     using CourseManagement.Data.Models;
     using CourseManagement.DTO.Course;
@@ -12,7 +13,6 @@
     using CourseManagement.Services.Contracts;
     using CourseManagement.Utilities.Errors;
     using CourseManagement.Utilities.Constants;
-    using Microsoft.EntityFrameworkCore;
     using CourseManagement.Services.Utils.PDF;
     using CourseManagement.Services.Utils.Word;
 

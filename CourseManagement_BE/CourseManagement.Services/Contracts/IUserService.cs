@@ -1,7 +1,7 @@
 ﻿namespace CourseManagement.Services.Contracts
 {
-    using System.Collections.Generic;
     using System.Threading.Tasks;
+    using System.Collections.Generic;
     using CourseManagement.DTO.Account;
 
     public interface IUserService

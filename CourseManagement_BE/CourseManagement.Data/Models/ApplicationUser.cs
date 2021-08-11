@@ -1,8 +1,8 @@
 ﻿namespace CourseManagement.Data.Models
 {
-    using CourseManagement.Data.Models.Contracts;
     using System;
     using System.Collections.Generic;
+    using CourseManagement.Data.Models.Contracts;
 
     public class ApplicationUser : IIdentifiable, IDatable
     {
