@@ -10,15 +10,12 @@ import { AlertConsts } from 'src/app/utilities/constants/alerts';
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.css']
 })
-export class NavigationComponent implements OnInit {
+export class NavigationComponent {
 
   constructor(private readonly authService: AuthService, private readonly accountService: AccountService, private readonly alertService: AlertService) { }
 
   get loggedUser(): IUser {
     return this.authService.getLoggedUser;
-  }
-
-  ngOnInit(): void {
   }
 
   isUserAdmin(): Boolean {

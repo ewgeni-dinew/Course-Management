@@ -5,8 +5,7 @@ import { deselectCourse, selectCourse, selectCourseRating, selectFavCourse } fro
 
 export interface State extends AppState.State {
     courseState: CourseState,
-    favCourseState: CourseState,
-    showFavCourse: boolean
+    favCourseState: CourseState
 }
 
 export interface CourseState {
@@ -25,8 +24,7 @@ const initialState: State = {
         object: null,
         courseRating: null,
         courseId: null,
-    },
-    showFavCourse: false,
+    }
 };
 
 export const courseReducer = createReducer<State>(

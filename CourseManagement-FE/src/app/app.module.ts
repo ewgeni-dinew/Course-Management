@@ -13,6 +13,7 @@ import { AuthInterceptor } from './utilities/interceptors/auth.interceptor';
 import { HttpErrorInterceptor } from './utilities/interceptors/http-error.interceptor';
 import { StoreModule } from '@ngrx/store';
 
+
 @NgModule({
   declarations: [
     AppComponent,

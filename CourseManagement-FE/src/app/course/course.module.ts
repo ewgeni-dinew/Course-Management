@@ -10,17 +10,19 @@ import { FormsModule } from '@angular/forms';
 import { NgbAccordionModule, NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 import { StoreModule } from '@ngrx/store';
 import { courseReducer } from './state/course.reducer';
-
+import { BoardComponent } from './board/board.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
 @NgModule({
-  declarations: [CreateComponent, EditComponent, ListComponent, DetailsComponent, HomeComponent],
+  declarations: [CreateComponent, EditComponent, ListComponent, DetailsComponent, HomeComponent, BoardComponent],
   imports: [
     CommonModule,
     CourseRoutingModule,
     FormsModule,
     NgbAccordionModule,
     NgbRatingModule,
+    DragDropModule,
     StoreModule.forFeature('courses', courseReducer)
   ]
 })

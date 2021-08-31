@@ -16,6 +16,9 @@
                     <button routerLink="course/create" *ngIf="isUserAdmin()" ngbDropdownItem>Add Course</button>
                 </div>
             </li>
+            <li *ngIf="!!loggedUser" class="nav-item">
+                <a class="nav-link" routerLink="course/board">Board</a>
+            </li>
             <li *ngIf="isUserAdmin()" class="nav-item">
                 <a class="nav-link" routerLink="account/list">Manage Users</a>
             </li>
