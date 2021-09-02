@@ -1,5 +1,8 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { CourseService } from 'src/app/services/course.service';
+import { ICourse } from 'src/app/shared/contracts/course';
 
 @Component({
   selector: 'app-board',
@@ -8,45 +11,64 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BoardComponent implements OnInit {
 
-  constructor() { console.log('constructor') }
+  constructor(private readonly courseService: CourseService) { }
 
   ngOnInit(): void {
-    console.log('onInit')
+
+    this.courseService.getAllUserCourses()
+      .subscribe(res => {
+        this.allUserCourses = res;
+
+        this.todoCourses = this.allUserCourses.filter(x => x.state === 2).map(x => x.title);
+
+        this.inProgCourses = this.allUserCourses.filter(x => x.state === 3).map(x => x.title);
+
+        this.doneCourses = this.allUserCourses.filter(x => x.state === 4).map(x => x.title);
+
+        this.courseService.getAll()
+          .subscribe(res => {
+            this.allCourses = res
+            this.allCourseTitles = this.allCourses
+              .map(x => x.title)
+              .filter((e) => !this.allUserCourses.map(x => x.title).includes(e));
+          });
+      });
   }
 
-  all = [
-    'AAA', 'BBB', 'CCC'
-  ];
+  allCourseTitles: String[];
 
-  todo = [
-    'Get to work',
-    'Pick up groceries',
-    'Go home',
-    'Fall asleep'
-  ];
+  allUserCourses: ICourse[];
 
-  inProgress = [
-    '1111',
-    '2222',
-    '3333'
-  ];
+  allCourses: ICourse[];
 
-  done = [
-    'Get up',
-    'Brush teeth',
-    'Take a shower',
-    'Check e-mail',
-    'Walk dog'
-  ];
+  todoCourses: String[];
 
-  drop(event: CdkDragDrop<string[]>) {
-    if (event.previousContainer === event.container) {
+  inProgCourses: String[];
+
+  doneCourses: String[];
+
+  drop(event: CdkDragDrop<string[]>, nextCourseGroup: number) {
+
+    let courseTitle = event.item.element.nativeElement.innerText;
+
+    let prevGroup = this.allUserCourses.filter(x => x.title === courseTitle)[0]?.state;
+
+    if (!prevGroup) {
+      prevGroup = 1;
+    }
+
+    if (event.previousContainer === event.container || nextCourseGroup - prevGroup != 1) {
+      //ensures each course can be changed from Inactive>ToDo>InProgress>Done
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       transferArrayItem(event.previousContainer.data,
         event.container.data,
         event.previousIndex,
         event.currentIndex);
+
+      let courseId = this.allCourses.filter(x => x.title === courseTitle)[0].id;
+
+      this.courseService.changeUserCourseState(courseId, nextCourseGroup).subscribe();
     }
   }
 }

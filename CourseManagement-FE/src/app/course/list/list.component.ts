@@ -31,7 +31,7 @@ export class ListComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.router.url === "/course/favorites") this.courses = this.courseService.getFavoriteCourses();
-    else this.courses = this.courseService.getAll();
+    else this.courseService.getAll().subscribe(res => this.courses = res);
   }
 
   removeCourseFromList(course: ICourse) {

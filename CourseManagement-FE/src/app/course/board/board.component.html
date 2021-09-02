@@ -6,8 +6,11 @@
 
   <div class="row">
     <div class="col-lg-9 offset-lg-1">
-      <div cdkDropList [cdkDropListData]="all" class="container" (cdkDropListDropped)="drop($event)">
-        <div class="flex btn-primary" *ngFor="let course of all" cdkDrag>{{course}}</div>
+      <div cdkDropList [cdkDropListData]="allCourseTitles" class="container" (cdkDropListDropped)="drop($event, 1)">
+        <div class="flex" *ngFor="let course of this.allCourseTitles" cdkDrag>
+          <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+          {{course}}
+        </div>
       </div>
     </div>
   </div>
@@ -16,22 +19,31 @@
 
     <div class="col-lg-3 offset-lg-1">
       <h5>To Do</h5>
-      <div cdkDropList [cdkDropListData]="todo" class="example-list" (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let course of todo" cdkDrag>{{course}}</div>
+      <div cdkDropList [cdkDropListData]="todoCourses" class="example-list" (cdkDropListDropped)="drop($event, 2)">
+        <div class="example-box box-todo" *ngFor="let course of todoCourses" cdkDragLockAxis="x" cdkDrag>
+          <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+          {{course}}
+        </div>
       </div>
     </div>
 
     <div class="col-lg-3">
       <h5>In Progress</h5>
-      <div cdkDropList [cdkDropListData]="inProgress" class="example-list" (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let course of inProgress" cdkDrag>{{course}}</div>
+      <div cdkDropList [cdkDropListData]="inProgCourses" class="example-list" (cdkDropListDropped)="drop($event, 3)">
+        <div class="example-box box-in-progress" *ngFor="let course of inProgCourses" cdkDragLockAxis="x" cdkDrag>
+          <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+          {{course}}
+        </div>
       </div>
     </div>
 
     <div class="col-lg-3">
       <h5>Done</h5>
-      <div cdkDropList [cdkDropListData]="done" class="example-list" (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let course of done" cdkDrag>{{course}}</div>
+      <div cdkDropList [cdkDropListData]="doneCourses" class="example-list" (cdkDropListDropped)="drop($event, 4)">
+        <div class="example-box box-done" *ngFor="let course of doneCourses" cdkDragLockAxis="x" cdkDrag>
+          <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+          {{course}}
+        </div>
       </div>
     </div>
   </div>

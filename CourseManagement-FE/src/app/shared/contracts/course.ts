@@ -1,4 +1,4 @@
-export interface ICourse{
+export interface ICourse {
     id: number;
     title: String;
     content: String;
@@ -7,4 +7,5 @@ export interface ICourse{
     summary: String;
     rating: number;
     isFavorite: boolean;
+    state: number;
 }

@@ -41,15 +41,12 @@ export class CourseService {
       .toPromise();
   }
 
-  getAll(): ICourse[] {
-    let courses: ICourse[] = [];
+  getAll(): Observable<ICourse[]> {
+    return this.http.get<ICourse[]>(environment.apiUrl + 'course/getall');
+  }
 
-    this.http.get<ICourse[]>(environment.apiUrl + 'course/getall')
-      .subscribe(res => {
-        res.forEach(x => courses.push(x));
-      });
-
-    return courses;
+  getAllUserCourses(): Observable<ICourse[]> {
+    return this.http.get<ICourse[]>(environment.apiUrl + 'course/getallusercourses');
   }
 
   getFavoriteCourses(): ICourse[] {
@@ -89,6 +86,15 @@ export class CourseService {
 
     return this.http.post<ICourse>(environment.apiUrl + 'course/rate', <JSON>data)
       .toPromise();
+  }
+
+  changeUserCourseState(courseId: number, state: number): Observable<Object> {
+    const data = {};
+    data['courseId'] = courseId;
+    data['userCourseState'] = state
+    data['userId'] = this.authService.getLoggedUser.id;
+
+    return this.http.post(environment.apiUrl + 'course/ChangeCourseState', <JSON>data);
   }
 
   downloadPDF(courseId: number): Observable<Blob> {
