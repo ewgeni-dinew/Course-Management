@@ -47,8 +47,6 @@ namespace CourseManagement.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            //new >>>
-
             migrationBuilder.CreateTable(
                 name: "RefreshToken",
                 columns: table => new
@@ -74,7 +72,6 @@ namespace CourseManagement.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-            // <<<
 
             migrationBuilder.CreateTable(
                 name: "Courses",
@@ -126,6 +123,30 @@ namespace CourseManagement.Data.Migrations
                         principalTable: "Users",
                         principalColumn: "Id");
                 });
+/*
+            migrationBuilder.CreateTable(
+                name: "UserCourses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(nullable: false),
+                    CourseId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FavoriteCourses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FavoriteCourses_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_FavoriteCourses_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });*/
 
             migrationBuilder.InsertData(
                 table: "Roles",

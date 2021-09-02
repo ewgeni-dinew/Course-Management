@@ -25,9 +25,11 @@
         private readonly ICourseFactory _courseFactory;
         private readonly IFavoriteCourseFactory _favoriteCourseFactory;
         private readonly IUserFactory _userFactory;
+        private readonly IUserCourseFactory _userCourseFactory;
 
         private readonly IRepository<Course> _courseRepository;
         private readonly IRepository<FavoriteCourse> _favCourseRepository;
+        private readonly IRepository<UserCourse> _userCourseRepository;
 
         private readonly ICourseService _courseService;
 
@@ -36,12 +38,15 @@
             this._courseFactory = new CourseFactory();
             this._favoriteCourseFactory = new FavoriteCourseFactory();
             this._userFactory = new UserFactory();
+            this._userCourseFactory = new UserCourseFactory();
 
             var dbContext = SetupMockDatabaseWithSeedData();
 
             this._courseRepository = new CourseRepository(dbContext);
 
             this._favCourseRepository = new FavoriteCourseRepository(dbContext);
+
+            this._userCourseRepository = new UserCourseRepository(dbContext);
 
             this._pdfService = new PdfService(new SynchronizedConverter(new PdfTools()));
 
@@ -52,8 +57,10 @@
                 this._wordService,
                 this._courseFactory,
                 this._favoriteCourseFactory,
+                this._userCourseFactory,
                 this._courseRepository,
-                this._favCourseRepository);
+                this._favCourseRepository,
+                this._userCourseRepository);
         }
 
         [Fact]

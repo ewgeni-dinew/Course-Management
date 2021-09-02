@@ -15,6 +15,7 @@
     using CourseManagement.Utilities.Constants;
     using CourseManagement.Services.Utils.PDF;
     using CourseManagement.Services.Utils.Word;
+    using CourseManagement.Data.Models.Enums;
 
     /// <summary>
     /// The class is part of the application Service layer. It handles all the Business Logic connected to the Course and FavoriteCourse logical spaces.
@@ -26,24 +27,32 @@
 
         private readonly ICourseFactory _courseFactory;
         private readonly IFavoriteCourseFactory _favCourseFactory;
+        private readonly IUserCourseFactory _userCourseFactory;
 
         private readonly IRepository<Course> _courseRepository;
         private readonly IRepository<FavoriteCourse> _favCourseRepository;
+        private readonly IRepository<UserCourse> _userCourseRepository;
 
         public CourseService(
             IPdfService pdfService,
             IWordService wordService,
             ICourseFactory courseFactory,
             IFavoriteCourseFactory favoriteCourseFactory,
+            IUserCourseFactory userCourseFactory,
             IRepository<Course> courseRepository,
-            IRepository<FavoriteCourse> favCourseRepository)
+            IRepository<FavoriteCourse> favCourseRepository,
+            IRepository<UserCourse> userCourseRepository)
         {
             this._pdfService = pdfService;
             this._wordService = wordService;
+
             this._courseFactory = courseFactory;
+            this._favCourseFactory = favoriteCourseFactory;
+            this._userCourseFactory = userCourseFactory;
+
             this._courseRepository = courseRepository;
             this._favCourseRepository = favCourseRepository;
-            this._favCourseFactory = favoriteCourseFactory;
+            this._userCourseRepository = userCourseRepository;
         }
 
         public async Task<CourseDetailsDTO> CreateCourse(CreateCourseDTO dto)
@@ -149,6 +158,22 @@
             return courses;
         }
 
+        public async Task<ICollection<UserCourseDTO>> GetAllUserCourses(int userId)
+        {
+            var courses = await this._userCourseRepository.GetAll
+                .Where(x => x.UserId.Equals(userId))
+                .Include(x => x.Course)
+                .AsNoTracking()
+                .Select(x => new UserCourseDTO
+                {
+                    Title = x.Course.Title,
+                    State = (int)x.State
+                })
+                .ToListAsync();
+
+            return courses;
+        }
+
         public async Task<ICollection<BaseCourseDTO>> GetFavoriteCourses(int userId)
         {
             var courses = await this._favCourseRepository.GetAll
@@ -217,6 +242,32 @@
             this._favCourseRepository.Create(favCourse);
 
             return await this._favCourseRepository.SaveAsync();
+        }
+
+        public async Task<int> ChangeUserCourseState(ChangeCourseStateDTO dto)
+        {
+            var userCourse = await this._userCourseRepository.GetAll
+                .Where(x => x.CourseId.Equals(dto.CourseId) && x.UserId.Equals(dto.UserId))
+                .FirstOrDefaultAsync();
+
+            if (userCourse == null)
+            {
+                userCourse = this._userCourseFactory
+                    .WithCourseId(dto.CourseId)
+                    .WithUserId(dto.UserId)
+                    .WithState((UserCourseState)dto.UserCourseState)
+                    .Build();
+
+                this._userCourseRepository.Create(userCourse);
+
+                return await this._userCourseRepository.SaveAsync();
+            }
+
+            userCourse.UpdateCourseState((UserCourseState)dto.UserCourseState);
+
+            this._userCourseRepository.Update(userCourse);
+
+            return await this._userCourseRepository.SaveAsync();
         }
 
         public async Task<KeyValuePair<string, byte[]>> DownloadCourseAsPDF(int courseId)

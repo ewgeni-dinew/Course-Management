@@ -53,11 +53,13 @@
 
         public string Token { get; private set; } //TODO remove
 
-        public virtual ICollection<Course> Courses { get; private set; }
+        public virtual ICollection<Course> Courses { get; private set; } //refers to the created courses
 
         public virtual ICollection<FavoriteCourse> Favorites { get; private set; }
 
-        public virtual ICollection<RefreshToken> RefreshTokens { get; set; }
+        public virtual ICollection<RefreshToken> RefreshTokens { get; private set; }
+
+        public virtual ICollection<UserCourse> UserCourses { get; private set; } //refers to the courses added to the user board
 
         public DateTime CreatedOn { get; set; }
 

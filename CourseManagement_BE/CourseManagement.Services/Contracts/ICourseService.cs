@@ -16,11 +16,15 @@
 
         public Task<ICollection<BaseCourseDTO>> GetAllCourses();
 
+        public Task<ICollection<UserCourseDTO>> GetAllUserCourses(int userId);
+
         public Task<ICollection<BaseCourseDTO>> GetFavoriteCourses(int userId);
 
         public Task<int> AddToFavorites(AddToFavoritesDTO dto, int userId);
 
         public Task<int> RemoveFromFavorites(AddToFavoritesDTO dto, int userId);
+
+        public Task<int> ChangeUserCourseState(ChangeCourseStateDTO dto);
 
         public Task<CourseRatingDTO> RateCourse(RateCourseDTO dto);
 

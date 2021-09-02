@@ -39,7 +39,9 @@
 
         public double Rating { get; private set; }
 
-        public ICollection<FavoriteCourse> Favorites { get; private set; }
+        public virtual ICollection<FavoriteCourse> Favorites { get; private set; }
+
+        public virtual ICollection<UserCourse> UserCourses { get; private set; } //added to the User board
 
         public DateTime CreatedOn { get; set; }
 

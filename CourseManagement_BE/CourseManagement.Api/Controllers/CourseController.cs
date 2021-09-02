@@ -59,6 +59,15 @@
 
         [HttpGet]
         [CustomAuthorization()]
+        public async Task<IActionResult> GetAllUserCourses()
+        {
+            var res = await this._courseService.GetAllUserCourses(this.GetUserIdFromJWT());
+
+            return Ok(res);
+        }
+
+        [HttpGet]
+        [CustomAuthorization()]
         public async Task<IActionResult> GetFavorites()
         {
             var userId = GetUserIdFromJWT();
@@ -106,6 +115,15 @@
         public async Task<IActionResult> Rate(RateCourseDTO dto)
         {
             var res = await this._courseService.RateCourse(dto);
+
+            return Ok(res);
+        }
+
+        [HttpPost]
+        [CustomAuthorization()]
+        public async Task<IActionResult> ChangeCourseState(ChangeCourseStateDTO dto)
+        {
+            var res = await this._courseService.ChangeUserCourseState(dto);
 
             return Ok(res);
         }

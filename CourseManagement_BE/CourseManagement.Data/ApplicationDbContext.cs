@@ -18,6 +18,8 @@
 
         public virtual DbSet<Role> Roles { get; set; }
 
+        public virtual DbSet<UserCourse> UserCourses { get; set; }
+
         public ApplicationDbContext() { } //for UNIT tests
 
         public ApplicationDbContext(
