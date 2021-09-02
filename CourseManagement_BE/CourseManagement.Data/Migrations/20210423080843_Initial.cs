@@ -123,30 +123,31 @@ namespace CourseManagement.Data.Migrations
                         principalTable: "Users",
                         principalColumn: "Id");
                 });
-/*
+
             migrationBuilder.CreateTable(
                 name: "UserCourses",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(nullable: false),
-                    CourseId = table.Column<int>(nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    CourseId = table.Column<int>(type: "int", nullable: false),
+                    State = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FavoriteCourses", x => x.Id);
+                    table.PrimaryKey("PK_UserCourses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_FavoriteCourses_Courses_CourseId",
+                        name: "FK_UserCourses_Courses_CourseId",
                         column: x => x.CourseId,
                         principalTable: "Courses",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_FavoriteCourses_Users_UserId",
+                        name: "FK_UserCourses_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id");
-                });*/
+                });
 
             migrationBuilder.InsertData(
                 table: "Roles",
@@ -189,6 +190,16 @@ namespace CourseManagement.Data.Migrations
                 column: "Username",
                 unique: true,
                 filter: "[Username] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserCourses_CourseId",
+                table: "UserCourses",
+                column: "CourseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserCourses_UserId",
+                table: "UserCourses",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

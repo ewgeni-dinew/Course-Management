@@ -15,8 +15,8 @@ namespace CourseManagement.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("ProductVersion", "5.0.9")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("CourseManagement.Data.Models.ApplicationUser", b =>
@@ -67,7 +67,7 @@ namespace CourseManagement.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedOn = new DateTime(2021, 7, 20, 14, 52, 26, 316, DateTimeKind.Utc).AddTicks(3115),
+                            CreatedOn = new DateTime(2021, 9, 2, 7, 56, 39, 397, DateTimeKind.Utc).AddTicks(8528),
                             FirstName = "Admin",
                             IsBlocked = false,
                             LastName = "Adminov",
@@ -167,6 +167,31 @@ namespace CourseManagement.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("CourseManagement.Data.Models.UserCourse", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("State")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserCourses");
+                });
+
             modelBuilder.Entity("CourseManagement.Data.Models.ApplicationUser", b =>
                 {
                     b.HasOne("CourseManagement.Data.Models.Role", "Role")
@@ -213,6 +238,10 @@ namespace CourseManagement.Data.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("ApplicationUserId");
                         });
+
+                    b.Navigation("RefreshTokens");
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("CourseManagement.Data.Models.Course", b =>
@@ -222,6 +251,8 @@ namespace CourseManagement.Data.Migrations
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Author");
                 });
 
             modelBuilder.Entity("CourseManagement.Data.Models.FavoriteCourse", b =>
@@ -237,6 +268,45 @@ namespace CourseManagement.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("CourseManagement.Data.Models.UserCourse", b =>
+                {
+                    b.HasOne("CourseManagement.Data.Models.Course", "Course")
+                        .WithMany("UserCourses")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CourseManagement.Data.Models.ApplicationUser", "User")
+                        .WithMany("UserCourses")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("CourseManagement.Data.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("Courses");
+
+                    b.Navigation("Favorites");
+
+                    b.Navigation("UserCourses");
+                });
+
+            modelBuilder.Entity("CourseManagement.Data.Models.Course", b =>
+                {
+                    b.Navigation("Favorites");
+
+                    b.Navigation("UserCourses");
                 });
 #pragma warning restore 612, 618
         }

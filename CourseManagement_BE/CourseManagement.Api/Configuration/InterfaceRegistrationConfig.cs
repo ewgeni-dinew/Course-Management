@@ -42,6 +42,7 @@
             services.AddScoped<IRepository<ApplicationUser>, UserRepository>();
             services.AddScoped<IRepository<Course>, CourseRepository>();
             services.AddScoped<IRepository<FavoriteCourse>, FavoriteCourseRepository>();
+            services.AddScoped<IRepository<UserCourse>, UserCourseRepository>();
 
             services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
         }
