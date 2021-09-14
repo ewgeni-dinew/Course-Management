@@ -14,6 +14,7 @@ namespace CourseManagement.Api
     using CourseManagement.Api.Helpers;
     using CourseManagement.Api.Middlewares;
     using CourseManagement.Api.Configuration;
+    using CourseManagement.Api.SignalR.Hubs;
 
     public class Startup
     {
@@ -56,11 +57,15 @@ namespace CourseManagement.Api
 
             //CORS policy
             services.AddCors(options => options.AddDefaultPolicy(builder =>
-            {
-                builder.WithOrigins("http://localhost:4200") //TODO remove comment 
-                .AllowAnyMethod()
-                .AllowAnyHeader();
-            }));
+             {
+                 builder.WithOrigins("http://localhost:4200")
+                 .AllowAnyMethod()
+                 .AllowAnyHeader()
+                 .AllowCredentials();
+             }));
+
+            //Add SignalR Core
+            services.AddSignalR();
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -100,6 +105,7 @@ namespace CourseManagement.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
+                endpoints.MapHub<CourseManagementHub>("/hub");
             });
         }
     }

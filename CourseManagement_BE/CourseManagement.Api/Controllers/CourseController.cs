@@ -8,23 +8,29 @@
     using CourseManagement.Services.Contracts;
     using CourseManagement.Utilities.Constants;
     using CourseManagement.Api.Authorization;
+    using CourseManagement.Api.SignalR.Hubs;
+    using Microsoft.AspNetCore.SignalR;
 
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class CourseController : ControllerBase
     {
         private readonly ICourseService _courseService;
+        private readonly IHubContext<CourseManagementHub> _hubContext;
 
-        public CourseController(ICourseService courseService)
+        public CourseController(ICourseService courseService, IHubContext<CourseManagementHub> hubContext)
         {
             this._courseService = courseService;
+            this._hubContext = hubContext;
         }
 
         [HttpPost]
         [CustomAuthorization("Admin")]
         public async Task<IActionResult> Create(CreateCourseDTO dto)
         {
-            await this._courseService.CreateCourse(dto);
+            var res = await this._courseService.CreateCourse(dto);
+
+            await this._hubContext.Clients.All.SendCoreAsync("addCourse", new object[] { res });
 
             return Ok();
         }
@@ -35,6 +41,8 @@
         {
             await this._courseService.EditCourse(dto);
 
+            await this._hubContext.Clients.All.SendCoreAsync("editCourse", null);
+
             return Ok();
         }
 
@@ -44,6 +52,8 @@
         public async Task<IActionResult> Delete(DeleteCourseDTO dto)
         {
             await this._courseService.DeleteCourse(dto);
+
+            await this._hubContext.Clients.All.SendCoreAsync("deleteCourse", null);
 
             return Ok();
         }
@@ -115,6 +125,8 @@
         public async Task<IActionResult> Rate(RateCourseDTO dto)
         {
             var res = await this._courseService.RateCourse(dto);
+
+            await this._hubContext.Clients.All.SendCoreAsync("rateCourse", null);
 
             return Ok(res);
         }
