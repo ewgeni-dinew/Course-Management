@@ -4,6 +4,7 @@ import { environment } from './../../environments/environment';
 import { IUser } from '../shared/contracts/user';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
+import { SignalRService } from './signal-r.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,18 +14,18 @@ export class AccountService {
   constructor(private readonly http: HttpClient, private readonly router: Router) { }
 
   registerAccount(data: JSON): Promise<Object> {
-    return this.http.post(environment.apiUrl + 'account/register', data).toPromise();
+    return this.http.post(environment.apiURL + 'account/register', data).toPromise();
   }
 
   async loginUser(data: JSON): Promise<void> {
-    const res = await this.http.post<IUser>(environment.apiUrl + 'account/login', data).toPromise();
+    const res = await this.http.post<IUser>(environment.apiURL + 'account/login', data).toPromise();
     localStorage.setItem('loggedUser', JSON.stringify(res));
   }
 
   updateAccount(data: JSON) {
     let user: IUser;
 
-    this.http.post<IUser>(environment.apiUrl + 'account/update', data)
+    this.http.post<IUser>(environment.apiURL + 'account/update', data)
       .subscribe((res) => {
         user = JSON.parse(localStorage.getItem('loggedUser'));
         user.firstName = res.firstName;
@@ -35,7 +36,7 @@ export class AccountService {
   }
 
   changeUserPassword(data: JSON): Promise<Object> {
-    return this.http.post(environment.apiUrl + 'account/changepassword', data)
+    return this.http.post(environment.apiURL + 'account/changepassword', data)
       .toPromise();
   }
 
@@ -47,7 +48,7 @@ export class AccountService {
       refreshToken: user.refreshToken
     };
 
-    this.http.post(environment.apiUrl + 'account/revoketoken', data)
+    this.http.post(environment.apiURL + 'account/revoketoken', data)
       .subscribe(() => {
         localStorage.removeItem('loggedUser');
         this.router.navigate(['/']);
@@ -67,7 +68,7 @@ export class AccountService {
         refreshToken: user.refreshToken
       };
 
-      return this.http.post<IUser>(environment.apiUrl + 'account/refreshtoken', data)
+      return this.http.post<IUser>(environment.apiURL + 'account/refreshtoken', data)
         .pipe(map((res: IUser) => {
           user.accessToken = res.accessToken;
           user.refreshToken = res.refreshToken;
@@ -86,7 +87,7 @@ export class AccountService {
   getAll(): IUser[] {
     let users: IUser[] = [];
 
-    this.http.get<IUser[]>(environment.apiUrl + 'account/getall')
+    this.http.get<IUser[]>(environment.apiURL + 'account/getall')
       .subscribe((res: IUser[]) => {
         res.forEach(x => users.push(x));
       });
@@ -97,21 +98,21 @@ export class AccountService {
   unblockAccount(accountId: number): Promise<Object> {
     let data = { id: accountId };
 
-    return this.http.post(environment.apiUrl + 'account/unblock', data)
+    return this.http.post(environment.apiURL + 'account/unblock', data)
       .toPromise();
   }
 
   blockAccount(accountId: number): Promise<Object> {
     let data = { id: accountId };
 
-    return this.http.post(environment.apiUrl + 'account/block', data)
+    return this.http.post(environment.apiURL + 'account/block', data)
       .toPromise();
   }
 
   deleteAccount(accountId: number): Promise<Object> {
     let data = { id: accountId };
 
-    return this.http.post(environment.apiUrl + 'account/delete', data)
+    return this.http.post(environment.apiURL + 'account/delete', data)
       .toPromise();
   }
 }

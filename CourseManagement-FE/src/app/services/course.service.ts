@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { ICourse } from '../shared/contracts/course';
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
+import { SignalRService } from './signal-r.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,33 +27,33 @@ export class CourseService {
 
     data['authorId'] = this.authService.getLoggedUser.id;
 
-    return this.http.post(environment.apiUrl + 'course/create', data).toPromise();
+    return this.http.post(environment.apiURL + 'course/create', data).toPromise();
   }
 
   deleteCourse(courseId: number): Promise<Object> {
     const data = {};
     data['id'] = courseId;
 
-    return this.http.post(environment.apiUrl + 'course/delete', <JSON>data).toPromise();
+    return this.http.post(environment.apiURL + 'course/delete', <JSON>data).toPromise();
   }
 
   editCourse(data: JSON): Promise<Object> {
-    return this.http.post(environment.apiUrl + 'course/edit', data)
+    return this.http.post(environment.apiURL + 'course/edit', data)
       .toPromise();
   }
 
   getAll(): Observable<ICourse[]> {
-    return this.http.get<ICourse[]>(environment.apiUrl + 'course/getall');
+    return this.http.get<ICourse[]>(environment.apiURL + 'course/getall');
   }
 
   getAllUserCourses(): Observable<ICourse[]> {
-    return this.http.get<ICourse[]>(environment.apiUrl + 'course/getallusercourses');
+    return this.http.get<ICourse[]>(environment.apiURL + 'course/getallusercourses');
   }
 
   getFavoriteCourses(): ICourse[] {
     let courses: ICourse[] = [];
 
-    this.http.get<ICourse[]>(environment.apiUrl + 'course/getfavorites')
+    this.http.get<ICourse[]>(environment.apiURL + 'course/getfavorites')
       .subscribe(res => {
         res.forEach(x => courses.push(x));
       });
@@ -64,18 +65,18 @@ export class CourseService {
     const data = {};
     data['courseId'] = courseId;
 
-    return this.http.post(environment.apiUrl + 'course/addToFavorites', <JSON>data).toPromise();
+    return this.http.post(environment.apiURL + 'course/addToFavorites', <JSON>data).toPromise();
   }
 
   removeCourseFromFavorites(courseId: number): Promise<Object> {
     const data = {};
     data['courseId'] = courseId;
 
-    return this.http.post(environment.apiUrl + 'course/removeFromFavorites', <JSON>data).toPromise();
+    return this.http.post(environment.apiURL + 'course/removeFromFavorites', <JSON>data).toPromise();
   }
 
   getDetails(courseId: number): Promise<ICourse> {
-    return this.http.get<ICourse>(environment.apiUrl + 'course/details/' + courseId)
+    return this.http.get<ICourse>(environment.apiURL + 'course/details/' + courseId)
       .toPromise();
   }
 
@@ -84,7 +85,7 @@ export class CourseService {
     data['courseId'] = courseId;
     data['rating'] = rating;
 
-    return this.http.post<ICourse>(environment.apiUrl + 'course/rate', <JSON>data)
+    return this.http.post<ICourse>(environment.apiURL + 'course/rate', <JSON>data)
       .toPromise();
   }
 
@@ -94,7 +95,7 @@ export class CourseService {
     data['userCourseState'] = state
     data['userId'] = this.authService.getLoggedUser.id;
 
-    return this.http.post(environment.apiUrl + 'course/ChangeCourseState', <JSON>data);
+    return this.http.post(environment.apiURL + 'course/ChangeCourseState', <JSON>data);
   }
 
   downloadPDF(courseId: number): Observable<Blob> {
@@ -102,7 +103,7 @@ export class CourseService {
       responseType: 'blob' as 'json'
     };
 
-    return this.http.get<any>(environment.apiUrl + 'course/downloadPDF/' + courseId, httpOptions);
+    return this.http.get<any>(environment.apiURL + 'course/downloadPDF/' + courseId, httpOptions);
   }
 
   downloadWord(courseId: number): Observable<Blob> {
@@ -110,6 +111,6 @@ export class CourseService {
       responseType: 'blob' as 'json'
     };
 
-    return this.http.get<any>(environment.apiUrl + 'course/downloadWord/' + courseId, httpOptions);
+    return this.http.get<any>(environment.apiURL + 'course/downloadWord/' + courseId, httpOptions);
   }
 }

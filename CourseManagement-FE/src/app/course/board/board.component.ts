@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CourseService } from 'src/app/services/course.service';
 import { ICourse } from 'src/app/shared/contracts/course';
@@ -9,30 +9,34 @@ import { ICourse } from 'src/app/shared/contracts/course';
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.css']
 })
-export class BoardComponent implements OnInit {
+export class BoardComponent implements OnInit, AfterViewInit {
 
   constructor(private readonly courseService: CourseService) { }
 
+  ngAfterViewInit(): void {
+    this.courseService.getAllUserCourses()
+    .subscribe(res => {
+      this.allUserCourses = res;
+
+      this.todoCourses = this.allUserCourses.filter(x => x.state === 2).map(x => x.title);
+
+      this.inProgCourses = this.allUserCourses.filter(x => x.state === 3).map(x => x.title);
+
+      this.doneCourses = this.allUserCourses.filter(x => x.state === 4).map(x => x.title);
+
+      this.courseService.getAll()
+        .subscribe(res => {
+          this.allCourses = res
+          this.allCourseTitles = this.allCourses
+            .map(x => x.title)
+            .filter((e) => !this.allUserCourses.map(x => x.title).includes(e));
+        });
+    });
+  }
+
   ngOnInit(): void {
 
-    this.courseService.getAllUserCourses()
-      .subscribe(res => {
-        this.allUserCourses = res;
-
-        this.todoCourses = this.allUserCourses.filter(x => x.state === 2).map(x => x.title);
-
-        this.inProgCourses = this.allUserCourses.filter(x => x.state === 3).map(x => x.title);
-
-        this.doneCourses = this.allUserCourses.filter(x => x.state === 4).map(x => x.title);
-
-        this.courseService.getAll()
-          .subscribe(res => {
-            this.allCourses = res
-            this.allCourseTitles = this.allCourses
-              .map(x => x.title)
-              .filter((e) => !this.allUserCourses.map(x => x.title).includes(e));
-          });
-      });
+    
   }
 
   allCourseTitles: String[];
@@ -66,9 +70,20 @@ export class BoardComponent implements OnInit {
         event.previousIndex,
         event.currentIndex);
 
-      let courseId = this.allCourses.filter(x => x.title === courseTitle)[0].id;
+      let selectedCourse = this.allCourses.filter(x => x.title === courseTitle)[0];
 
-      this.courseService.changeUserCourseState(courseId, nextCourseGroup).subscribe();
+      this.courseService.changeUserCourseState(selectedCourse.id, nextCourseGroup).subscribe();
+
+      this.updateCourseState(selectedCourse, nextCourseGroup);
     }
+  }
+
+  updateCourseState(selectedCourse: ICourse, newState: number) {
+
+    this.allUserCourses = this.allUserCourses.filter(x => x != selectedCourse);
+
+    selectedCourse.state = newState;
+
+    this.allUserCourses.push(selectedCourse);
   }
 }
