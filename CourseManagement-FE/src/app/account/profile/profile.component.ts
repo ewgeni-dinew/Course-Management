@@ -4,6 +4,7 @@ import { IUser } from 'src/app/shared/contracts/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { AlertConsts } from 'src/app/utilities/constants/alerts';
+import { Marker } from 'src/app/shared/contracts/marker';
 
 @Component({
   selector: 'app-profile',
@@ -15,10 +16,15 @@ export class ProfileComponent implements OnInit {
   get loggedUser(): IUser {
     return this.authService.getLoggedUser;
   }
-
   constructor(private readonly accountService: AccountService, private readonly authService: AuthService, private readonly alertService: AlertService) { }
 
   ngOnInit(): void {
+  }
+
+  marker: Marker;
+
+  updateMarker(){
+    
   }
 
   updateProfileHandler(data: JSON) {

@@ -12,6 +12,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './utilities/interceptors/auth.interceptor';
 import { HttpErrorInterceptor } from './utilities/interceptors/http-error.interceptor';
 import { StoreModule } from '@ngrx/store';
+import { SharedModule } from './shared/shared.module';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { StoreModule } from '@ngrx/store';
     HomeComponent
   ],
   imports: [
+    SharedModule,
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,

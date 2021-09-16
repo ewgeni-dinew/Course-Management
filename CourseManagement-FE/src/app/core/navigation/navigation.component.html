@@ -14,6 +14,7 @@
                     <button routerLink="course/list" ngbDropdownItem>All Courses</button>
                     <button routerLink="course/favorites" ngbDropdownItem>Favorites</button>
                     <button routerLink="course/create" *ngIf="isUserAdmin()" ngbDropdownItem>Add Course</button>
+                    <button routerLink="course/mycourses" ngbDropdownItem>My Courses</button>
                 </div>
             </li>
             <li *ngIf="!!loggedUser" class="nav-item">

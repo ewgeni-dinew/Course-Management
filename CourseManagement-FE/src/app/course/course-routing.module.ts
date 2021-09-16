@@ -5,6 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { AuthGuard } from '../utilities/guards/auth.guard';
 import { AdminGuard } from '../utilities/guards/admin.guard';
 import { BoardComponent } from './board/board.component';
+import { MyCoursesComponent } from './my-courses/my-courses.component';
 
 const routes: Routes = [
     {
@@ -35,6 +36,10 @@ const routes: Routes = [
             {
                 path: 'board',
                 component: BoardComponent,            
+            },
+            {
+                path: 'mycourses',
+                component: MyCoursesComponent
             }
         ],
         canActivate: [AuthGuard]

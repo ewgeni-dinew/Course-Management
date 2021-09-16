@@ -12,10 +12,18 @@ import { StoreModule } from '@ngrx/store';
 import { courseReducer } from './state/course.reducer';
 import { BoardComponent } from './board/board.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-
+import { MyCoursesComponent } from './my-courses/my-courses.component';
 
 @NgModule({
-  declarations: [CreateComponent, EditComponent, ListComponent, DetailsComponent, HomeComponent, BoardComponent],
+  declarations: [
+    CreateComponent,
+    EditComponent,
+    ListComponent,
+    DetailsComponent,
+    HomeComponent,
+    BoardComponent,
+    MyCoursesComponent
+  ],
   imports: [
     CommonModule,
     CourseRoutingModule,
@@ -23,7 +31,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     NgbAccordionModule,
     NgbRatingModule,
     DragDropModule,
-    StoreModule.forFeature('courses', courseReducer)
+    StoreModule.forFeature('courses', courseReducer),
   ]
 })
 export class CourseModule { }

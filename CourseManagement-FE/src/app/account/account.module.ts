@@ -6,13 +6,15 @@ import { ProfileComponent } from './profile/profile.component';
 import { FormsModule } from '@angular/forms';
 import { AccountRoutingModule } from './account-routing.module';
 import { ListComponent } from './list/list.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [LoginComponent, RegisterComponent, ProfileComponent, ListComponent],
   imports: [
     CommonModule,
     AccountRoutingModule,
-    FormsModule
+    FormsModule,
+    SharedModule
   ],
   exports: []
 })
