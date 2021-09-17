@@ -11,7 +11,7 @@
     /// </summary>
     public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
     {
-        private const string CONNECTION_STRING_KEY = "DefaultConnection";
+        private const string CONNECTION_STRING_KEY = "WorkConnection";
 
         public ApplicationDbContext CreateDbContext(string[] args)
         {

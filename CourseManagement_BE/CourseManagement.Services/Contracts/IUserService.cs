@@ -22,6 +22,8 @@
 
         public Task<int> ChangePassword(ChangePasswordDTO dto);
 
+        public Task<int> SetGeoLocation(GeoLocationDTO dto, int userId);
+
         public Task<RefreshTokenDTO> RefreshToken(RefreshTokenDTO dto);
 
         public Task<string> RevokeToken(RefreshTokenDTO dto);

@@ -67,7 +67,7 @@ namespace CourseManagement.Api
             //Add SignalR Core
             services.AddSignalR();
 
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(this.Configuration.GetConnectionString("WorkConnection")));
 
             //Register service providers to the service collection
             services.RegisterInterfaces();

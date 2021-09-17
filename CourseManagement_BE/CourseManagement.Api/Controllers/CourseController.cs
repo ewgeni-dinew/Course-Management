@@ -160,7 +160,7 @@
         }
 
         //
-        //Private methods
+        // ***Private methods***
         //
 
         private int GetUserIdFromJWT()

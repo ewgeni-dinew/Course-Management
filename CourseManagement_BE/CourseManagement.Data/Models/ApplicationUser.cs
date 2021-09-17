@@ -53,6 +53,10 @@
 
         public string Token { get; private set; } //TODO remove
 
+        public decimal? Geo_Lat { get; private set; }
+
+        public decimal? Geo_Lng { get; private set; }
+
         public virtual ICollection<Course> Courses { get; private set; } //refers to the created courses
 
         public virtual ICollection<FavoriteCourse> Favorites { get; private set; }
@@ -86,6 +90,12 @@
         public void UpdateLastName(string lastName)
         {
             this.LastName = lastName;
+        }
+
+        public void UpdateGeoLocation(decimal lat, decimal lng)
+        {
+            this.Geo_Lat = lat;
+            this.Geo_Lng = lng;
         }
 
         public void Block()

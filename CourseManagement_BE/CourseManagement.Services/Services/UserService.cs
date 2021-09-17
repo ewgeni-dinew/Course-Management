@@ -69,16 +69,6 @@
             return result;
         }
 
-        private void RevokePreviousUserTokens(ICollection<RefreshToken> refreshTokens)
-        {
-            var currentDate = DateTime.UtcNow;
-
-            foreach (var t in refreshTokens.Where(x => x.IsActive))
-            {
-                t.Revoked = currentDate;
-            }
-        }
-
         public async Task<UserDetailsDTO> RegisterUser(RegisterUserDTO dto)
         {
             if (this._userRepository.GetAll.AsNoTracking().Any(x => x.Username.Equals(dto.Username)))
@@ -163,6 +153,25 @@
             }
 
             user.UpdatePassword(dto.NewPassword);
+
+            return await this._userRepository.SaveAsync();
+        }
+
+        public async Task<int> SetGeoLocation(GeoLocationDTO dto, int userId)
+        {
+            if (!userId.Equals(dto.UserId))
+            {
+                throw new CustomException(ErrorMessages.NO_PERMISSIONS_FOR_ACTION);
+            }
+
+            var user = await this._userRepository.GetById(dto.UserId);
+
+            if (user == null) //invalid input for user
+            {
+                throw new CustomException(ErrorMessages.INVALID_INPUT_DATA);
+            }
+
+            user.UpdateGeoLocation(dto.Lat, dto.Lng);
 
             return await this._userRepository.SaveAsync();
         }
@@ -297,6 +306,20 @@
             await this._userRepository.SaveAsync();
 
             return "Token was successfully revoked.";
+        }
+
+        //
+        // *** PRIVATE METHODS ***
+        //
+
+        private void RevokePreviousUserTokens(ICollection<RefreshToken> refreshTokens)
+        {
+            var currentDate = DateTime.UtcNow;
+
+            foreach (var t in refreshTokens.Where(x => x.IsActive))
+            {
+                t.Revoked = currentDate;
+            }
         }
 
         private RefreshToken GenerateRefreshToken()

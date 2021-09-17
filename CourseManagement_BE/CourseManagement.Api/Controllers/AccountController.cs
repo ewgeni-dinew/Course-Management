@@ -54,6 +54,15 @@
             return Ok();
         }
 
+        [HttpPost]
+        [CustomAuthorization()]
+        public async Task<ActionResult> SetGeoLocation(GeoLocationDTO dto)
+        {
+            await this._userService.SetGeoLocation(dto);
+
+            return Ok();
+        }
+
         [HttpGet]
         [CustomAuthorization("Admin")]
         public async Task<ActionResult> GetAll()

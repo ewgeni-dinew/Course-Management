@@ -30,5 +30,8 @@
 
         [ErrorMessage("The provided token is invalid.")]
         INVALID_REFRESH_TOKEN = 9,
+
+        [ErrorMessage("No permissions for the specified action.")]
+        NO_PERMISSIONS_FOR_ACTION = 10,
     }
 }
