@@ -11,11 +11,6 @@ export class MapBoxComponent implements OnInit {
   constructor(private readonly mapboxService: MapboxService) { }
 
   ngOnInit(): void {
-    this.mapboxService.buildMap();
-
-    this.mapboxService.fetchContributors();
-
-    this.mapboxService.addEventListener();
   }
 
 }

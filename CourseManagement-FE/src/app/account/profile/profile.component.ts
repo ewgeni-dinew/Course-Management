@@ -1,30 +1,39 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AccountService } from 'src/app/services/account.service';
 import { IUser } from 'src/app/shared/contracts/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { AlertConsts } from 'src/app/utilities/constants/alerts';
 import { Marker } from 'src/app/shared/contracts/marker';
+import { MapboxService } from 'src/app/services/mapbox.service';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
 
   get loggedUser(): IUser {
     return this.authService.getLoggedUser;
   }
-  constructor(private readonly accountService: AccountService, private readonly authService: AuthService, private readonly alertService: AlertService) { }
+  constructor(
+    private readonly accountService: AccountService,
+    private readonly authService: AuthService,
+    private readonly alertService: AlertService,
+    private readonly mapboxService: MapboxService) { }
 
   ngOnInit(): void {
+    this.mapboxService.buildMap();
+    this.mapboxService.addEventListener();
   }
 
-  marker: Marker;
+  ngOnDestroy(): void {
+    this.mapboxService.destroyMap();
+  }
 
-  updateMarker(){
-    
+  updateMarker() {
+    this.mapboxService.saveMarkerToMap();
   }
 
   updateProfileHandler(data: JSON) {
