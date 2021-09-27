@@ -70,8 +70,23 @@
             Assert.Equal(dto.LastName, res.LastName);
         }
 
-        //register user with already taken username
-        //register user with invalid input
+        [Fact]
+        public async Task RegisterUser_WithTakenUsername()
+        {
+            var dto = new RegisterUserDTO
+            {
+                Username = "username@test.com",
+                Password = "password",
+                FirstName = "FirstName",
+                LastName = "Lastname",
+            };
+
+            var ex = await Assert.ThrowsAsync<CustomException>(() => this._userService.RegisterUser(dto));
+
+            Assert.Equal((int)ErrorMessages.INVALID_USERNAME, ex.ErrorCode);
+        }
+
+        //TODO: register user with invalid input        
 
         [Fact]
         public void GetAllUsers_WithValidInput()
@@ -130,6 +145,22 @@
         }
 
         [Fact]
+        public void SetGeoLocation_WithValidInput()
+        {
+            var dto = new GeoLocationDTO
+            {
+                UserId = 1,
+                Lng = 43.66m,
+                Lat = 25.33m
+            };
+
+            var res = this._userService.SetGeoLocation(dto).Result;
+
+            Assert.Equal(dto.Lng, res.Lng);
+            Assert.Equal(dto.Lat, res.Lat);
+        }
+
+        [Fact]
         public void BlockUser_ValidInput()
         {
             var dto = new BaseUserDTO
@@ -168,7 +199,7 @@
             Assert.NotEqual(0, res);
         }
 
-        //SETUP METHODS >>>
+        //*** SETUP METHODS ***
 
         private ApplicationDbContext SetupMockDatabaseWithSeedData()
         {

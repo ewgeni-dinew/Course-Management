@@ -22,7 +22,7 @@
 
         public Task<int> ChangePassword(ChangePasswordDTO dto);
 
-        public Task<int> SetGeoLocation(GeoLocationDTO dto, int userId);
+        public Task<GeoLocationDTO> SetGeoLocation(GeoLocationDTO dto);
 
         public Task<RefreshTokenDTO> RefreshToken(RefreshTokenDTO dto);
 

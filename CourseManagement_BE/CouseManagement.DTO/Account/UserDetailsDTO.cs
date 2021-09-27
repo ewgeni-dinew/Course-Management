@@ -19,5 +19,9 @@
         public bool IsDeleted { get; set; }
 
         public string RefreshToken { get; set; }
+
+        public decimal? GeoLng { get; set; }
+
+        public decimal? GeoLat { get; set; }
     }
 }

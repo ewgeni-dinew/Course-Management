@@ -9,11 +9,13 @@ namespace CourseManagement.Api.Helpers
     {
         public int GetUserId()
         {
-            HttpContext context = HttpContext.Current;
+            /*HttpContext context = HttpContext.Current;
 
             var identity = HttpContext.User.Identity as ClaimsIdentity;
 
-            return int.Parse(identity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            return int.Parse(identity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);*/
+
+            return 1;
         }
     }
 }

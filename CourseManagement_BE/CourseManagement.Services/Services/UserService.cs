@@ -63,7 +63,9 @@
                 Username = user.Username,
                 AccessToken = jwtToken,
                 Role = user.Role.Name,
-                RefreshToken = refreshToken.Token
+                RefreshToken = refreshToken.Token,
+                GeoLat = user.Geo_Lat,
+                GeoLng = user.Geo_Lng
             };
 
             return result;
@@ -157,12 +159,12 @@
             return await this._userRepository.SaveAsync();
         }
 
-        public async Task<int> SetGeoLocation(GeoLocationDTO dto, int userId)
+        public async Task<GeoLocationDTO> SetGeoLocation(GeoLocationDTO dto)
         {
-            if (!userId.Equals(dto.UserId))
-            {
-                throw new CustomException(ErrorMessages.NO_PERMISSIONS_FOR_ACTION);
-            }
+            //if (!userId.Equals(dto.UserId))
+            //{
+            //    throw new CustomException(ErrorMessages.NO_PERMISSIONS_FOR_ACTION);
+            //}
 
             var user = await this._userRepository.GetById(dto.UserId);
 
@@ -173,7 +175,15 @@
 
             user.UpdateGeoLocation(dto.Lat, dto.Lng);
 
-            return await this._userRepository.SaveAsync();
+            await this._userRepository.SaveAsync();
+
+            var res = new GeoLocationDTO
+            {
+                Lat = (decimal)user.Geo_Lat,
+                Lng = (decimal)user.Geo_Lng
+            };
+
+            return res;
         }
 
         public async Task<ICollection<UserDetailsDTO>> GetAllUsers()
