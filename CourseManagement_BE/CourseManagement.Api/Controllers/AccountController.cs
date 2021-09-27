@@ -1,11 +1,13 @@
 ﻿namespace CourseManagement.Api.Controllers
 {
     using System.Threading.Tasks;
+    using System.Security.Claims;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Authorization;
     using CourseManagement.DTO.Account;
     using CourseManagement.Services.Contracts;
     using CourseManagement.Api.Authorization;
+    using CourseManagement.Api.Helpers;
 
     [Route("api/[controller]/[action]")]
     [ApiController]
@@ -58,7 +60,9 @@
         [CustomAuthorization()]
         public async Task<ActionResult> SetGeoLocation(GeoLocationDTO dto)
         {
-            await this._userService.SetGeoLocation(dto);
+            var userId = JwtExtractor.GetUserId(HttpContext.User.Identity as ClaimsIdentity);
+
+            await this._userService.SetGeoLocation(dto, userId);
 
             return Ok();
         }

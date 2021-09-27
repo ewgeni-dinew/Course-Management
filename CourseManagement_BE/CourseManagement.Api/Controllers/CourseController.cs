@@ -1,15 +1,15 @@
 ﻿namespace CourseManagement.Api.Controllers
 {
-    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.SignalR;
     using CourseManagement.DTO.Course;
     using CourseManagement.Services.Contracts;
     using CourseManagement.Utilities.Constants;
     using CourseManagement.Api.Authorization;
     using CourseManagement.Api.SignalR.Hubs;
-    using Microsoft.AspNetCore.SignalR;
+    using CourseManagement.Api.Helpers;
 
     [Route("api/[controller]/[action]")]
     [ApiController]
@@ -71,7 +71,9 @@
         [CustomAuthorization()]
         public async Task<IActionResult> GetAllUserCourses()
         {
-            var res = await this._courseService.GetAllUserCourses(this.GetUserIdFromJWT());
+            var userId = JwtExtractor.GetUserId(HttpContext.User.Identity as ClaimsIdentity);
+
+            var res = await this._courseService.GetAllUserCourses(userId);
 
             return Ok(res);
         }
@@ -80,7 +82,7 @@
         [CustomAuthorization()]
         public async Task<IActionResult> GetFavorites()
         {
-            var userId = GetUserIdFromJWT();
+            var userId = JwtExtractor.GetUserId(HttpContext.User.Identity as ClaimsIdentity);
 
             var res = await this._courseService.GetFavoriteCourses(userId);
 
@@ -91,7 +93,7 @@
         [CustomAuthorization()]
         public async Task<IActionResult> AddToFavorites(AddToFavoritesDTO dto)
         {
-            var userId = GetUserIdFromJWT();
+            var userId = JwtExtractor.GetUserId(HttpContext.User.Identity as ClaimsIdentity);
 
             var res = await this._courseService.AddToFavorites(dto, userId);
 
@@ -102,7 +104,7 @@
         [CustomAuthorization()]
         public async Task<IActionResult> RemoveFromFavorites(AddToFavoritesDTO dto)
         {
-            var userId = GetUserIdFromJWT();
+            var userId = JwtExtractor.GetUserId(HttpContext.User.Identity as ClaimsIdentity);
 
             var res = await this._courseService.RemoveFromFavorites(dto, userId);
 
@@ -113,7 +115,7 @@
         [CustomAuthorization()]
         public async Task<IActionResult> Details(int id)
         {
-            var userId = GetUserIdFromJWT();
+            var userId = JwtExtractor.GetUserId(HttpContext.User.Identity as ClaimsIdentity);
 
             var res = await this._courseService.GetCourseDetails(id, userId);
 
@@ -157,17 +159,6 @@
             var courseKVP = await this._courseService.DownloadCourseAsWORD(id);
 
             return File(courseKVP.Value, Constants.APPLICATION_WORD_MIME, $"{courseKVP.Key}{Constants.FILE_EXTENSION_WORD}");
-        }
-
-        //
-        // ***Private methods***
-        //
-
-        private int GetUserIdFromJWT()
-        {
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
-
-            return int.Parse(identity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
         }
     }
 }

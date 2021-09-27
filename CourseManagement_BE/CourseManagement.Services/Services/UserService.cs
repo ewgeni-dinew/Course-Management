@@ -159,12 +159,12 @@
             return await this._userRepository.SaveAsync();
         }
 
-        public async Task<GeoLocationDTO> SetGeoLocation(GeoLocationDTO dto)
+        public async Task<GeoLocationDTO> SetGeoLocation(GeoLocationDTO dto, int userId)
         {
-            //if (!userId.Equals(dto.UserId))
-            //{
-            //    throw new CustomException(ErrorMessages.NO_PERMISSIONS_FOR_ACTION);
-            //}
+            if (!userId.Equals(dto.UserId))
+            {
+                throw new CustomException(ErrorMessages.NO_PERMISSIONS_FOR_ACTION);
+            }
 
             var user = await this._userRepository.GetById(dto.UserId);
 

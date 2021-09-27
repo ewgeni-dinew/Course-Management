@@ -147,17 +147,36 @@
         [Fact]
         public void SetGeoLocation_WithValidInput()
         {
+            var userId = 1;
+
             var dto = new GeoLocationDTO
             {
-                UserId = 1,
+                UserId = userId,
                 Lng = 43.66m,
                 Lat = 25.33m
             };
 
-            var res = this._userService.SetGeoLocation(dto).Result;
+            var res = this._userService.SetGeoLocation(dto, userId).Result;
 
             Assert.Equal(dto.Lng, res.Lng);
             Assert.Equal(dto.Lat, res.Lat);
+        }
+
+        [Fact]
+        public async Task SetGeoLocation_WithInvalidInput()
+        {
+            var userId = 1;
+
+            var dto = new GeoLocationDTO
+            {
+                UserId = userId,
+                Lng = 43.66m,
+                Lat = 25.33m
+            };
+
+            var ex = await Assert.ThrowsAsync<CustomException>(() => this._userService.SetGeoLocation(dto, ++userId));
+
+            Assert.Equal((int)ErrorMessages.NO_PERMISSIONS_FOR_ACTION, ex.ErrorCode);
         }
 
         [Fact]
@@ -197,7 +216,7 @@
             var res = this._userService.DeleteUser(dto).Result;
 
             Assert.NotEqual(0, res);
-        }        
+        }
 
         //*** SETUP METHODS ***
 
