@@ -16,6 +16,7 @@
     using DinkToPdf;
     using Xunit;
     using CourseManagement.Services.Utils.Word;
+    using CourseManagement.Data.Models.Enums;
 
     public class CourseServiceTests
     {
@@ -205,6 +206,29 @@
         }
 
         [Fact]
+        public void ChangeUserCourseState_WithValidInput()
+        {
+            var dto = new ChangeCourseStateDTO
+            {
+                UserId = 1,
+                CourseId = 1,
+                UserCourseState = (int)UserCourseState.InProgress
+            };
+
+            // 1st change state call
+            var res = this._courseService.ChangeUserCourseState(dto).Result;
+
+            Assert.Equal((int)UserCourseState.InProgress, res.UserCourseState);
+
+            dto.UserCourseState = (int)UserCourseState.Done;
+
+            // 2nd change state call
+            res = this._courseService.ChangeUserCourseState(dto).Result;
+
+            Assert.Equal((int)UserCourseState.Done, res.UserCourseState);
+        }
+
+        [Fact]
         public void DownloadCourse_PDF_WithValidInput()
         {
             var userId = 1;
@@ -234,7 +258,7 @@
             Assert.NotEmpty(res.Value);
         }
 
-        //SETUP METHODS 
+        // *** SETUP METHODS ***
 
         private ApplicationDbContext SetupMockDatabaseWithSeedData()
         {

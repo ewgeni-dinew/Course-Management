@@ -244,7 +244,7 @@
             return await this._favCourseRepository.SaveAsync();
         }
 
-        public async Task<int> ChangeUserCourseState(ChangeCourseStateDTO dto)
+        public async Task<ChangeCourseStateDTO> ChangeUserCourseState(ChangeCourseStateDTO dto)
         {
             var userCourse = await this._userCourseRepository.GetAll
                 .Where(x => x.CourseId.Equals(dto.CourseId) && x.UserId.Equals(dto.UserId))
@@ -260,14 +260,22 @@
 
                 this._userCourseRepository.Create(userCourse);
 
-                return await this._userCourseRepository.SaveAsync();
+                await this._userCourseRepository.SaveAsync();
+
+                dto.UserCourseState = (int)userCourse.State;
+
+                return dto;
             }
 
             userCourse.UpdateCourseState((UserCourseState)dto.UserCourseState);
 
             this._userCourseRepository.Update(userCourse);
 
-            return await this._userCourseRepository.SaveAsync();
+            await this._userCourseRepository.SaveAsync();
+
+            dto.UserCourseState = (int)userCourse.State;
+
+            return dto;
         }
 
         public async Task<KeyValuePair<string, byte[]>> DownloadCourseAsPDF(int courseId)

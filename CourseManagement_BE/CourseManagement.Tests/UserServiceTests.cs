@@ -197,7 +197,7 @@
             var res = this._userService.DeleteUser(dto).Result;
 
             Assert.NotEqual(0, res);
-        }
+        }        
 
         //*** SETUP METHODS ***
 

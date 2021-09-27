@@ -24,7 +24,7 @@
 
         public Task<int> RemoveFromFavorites(AddToFavoritesDTO dto, int userId);
 
-        public Task<int> ChangeUserCourseState(ChangeCourseStateDTO dto);
+        public Task<ChangeCourseStateDTO> ChangeUserCourseState(ChangeCourseStateDTO dto);
 
         public Task<CourseRatingDTO> RateCourse(RateCourseDTO dto);
 
