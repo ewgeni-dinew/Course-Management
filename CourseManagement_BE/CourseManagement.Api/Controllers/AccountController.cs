@@ -62,9 +62,17 @@
         {
             var userId = JwtExtractor.GetUserId(HttpContext.User.Identity as ClaimsIdentity);
 
-            await this._userService.SetGeoLocation(dto, userId);
+            var res = await this._userService.SetGeoLocation(dto, userId);
 
-            return Ok();
+            return Ok(res);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetContributors()
+        {
+            var res = await this._userService.GetContributors();
+
+            return Ok(res);
         }
 
         [HttpGet]

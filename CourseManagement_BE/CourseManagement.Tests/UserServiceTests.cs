@@ -152,14 +152,14 @@
             var dto = new GeoLocationDTO
             {
                 UserId = userId,
-                Lng = 43.66m,
-                Lat = 25.33m
+                GeoLng = 43.66m,
+                GeoLat = 25.33m
             };
 
             var res = this._userService.SetGeoLocation(dto, userId).Result;
 
-            Assert.Equal(dto.Lng, res.Lng);
-            Assert.Equal(dto.Lat, res.Lat);
+            Assert.Equal(dto.GeoLng, res.GeoLng);
+            Assert.Equal(dto.GeoLat, res.GeoLat);
         }
 
         [Fact]
@@ -170,8 +170,8 @@
             var dto = new GeoLocationDTO
             {
                 UserId = userId,
-                Lng = 43.66m,
-                Lat = 25.33m
+                GeoLng = 43.66m,
+                GeoLat = 25.33m
             };
 
             var ex = await Assert.ThrowsAsync<CustomException>(() => this._userService.SetGeoLocation(dto, ++userId));

@@ -27,5 +27,7 @@
         public Task<RefreshTokenDTO> RefreshToken(RefreshTokenDTO dto);
 
         public Task<string> RevokeToken(RefreshTokenDTO dto);
+
+        public Task<ICollection<GeoLocationDTO>> GetContributors();
     }
 }

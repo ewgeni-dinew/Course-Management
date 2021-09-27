@@ -9,9 +9,9 @@
         public int UserId { get; set; }
 
         [NotNullOrEmpty]
-        public decimal Lng { get; set; }
+        public decimal GeoLng { get; set; }
 
         [NotNullOrEmpty]
-        public decimal Lat { get; set; }
+        public decimal GeoLat { get; set; }
     }
 }

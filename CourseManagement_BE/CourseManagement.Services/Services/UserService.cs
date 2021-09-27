@@ -173,14 +173,14 @@
                 throw new CustomException(ErrorMessages.INVALID_INPUT_DATA);
             }
 
-            user.UpdateGeoLocation(dto.Lat, dto.Lng);
+            user.UpdateGeoLocation(dto.GeoLat, dto.GeoLng);
 
             await this._userRepository.SaveAsync();
 
             var res = new GeoLocationDTO
             {
-                Lat = (decimal)user.Geo_Lat,
-                Lng = (decimal)user.Geo_Lng
+                GeoLat = (decimal)user.Geo_Lat,
+                GeoLng = (decimal)user.Geo_Lng
             };
 
             return res;
@@ -203,6 +203,21 @@
                 .ToListAsync();
 
             return users;
+        }
+
+        public async Task<ICollection<GeoLocationDTO>> GetContributors()
+        {
+            var contributors = await this._userRepository.GetAll
+                .Where(x => x.Geo_Lat != null && x.Geo_Lng != null)
+                .AsNoTracking()
+                .Select(x => new GeoLocationDTO
+                {
+                    GeoLat = (decimal)x.Geo_Lat,
+                    GeoLng = (decimal)x.Geo_Lng,
+                })
+                .ToListAsync();
+
+            return contributors;
         }
 
         public async Task<UserDetailsDTO> BlockUser(BaseUserDTO dto)
