@@ -4,7 +4,7 @@ import { environment } from './../../environments/environment';
 import { IUser } from '../shared/contracts/user';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
-import { SignalRService } from './signal-r.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -74,25 +74,22 @@ export class AccountService {
           user.refreshToken = res.refreshToken;
           localStorage.setItem('loggedUser', JSON.stringify(user));
         }));
-      // .subscribe((res) => {
-      //   user.accessToken = res.accessToken;
-      //   user.refreshToken = res.refreshToken;
-      //   localStorage.setItem('loggedUser', JSON.stringify(user));
-      // }, (error) => {
-      //   console.log('error');
-      // });
     }
   }
 
   getAll(): IUser[] {
     let users: IUser[] = [];
 
-    this.http.get<IUser[]>(environment.apiURL + 'account/getall')
+    this.http.get<IUser[]>(environment.apiURL + 'account/getAll')
       .subscribe((res: IUser[]) => {
         res.forEach(x => users.push(x));
       });
 
     return users;
+  }
+
+  getAllContributors(): Observable<IUser[]> {
+    return this.http.get<IUser[]>(environment.apiURL + 'account/getContributors');
   }
 
   unblockAccount(accountId: number): Promise<Object> {
@@ -114,5 +111,20 @@ export class AccountService {
 
     return this.http.post(environment.apiURL + 'account/delete', data)
       .toPromise();
+  }
+
+  setGeoLocation(lng: number, lat: number) {
+    const user: IUser = JSON.parse(localStorage.getItem('loggedUser'));
+
+    let data = {};
+    data['geoLng'] = lng;
+    data['geoLat'] = lat;
+    data['userId'] = user.id;
+
+    this.http.post<IUser>(environment.apiURL + 'account/setGeoLocation', data).subscribe((res) => {
+      user.geoLat = res.geoLat;
+      user.geoLng = res.geoLng;
+      localStorage.setItem('loggedUser', JSON.stringify(user));
+    });
   }
 }

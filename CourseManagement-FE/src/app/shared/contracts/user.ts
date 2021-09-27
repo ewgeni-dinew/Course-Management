@@ -8,4 +8,6 @@ export interface IUser {
     refreshToken: String;
     role: String;
     isBlocked: boolean;
+    geoLat: number | null;
+    geoLng: number | null;
 }

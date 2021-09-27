@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from 'src/environments/environment';
 import { Marker } from '../shared/contracts/marker';
+import { AccountService } from './account.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MapboxService {
 
-  constructor() { }
+  constructor(private readonly accountService: AccountService) { }
 
   private inputMarker: Marker;
   private map: mapboxgl.Map;
@@ -39,7 +40,7 @@ export class MapboxService {
         .setLngLat([this.inputMarker.lng, this.inputMarker.lat])
         .addTo(this.map);
 
-      //TODO send call to API
+      this.accountService.setGeoLocation(this.inputMarker.lng, this.inputMarker.lat);
     }
   }
 
@@ -53,6 +54,12 @@ export class MapboxService {
     });
 
     this.map.addControl(new mapboxgl.NavigationControl());
+  }
+
+  addCurrentUserMarker(getLat: number, getLng: number) {
+    new mapboxgl.Marker({ color: 'red' })
+      .setLngLat([getLng, getLat])
+      .addTo(this.map);
   }
 
   //
@@ -82,21 +89,14 @@ export class MapboxService {
     });
   }
 
-  //TODO: call the BE api
   fetchContributors() {
-    const markers = [
-      [27.90, 43.21],
-      [23.33, 42.70],
-      [23.56, 43.19],
-      [25.33, 41.56],
-      [25.95, 43.84],
-      [24.01, 42.02],
-    ];
 
-    markers.forEach(m => {
-      new mapboxgl.Marker({ color: 'red' })
-        .setLngLat(m)
-        .addTo(this.map);
+    this.accountService.getAllContributors().subscribe((res) => {
+      res.forEach(m => {
+        new mapboxgl.Marker({ color: 'red' })
+          .setLngLat([m.geoLng, m.geoLat])
+          .addTo(this.map);
+      })
     });
   }
 }

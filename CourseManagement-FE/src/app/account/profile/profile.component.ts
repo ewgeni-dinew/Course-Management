@@ -4,7 +4,6 @@ import { IUser } from 'src/app/shared/contracts/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { AlertConsts } from 'src/app/utilities/constants/alerts';
-import { Marker } from 'src/app/shared/contracts/marker';
 import { MapboxService } from 'src/app/services/mapbox.service';
 
 @Component({
@@ -26,6 +25,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.mapboxService.buildMap();
     this.mapboxService.addEventListener();
+    this.mapboxService.addCurrentUserMarker(this.loggedUser.geoLat, this.loggedUser.geoLng);
   }
 
   ngOnDestroy(): void {
