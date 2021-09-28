@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { ICourse } from 'src/app/shared/contracts/course';
 import { CourseService } from 'src/app/services/course.service';
 import { Router } from '@angular/router';
@@ -7,19 +7,29 @@ import { AlertConsts } from 'src/app/utilities/constants/alerts';
 import { Store } from '@ngrx/store';
 import { State } from '../state/course.reducer';
 import { selectCourseRating, selectFavCourse } from '../state/course.actions';
+import { CourseViewer, CourseViewers, SignalRService } from 'src/app/services/signal-r.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-course-details',
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.css']
 })
-export class DetailsComponent implements OnInit {
+export class DetailsComponent implements OnInit, OnDestroy {
 
   constructor(private readonly courseService: CourseService, private readonly router: Router,
-    private readonly alertService: AlertService, private readonly store: Store<State>) { }
+    private readonly alertService: AlertService, private readonly store: Store<State>, private readonly signalrService: SignalRService,
+    private readonly authService: AuthService) { }
 
-  public get courseContentParagrahs(): string[] {
+  public get courseContentParagraphs(): string[] {
     return this.selectedCourse.content.split(/\r?\n/).filter(Boolean);
+  }
+
+  public get viewers(): CourseViewers {
+    if (!!this.selectedCourse) { // only if any course is selected
+      return this.signalrService.viewers.find(x => x.courseId === this.selectedCourse.id);
+    }
+    return null;
   }
 
   @Input()
@@ -35,6 +45,12 @@ export class DetailsComponent implements OnInit {
   removeCourseEvent = new EventEmitter<ICourse>();
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    let username = this.authService.getLoggedUser.username;
+
+    this.signalrService.removeViewer(new CourseViewer(this.selectedCourse.id, username));
   }
 
   addToFavoritesHandler(courseId: number) {

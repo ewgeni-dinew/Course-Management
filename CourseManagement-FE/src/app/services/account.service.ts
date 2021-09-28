@@ -5,13 +5,14 @@ import { IUser } from '../shared/contracts/user';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { SignalRService } from './signal-r.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
 
-  constructor(private readonly http: HttpClient, private readonly router: Router) { }
+  constructor(private readonly http: HttpClient, private readonly router: Router, private readonly signalrService: SignalRService) { }
 
   registerAccount(data: JSON): Promise<Object> {
     return this.http.post(environment.apiURL + 'account/register', data).toPromise();
@@ -20,6 +21,8 @@ export class AccountService {
   async loginUser(data: JSON): Promise<void> {
     const res = await this.http.post<IUser>(environment.apiURL + 'account/login', data).toPromise();
     localStorage.setItem('loggedUser', JSON.stringify(res));
+
+    this.signalrService.connect();
   }
 
   updateAccount(data: JSON) {
@@ -36,7 +39,7 @@ export class AccountService {
   }
 
   changeUserPassword(data: JSON): Promise<Object> {
-    return this.http.post(environment.apiURL + 'account/changepassword', data)
+    return this.http.post(environment.apiURL + 'account/changePassword', data)
       .toPromise();
   }
 
@@ -48,7 +51,7 @@ export class AccountService {
       refreshToken: user.refreshToken
     };
 
-    this.http.post(environment.apiURL + 'account/revoketoken', data)
+    this.http.post(environment.apiURL + 'account/revokeToken', data)
       .subscribe(() => {
         localStorage.removeItem('loggedUser');
         this.router.navigate(['/']);
@@ -57,6 +60,8 @@ export class AccountService {
         localStorage.removeItem('loggedUser');
         this.router.navigate(['/']);
       });
+
+      this.signalrService.disconnect();
   }
 
   refreshToken() {
@@ -68,7 +73,7 @@ export class AccountService {
         refreshToken: user.refreshToken
       };
 
-      return this.http.post<IUser>(environment.apiURL + 'account/refreshtoken', data)
+      return this.http.post<IUser>(environment.apiURL + 'account/refreshToken', data)
         .pipe(map((res: IUser) => {
           user.accessToken = res.accessToken;
           user.refreshToken = res.refreshToken;

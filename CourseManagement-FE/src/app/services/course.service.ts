@@ -4,7 +4,6 @@ import { environment } from 'src/environments/environment';
 import { ICourse } from '../shared/contracts/course';
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
-import { SignalRService } from './signal-r.service';
 
 @Injectable({
   providedIn: 'root'
@@ -43,17 +42,17 @@ export class CourseService {
   }
 
   getAll(): Observable<ICourse[]> {
-    return this.http.get<ICourse[]>(environment.apiURL + 'course/getall');
+    return this.http.get<ICourse[]>(environment.apiURL + 'course/getAll');
   }
 
   getAllUserCourses(): Observable<ICourse[]> {
-    return this.http.get<ICourse[]>(environment.apiURL + 'course/getallusercourses');
+    return this.http.get<ICourse[]>(environment.apiURL + 'course/getAllUserCourses');
   }
 
   getFavoriteCourses(): ICourse[] {
     let courses: ICourse[] = [];
 
-    this.http.get<ICourse[]>(environment.apiURL + 'course/getfavorites')
+    this.http.get<ICourse[]>(environment.apiURL + 'course/getFavorites')
       .subscribe(res => {
         res.forEach(x => courses.push(x));
       });
@@ -95,7 +94,7 @@ export class CourseService {
     data['userCourseState'] = state
     data['userId'] = this.authService.getLoggedUser.id;
 
-    return this.http.post(environment.apiURL + 'course/ChangeCourseState', <JSON>data);
+    return this.http.post(environment.apiURL + 'course/changeCourseState', <JSON>data);
   }
 
   downloadPDF(courseId: number): Observable<Blob> {

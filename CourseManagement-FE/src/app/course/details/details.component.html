@@ -26,11 +26,16 @@
     </div>
     <hr>
     <h4 class="align-center">{{selectedCourse.title}}</h4>
+    <div *ngIf="viewers" class="row mb-3">
+        <div *ngFor="let v of viewers.viewers" class="col-sm-1">
+            <img class="app-icon d-inline-block align-top" title="{{v}}" type="image" src="../../../assets/viewer.png" />
+        </div>
+    </div>
     <div class="row">
         <p class="col-md-2">{{selectedCourse.author}}</p>
         <p class="col-md-2">{{selectedCourse.createdOn}}</p>
     </div>
-    <div *ngFor="let p of courseContentParagrahs" class="row">
+    <div *ngFor="let p of courseContentParagraphs" class="row">
         <p class="col">{{p}}</p>
     </div>
     <div class="row mb-5">
