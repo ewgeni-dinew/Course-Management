@@ -9,5 +9,11 @@
         {
             return int.Parse(identity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
         }
+
+        public static string GetUsername(ClaimsIdentity identity)
+        {
+            return identity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email).Value;
+        }
+
     }
 }

@@ -10,6 +10,7 @@
     using CourseManagement.Api.Authorization;
     using CourseManagement.Api.SignalR.Hubs;
     using CourseManagement.Api.Helpers;
+    using CourseManagement.DTO.Socket;
 
     [Route("api/[controller]/[action]")]
     [ApiController]
@@ -28,9 +29,7 @@
         [CustomAuthorization("Admin")]
         public async Task<IActionResult> Create(CreateCourseDTO dto)
         {
-            var res = await this._courseService.CreateCourse(dto);
-
-            await this._hubContext.Clients.All.SendCoreAsync("addCourse", new object[] { res });
+            await this._courseService.CreateCourse(dto);
 
             return Ok();
         }
@@ -41,8 +40,6 @@
         {
             await this._courseService.EditCourse(dto);
 
-            await this._hubContext.Clients.All.SendCoreAsync("editCourse", null);
-
             return Ok();
         }
 
@@ -52,8 +49,6 @@
         public async Task<IActionResult> Delete(DeleteCourseDTO dto)
         {
             await this._courseService.DeleteCourse(dto);
-
-            await this._hubContext.Clients.All.SendCoreAsync("deleteCourse", null);
 
             return Ok();
         }
@@ -117,7 +112,11 @@
         {
             var userId = JwtExtractor.GetUserId(HttpContext.User.Identity as ClaimsIdentity);
 
+            var username = JwtExtractor.GetUsername(HttpContext.User.Identity as ClaimsIdentity);
+
             var res = await this._courseService.GetCourseDetails(id, userId);
+
+            await this._hubContext.Clients.All.SendCoreAsync("addViewer", new object[] { new CourseViewerDTO(id, username) });
 
             return Ok(res);
         }
@@ -127,8 +126,6 @@
         public async Task<IActionResult> Rate(RateCourseDTO dto)
         {
             var res = await this._courseService.RateCourse(dto);
-
-            await this._hubContext.Clients.All.SendCoreAsync("rateCourse", null);
 
             return Ok(res);
         }
